@@ -1,0 +1,99 @@
+Update typeahead() data-source option.
+
+alepee commented
+I didn't find how to update data-source with typeahead. I tried to make it work simply with a new typehead() call and new values, but it does not update at all.
+The first call works perfectly :) but the second one does.. nothing :(
+$('select').change(function() {
+    var id = $(this).val();
+    $.getJSON(url + id, function(data) {
+        $('input').typeahead({
+            source: data
+        });
+        $('input.hide').slideDown(120);
+    });
+});
+
+geuis commented
+I ran into the same issues and finally figured a solution. When you are passing the object into typeahead(), nothing is changed if you don't also pass in duplicates of all the other properties and functions that are expected.
+Luckily there's a better way.
+Access the typeahead input's data attribute and modify the source array directly. E.g:
+var autocomplete = $('input').typeahead();
+autocomplete.data('typeahead').source = newSource; //where newSource is your own array
+I just finished writing some code that will let me use remote data querying on the Typeahead module. https://gist.github.com/1848558
+One issue I found is that due to how Typeahead is written, after you modify the source array the results don't get picked up till the next keystroke. In the gist above, I got around this by setting the source to [] before doing my XHR request, setting it in the callback function with the results, then triggering a keyup event on the input element again. Typeahead does technically trigger 2x, but since the initial source array is 0 length it doesn't do any lookups. I also had to add an active status that prevents an endless loop of XHR requests due to the 2x keyup events.
+
+fat commented
+yeah, we need to make this more extensible for sure. We'll be revisting the data source soon. Thanks for the feedback!
+
+alepee commented
+@geuis I tried your method by store input.typeahead() object into a variable and it works like a charm!
+Thank you :)
+
+reefdog commented
+@fat: +1 for making this more extensible and obvious! :)
+
+rubic0n commented
+Wow .. I wasted 5 hours of my life before I found this post .. thanks @geuis for your solution ..
+
+geuis commented
+Glad you found it useful.
+
+balaclark commented
+It would be nice to have a better API for this, the current workaround looks a little hacky.
+
+satgi commented
+thank you so much,i've spent almost 2 to 3 hours working on this problem.
+
+paulbarbu commented
+Thank you!
+
+beatoss commented
+Thank you!
+
+ralfschimmel commented
+Nice, thanks, saved me a couple of hours there.
+
+RusAlex commented
+thanks guys, save my life
+
+geuis commented
+Is this issue still active? I thought the data source issue would have been addressed by now and my little hack made obsolete.
+
+rodleviton commented
+Thanks @geuis.
+
+ScotterC commented
+@geuis Still really useful code for eliminating duplicates even when using Typeahead's newest methods. Thank you!
+
+jayyvis commented
+My first failed attempt was updating the data-source using jquery. And landed up here. Thank you @geuis
+
+greivinlopez commented
+@geuis thank you!! You're the man! :)
+
+zda commented
+This doesn't actually work for me – I get TypeError: Cannot read property 'name' of undefined every time I try var autocomplete = $('input').typeahead();. $('input') itself is as expected, but and has a working typeahead in the UI, but .typeahead() still returns an error.
+This happening to anyone else?
+
+zda commented
+PS – You can reproduce this error on the Typeahead.js website itself: http://twitter.github.io/typeahead.js/examples/
+> $('.example-countries .typeahead').typeahead();
+=> TypeError: Cannot read property 'name' of undefined
+
+cvrebert commented
+@zda The typeahead widget referenced in this issue is Bootstrap v2's own old typeahead (bootstrap-typeahead.js), NOT Twitter's Typeahead.js.
+
+zda commented
+Yes, just realized this – thanks.
+
+geuis commented
+Hmm I can update this gist for 3.1 if its needed. Does the new typeahead code support remote data sources?
+
+cvrebert commented
+@PWKad The typeahead from Bootstrap v2 was removed. For help using the suggested replacement, Twitter's Typeahead, ask on that project's GitHub.
+
+PWKad commented
+@cvrebert I realized that and deleted my comment after I read through everything again my bad
+
+jeanlyn commented
+thanks ! it's work!
