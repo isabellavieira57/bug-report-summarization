@@ -1,0 +1,11 @@
+Tem que ir pegando de 1000 em 1000 (que e o maximo do parse) atraves do comando
+
+query.skip(1000); 	// skip the first 1000 results
+
+Depois de ter pegado os 2000 primeiros, deve usar de novo:
+
+query.skip(2000); 	// skip the first 2000 results
+query.skip(3000); 	// skip the first 3000 results
+...
+
+ate pegar tudo
