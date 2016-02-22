@@ -43,6 +43,7 @@ def salvaReferenciaExplicita(comentarios):
 		else:
 			comentarios[i].append(-1) 	# Se o comentario nao possui referencia a outro comentario
 
+
 #-----------------------------------------------------------------------#
 # TODO: falta verificar qual comentario  o like esta referenciando		#
 # No momento está verificando apenas se o comentario possui like ou nao #

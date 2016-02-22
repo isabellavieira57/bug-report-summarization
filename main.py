@@ -54,18 +54,13 @@ def main():
 	comentariosSemStopWords = removeStopWords(comentarios)
 	comentariosSemNumeros = removeNumeros(comentariosSemStopWords)
 	comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
-
-	print "ANTES \n", comentariosSemCaracteresEspeciais[13]
-
 	comentariosPreProcessado = stemming(comentariosSemCaracteresEspeciais)
 
-	print "DEPOIS \n", comentariosPreProcessado[13]
-
-	# matriz de orden N, onde N é o número de comentários (Com descricao, sem titulo)
+	# matriz de ordem N, onde N é o número de comentários (Com descricao, sem titulo)
 	matrizSimilaridadeCosseno = inicializaMatriz(comentarios)		
 	vetorSimilaridadeCossenoTitulo = inicializaVetor(comentariosPreProcessado)
 
-	# Calculo TFXIDF para cada token (incluindo descricao)
+	# Calculo TFXIDF para cada token (incluindo descricao, sem titulo)
 	for i in range(len(comentariosPreProcessado)):
 		j = 0
 		while (j < len(comentariosPreProcessado[i])):
@@ -74,7 +69,7 @@ def main():
 		matriztfxidf.append(vetorIntermerdiario)
 		vetorIntermerdiario = []
 
-	# Para cada comentario calcula a similaridade daquele comentario para todos (incluindo descricao)
+	# Para cada comentario calcula a similaridade daquele comentario para todos (incluindo descricao, sem titulo)
 	for i in range(len(comentariosPreProcessado)):
 		for j in range(i+1,len(comentariosPreProcessado)):
 			listaTokensDistintos = getTokensDistintos(comentariosPreProcessado[i], comentariosPreProcessado[j])
@@ -82,7 +77,7 @@ def main():
 			frequenciaComentario2 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[j], listaTokensDistintos, j, matriztfxidf)
 			calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, i, j, frequenciaComentario1, frequenciaComentario2)
 
-	# Calculo TFXIDF para titulo
+	# Calculo TFXIDF para titulo (olhando tokens em todos os comentarios)
 	for i in range(len(titulo)):
 		j = 0
 		while (j < len(titulo[i])):
@@ -101,16 +96,23 @@ def main():
 
 	mediaDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo)
 	#thresholdIdeal = thresholdModularidade (matrizSimilaridadeCosseno, len(comentariosPreProcessado))
-	#aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno, thresholdIdeal)
+	contaIntervalosSimilaridade (matrizSimilaridadeCosseno)
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno)
-	salvaMatrizSimilaridadeCosseno (matrizSimilaridadeCosseno, len(comentarios))
+	salvaMatrizSimilaridadeCossenoEsparsa (matrizSimilaridadeCosseno, len(comentarios))
+
 	rede = inicializaGrafo ()
+	
+	resultadoPageRank = pageRank(rede)
+	rankingPageRank = ordenaPageRank(resultadoPageRank)
+	
+	print "PAGERANK\n", rankingPageRank
+	
 	resultLouvain = louvain(rede)
 	centrality_eigenvector = centralidade_autovetor (rede)
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
 	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
 
-	""" print "\n#################### RESULTADOS ####################\n"
+	"""print "\n#################### RESULTADOS ####################\n"
 
 	print ":: NUMERO COMENTARIOS ::", len(comentarios)	
 

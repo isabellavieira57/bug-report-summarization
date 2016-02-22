@@ -19,6 +19,7 @@
 
 import numpy as np
 from scipy import spatial
+np.seterr(divide='ignore', invalid='ignore')
 
 #-----------------------------------------------------------------------#
 # Coloca os tokens distintos dos dois comentarios a serem analisados em #
@@ -137,9 +138,15 @@ def tfxidf (token, i, j, comentariosPreProcessado, vetorIntermerdiario):
 #-----------------------------------------------------------------------#
 def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
 
+	#print "frequencia comentario 1 ", frequenciaComentario1
+	#print "frequencia comentario 2 ", frequenciaComentario2
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
-	matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridade
-	matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridade
+	similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
+	#print "similaridade truncada ", similaridadeTruncada
+	matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridadeTruncada
+	matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridadeTruncada
+	#matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridade
+	#matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridade
 
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
@@ -148,7 +155,9 @@ def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, indexComentario1, ind
 def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
 
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
-	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade
+	similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
+	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridadeTruncada
+	#vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade
 
 #-----------------------------------------------------------------------------#
 # average(cosine_similarities)+alpha*standard_deviation(cosine_similarities)  #
@@ -160,18 +169,36 @@ def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComen
 	threshold = np.mean(matrizSimilaridadeCosseno) + alpha * np.std(matrizSimilaridadeCosseno)
 
 	return threshold"""
+	
+#-----------------------------------------------------------------------------#
+# 	    					 												  #
+#-----------------------------------------------------------------------------#
+"""def salvaMatrizSimilaridadeCosseno (matriz, tamanhoMatriz):
+
+	arquivoGrafoPonderado = open("similaridadeCosseno.txt", 'wr+')
+	
+	for i in range(tamanhoMatriz):
+		for j in range(i+1,tamanhoMatriz):
+			arquivoGrafoPonderado.write("%d %d %0.1f\n" % (i,j,matriz[i][j]))
+	
+	for i in range(tamanhoMatriz):
+		for j in range(tamanhoMatriz):
+			arquivoGrafoPonderado.write("%d %d %0.1f\n" % (i,j,matriz[i][j]))
+	
+	
+	arquivoGrafoPonderado.close()"""
 
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
 #-----------------------------------------------------------------------------#
-def salvaMatrizSimilaridadeCosseno (matriz, tamanhoMatriz):
+def salvaMatrizSimilaridadeCossenoEsparsa (matriz, tamanhoMatriz):
 
 	arquivoGrafoPonderado = open("grafo.txt", 'wr+')
 	
 	for i in range(tamanhoMatriz):
 		for j in range(i+1,tamanhoMatriz):
 			arquivoGrafoPonderado.write("%d %d %0.1f\n" % (i,j,matriz[i][j]))
-	
+				
 	arquivoGrafoPonderado.close()
 	
 #-----------------------------------------------------------------------------#

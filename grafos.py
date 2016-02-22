@@ -154,7 +154,23 @@ def clusterImportante (mediaDescricaoTitulo, resultLouvain):
 	ranking = sorted(mediaSimilaridadesPorCluster, key=operator.itemgetter(1), reverse=True) 
 
 	return ranking
-
+	
+#-----------------------------------------------------------------------------#
+# Conta quantos valores possuem os intervalos de similaridade				  #
+#-----------------------------------------------------------------------------#
+def contaIntervalosSimilaridade (matrizSimilaridadeCosseno):
+	
+	contaIntervalos = open("intervalosSimilaridade.txt", 'w')
+	
+	intervalos = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5,	0.6, 0.7, 0.8, 0.9, 1.0]
+	
+	contador = 0
+	for i in range(len(intervalos)):
+		for j in range(len(matrizSimilaridadeCosseno)):
+			contador = contador + matrizSimilaridadeCosseno[j].count(intervalos[i])
+		contaIntervalos.write("%0.1f %d \n" % (intervalos[i], contador))
+		contador = 0
+		
 #-----------------------------------------------------------------------------#
 # Já tenho o threshold ideal para deixar a matriz mais esparsa calculado pela #
 # funcao thresholdModularidade												  #
@@ -190,3 +206,33 @@ def agrupaComentarios (comentarios, matrizSimilaridadeCosseno, threshold):
 			j = j + 1
 
 	return comentariosAgrupados
+	
+#-----------------------------------------------------------------------------#
+# PageRank: retorna o autovalor de cada comentario 							  #
+#-----------------------------------------------------------------------------#
+def pageRank (rede):
+	
+	# Resultado == o autovalor de cada comentario (indice resultado == indice comentario)
+	resultado = rede.pagerank(vertices=None, directed=False, weights=rede.es["weight"])
+	
+	return resultado
+	
+#-----------------------------------------------------------------------------#
+# Retorna a ordenacao dos autovalores										  #
+# Estrutura: [indice_comentario, autovalor_daquele_comentario]				  #
+#-----------------------------------------------------------------------------#
+def ordenaPageRank (resultadoPageRank):
+	
+	listaIntermediaria = []
+	matriz = []
+	
+	for i in range(len(resultadoPageRank)):
+		listaIntermediaria.append(i)
+		listaIntermediaria.append(resultadoPageRank[i])
+		matriz.append(listaIntermediaria)
+		listaIntermediaria = []
+
+	# ordena pelas similaridades em ordem descrescente
+	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
+	
+	return ranking

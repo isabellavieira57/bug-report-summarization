@@ -158,7 +158,7 @@ def stemming (comentarios):
 		while (j < (len(comentarios[i])-2)):				#nao remove referencia explicita e like
 			#comentarioStemmer = stemmer.stem(comentarios[i][j])
 			comentarioStemmer = SnowballStemmer("english").stem(comentarios[i][j])
-			listaIntermediaria.append(comentarioStemmer)
+			listaIntermediaria.append(str(comentarioStemmer))
 			j = j + 1
 		listaIntermediaria.append(comentarios[i][len(comentarios[i])-2])	# adiciona na lista referencia explicita
 		listaIntermediaria.append(comentarios[i][len(comentarios[i])-1])	# adiciona na lista like	
