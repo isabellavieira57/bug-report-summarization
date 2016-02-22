@@ -236,3 +236,32 @@ def ordenaPageRank (resultadoPageRank):
 	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
 	
 	return ranking
+	
+#-----------------------------------------------------------------------------#
+# 												 							  #
+#-----------------------------------------------------------------------------#
+def pageRankIntraCluster (resultLouvain, rede):
+	
+	resultadoPageRank = []
+	listaIntermediaria = []
+	matriz = []
+	matrizIDPageRank = []
+	
+	for i in range(len(resultLouvain)):			# percorre cada comunidade
+		resultadoPageRank.append(rede.pagerank(vertices=resultLouvain[i], directed=False, weights=rede.es["weight"]))
+		
+	print "PAGERANK INTRACLUSTER\n", resultadoPageRank
+	
+	for i in range(len(resultadoPageRank)):
+		for j in range(len(resultadoPageRank[i])):
+			listaIntermediaria.append(resultLouvain[i][j])
+			listaIntermediaria.append(resultadoPageRank[i][j])
+			matriz.append(listaIntermediaria)
+			listaIntermediaria = []
+		matrizIDPageRank.append(matriz)
+		matriz = []
+		
+	print "MATRIZ ID PAGE RANK \n", matrizIDPageRank
+		
+	# falta ordenar pagerank dentro de cada cluster
+

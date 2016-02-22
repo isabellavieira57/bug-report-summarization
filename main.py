@@ -86,7 +86,6 @@ def main():
 		matriztfxidfTitulo.append(vetorIntermerdiario)
 		vetorIntermerdiario = []
 
-
 	# Para cada comentario calcula a frequencia (TFXIDF) e a similaridade daquele comentario com o titulo
 	for i in range(len(comentariosPreProcessado)):
 		listaTokensDistintos = getTokensDistintosTitulo(comentariosPreProcessado[i], titulo[0])
@@ -96,7 +95,7 @@ def main():
 
 	mediaDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo)
 	#thresholdIdeal = thresholdModularidade (matrizSimilaridadeCosseno, len(comentariosPreProcessado))
-	contaIntervalosSimilaridade (matrizSimilaridadeCosseno)
+	#contaIntervalosSimilaridade (matrizSimilaridadeCosseno)
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno)
 	salvaMatrizSimilaridadeCossenoEsparsa (matrizSimilaridadeCosseno, len(comentarios))
 
@@ -108,6 +107,11 @@ def main():
 	print "PAGERANK\n", rankingPageRank
 	
 	resultLouvain = louvain(rede)
+	
+	print "CLUSTERS\n", resultLouvain
+	
+	pageRankIntraCluster (resultLouvain, rede)
+	
 	centrality_eigenvector = centralidade_autovetor (rede)
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
 	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
