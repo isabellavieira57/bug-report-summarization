@@ -246,6 +246,7 @@ def pageRankIntraCluster (resultLouvain, rede):
 	listaIntermediaria = []
 	matriz = []
 	matrizIDPageRank = []
+	ranking = []
 	
 	# calculo o page rank dos elementos de cada comunidade
 	for i in range(len(resultLouvain)):			# percorre cada comunidade
@@ -265,8 +266,9 @@ def pageRankIntraCluster (resultLouvain, rede):
 		
 	print "PAGE RANK INTRACLUSTER COM ID\n", matrizIDPageRank
 		
-	# falta ordenar pagerank dentro de cada cluster - este nao esta funcionando
-	ranking = sorted(matrizIDPageRank, key=operator.itemgetter(1), reverse=True) 
+	# ordena os resultados do pagerank de cada cluster
+	for i in range(len(matrizIDPageRank)):
+		ranking.append(sorted(matrizIDPageRank[i], key=operator.itemgetter(1), reverse=True))
 	
 	print "RESULTADOS ORDENADOS \n", ranking
 
