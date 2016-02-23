@@ -105,12 +105,22 @@ def main():
 	rankingPageRank = ordenaPageRank(resultadoPageRank)
 	
 	print "PAGERANK\n", rankingPageRank
+	print "\n\n"
 	
 	resultLouvain = louvain(rede)
 	
 	print "CLUSTERS\n", resultLouvain
+	print "\n\n"
 	
-	pageRankIntraCluster (resultLouvain, rede)
+	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
+	
+	print "CLUSTER MAIS IMPORTANTE\n", rankingClusters
+	print "\n\n"
+	
+	ordenacaoPageRank = pageRankIntraCluster (resultLouvain, rede)
+	
+	print "PAGERANK INTRACLUSTER \n", ordenacaoPageRank
+	print "\n\n"
 	
 	centrality_eigenvector = centralidade_autovetor (rede)
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
