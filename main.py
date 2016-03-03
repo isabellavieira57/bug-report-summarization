@@ -38,6 +38,7 @@ def inicializaVetor (comentarios):
 
 	return matrizSimilaridadeCosseno
 
+oraculo = [1, 4, 5, 17, 20, 23, 28, 3, 6, 2]
 #-----------------------------------------------------------------------#
 # MAIN																	#
 #-----------------------------------------------------------------------#
@@ -181,6 +182,74 @@ def main():
 	print "\n#######################################################\n"
 	print "\n:: COLLEY ::\n", resultadoColley
 	
+	print "\n#######################################################\n"
+	print "\n:: RESULTADOS PARA EXPERIMENTOS::\n"
+	print "Oráculo desenvolvedores: \n", oraculo
+	print "\n\n"
+	
+	acertos = 0
+	oraculo_algoritmo = []
+	
+	# LOUVAIN
+	# percorro os top10 da comunidade mais importante
+	
+	if (len(rankingComunidade[rankingClusters[0][0]]) < 10):
+		print "Tamanho cluster Louvain: ", len(rankingComunidade[rankingClusters[0][0]])
+		
+		for i in range(len(rankingComunidade[rankingClusters[0][0]])):	
+			oraculo_algoritmo.append(rankingComunidade[rankingClusters[0][0]][i][0]) 
+			if (rankingComunidade[rankingClusters[0][0]][i][0] in oraculo):
+				acertos = acertos + 1
+				
+		print "Oráculo algoritmo Louvain: \n", oraculo_algoritmo
+		print "Acertos algoritmo Louvain: \n", acertos
+		print "\n\n"
+	else: 			
+		for i in range(10):	
+			print "Tamanho cluster Louvain: 10", 
+			oraculo_algoritmo.append(rankingComunidade[rankingClusters[0][0]][i][0]) 
+			if (rankingComunidade[rankingClusters[0][0]][i][0] in oraculo):
+				acertos = acertos + 1
+		print "Oráculo algoritmo Louvain: \n", oraculo_algoritmo
+		print "Acertos algoritmo Louvain: \n", acertos
+		print "\n\n"
+		
+	acertos = 0
+	oraculo_algoritmo = []
+	
+	# PAGERANK
+	for i in range(10):	
+		oraculo_algoritmo.append(resultadoPageRank[i][0]) 
+		if (resultadoPageRank[i][0] in oraculo):
+			acertos = acertos + 1
+	print "Oráculo PageRank: \n", oraculo_algoritmo
+	print "Acertos PageRank: \n", acertos
+	print "\n\n"
+
+	acertos = 0
+	oraculo_algoritmo = []
+	
+	# MASSEY
+	for i in range(10):	
+		oraculo_algoritmo.append(resultadoMassey[i][0]) 
+		if (resultadoMassey[i][0] in oraculo):
+			acertos = acertos + 1
+	print "Oráculo Massey: \n", oraculo_algoritmo
+	print "Acertos Massey: \n", acertos
+	print "\n\n"
+	
+	acertos = 0
+	oraculo_algoritmo = []
+	
+	# COLLEY
+	for i in range(10):	
+		oraculo_algoritmo.append(resultadoColley[i][0]) 
+		if (resultadoColley[i][0] in oraculo):
+			acertos = acertos + 1
+	print "Oráculo Colley: \n", oraculo_algoritmo
+	print "Acertos Colley: \n", acertos
+	print "\n\n"
+		
 	return 0
 
 if __name__ == '__main__':
