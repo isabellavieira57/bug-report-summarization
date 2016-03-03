@@ -98,6 +98,9 @@ def main():
 	# Fazer massey antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoMassey = massey(len(comentarios), matrizSimilaridadeCosseno)
 	
+	# Fazer colley antes de fazer esparcidade da matriz de similaridade de cosseno
+	resultadoColley = colley(len(comentarios), matrizSimilaridadeCosseno)
+	
 	#thresholdIdeal = thresholdModularidade (matrizSimilaridadeCosseno, len(comentariosPreProcessado))
 	#contaIntervalosSimilaridade (matrizSimilaridadeCosseno)
 	
@@ -169,12 +172,14 @@ def main():
 			print rankingComunidade[i][j][0]
 		print "\n"
  
-		
 	print "\n#######################################################\n"
 	print "\n:: PAGERANK ::\n", resultadoPageRank
 	
 	print "\n#######################################################\n"
 	print "\n:: MASSEY ::\n", resultadoMassey
+	
+	print "\n#######################################################\n"
+	print "\n:: COLLEY ::\n", resultadoColley
 	
 	return 0
 
