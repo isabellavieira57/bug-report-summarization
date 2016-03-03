@@ -208,20 +208,10 @@ def agrupaComentarios (comentarios, matrizSimilaridadeCosseno, threshold):
 	return comentariosAgrupados
 	
 #-----------------------------------------------------------------------------#
-# PageRank: retorna o autovalor de cada comentario 							  #
-#-----------------------------------------------------------------------------#
-def pageRank (rede):
-	
-	# Resultado == o autovalor de cada comentario (indice resultado == indice comentario)
-	resultado = rede.pagerank(vertices=None, directed=False, weights=rede.es["weight"])
-	
-	return resultado
-	
-#-----------------------------------------------------------------------------#
 # Retorna a ordenacao dos autovalores										  #
 # Estrutura: [indice_comentario, autovalor_daquele_comentario]				  #
 #-----------------------------------------------------------------------------#
-def ordenaPageRank (resultadoPageRank):
+def ordenaRanking (resultadoPageRank):
 	
 	listaIntermediaria = []
 	matriz = []
@@ -237,6 +227,19 @@ def ordenaPageRank (resultadoPageRank):
 	
 	return ranking
 	
+	
+#-----------------------------------------------------------------------------#
+# PageRank: retorna o autovalor de cada comentario 							  #
+#-----------------------------------------------------------------------------#
+def pageRank (rede):
+	
+	# Resultado == o autovalor de cada comentario (indice resultado == indice comentario)
+	resultado = rede.pagerank(vertices=None, directed=False, weights=rede.es["weight"])
+	
+	rankingPageRank = ordenaRanking(resultado)
+	
+	return rankingPageRank	
+
 #-----------------------------------------------------------------------------#
 # 												 							  #
 #-----------------------------------------------------------------------------#
@@ -273,4 +276,43 @@ def pageRankIntraCluster (resultLouvain, rede):
 	#print "RESULTADOS ORDENADOS \n", ranking
 	
 	return ranking
+	
+#-----------------------------------------------------------------------------#
+# Massey										 							  #
+#-----------------------------------------------------------------------------#
+def massey(numeroComentarios, matrizSimilaridadeCosseno):
+	
+	massey = [[0.0 for x in range(numeroComentarios)] for x in range(numeroComentarios)] 
+	
+	for i in range(len(matrizSimilaridadeCosseno)):
+		for j in range(len(matrizSimilaridadeCosseno)):
+			if (i > j):
+				massey[i][j] = -matrizSimilaridadeCosseno[i][j] # na matriz similaridade de cosseno a diagonal superior e igual a diagonal inferior
+			elif (i == j): # diagonal principal: colocar 0 ou o numero de comentarios? (Comentario nao e avaliado com ele mesmo)
+				massey[i][j] = numeroComentarios
+			elif(i < j):
+				massey[i][j] = -1
+			if ((i == (numeroComentarios-1))):	# Pelo método de Massey, ultima linha da matriz de ranking deve ser = 1
+				massey[i][j] = 1
+				
+	#print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> MASSEY \n ", massey
+				
+	ranking = []
+	
+	# Faz somas sucessivas ate o ranking convergir
+	for i in range(len(matrizSimilaridadeCosseno)):
+		if (i != len(matrizSimilaridadeCosseno)-1):	# se nao for a ultima linha da matriz
+			ranking.append(np.sum(matrizSimilaridadeCosseno[i]))
+		else:	# se for a ultima linha da matriz
+			ranking.append(0)
+		#print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> RANKING PARCIAL \n", ranking
+	
+	#print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> RANKING TOTAL \n", ranking
+	
+	rankingOrdenado = ordenaRanking(ranking)
+	
+	#print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> RANKING ORDENADO \n", rankingOrdenado
+	
+	return rankingOrdenado
+	
 

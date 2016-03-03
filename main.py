@@ -94,39 +94,31 @@ def main():
 		calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, i, frequenciaComentario1, frequenciaComentario2)
 
 	mediaDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo)
+	
+	# Fazer massey antes de fazer esparcidade da matriz de similaridade de cosseno
+	resultadoMassey = massey(len(comentarios), matrizSimilaridadeCosseno)
+	
 	#thresholdIdeal = thresholdModularidade (matrizSimilaridadeCosseno, len(comentariosPreProcessado))
 	#contaIntervalosSimilaridade (matrizSimilaridadeCosseno)
+	
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno)
 	salvaMatrizSimilaridadeCossenoEsparsa (matrizSimilaridadeCosseno, len(comentarios))
 
 	rede = inicializaGrafo ()
 	
 	resultadoPageRank = pageRank(rede)
-	rankingPageRank = ordenaPageRank(resultadoPageRank)
-	
-	print "PAGERANK\n", rankingPageRank
-	print "\n\n"
 	
 	resultLouvain = louvain(rede)
-	
-	print "CLUSTERS\n", resultLouvain
-	print "\n\n"
-	
+		
 	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
 	
-	print "CLUSTER MAIS IMPORTANTE\n", rankingClusters
-	print "\n\n"
-	
 	ordenacaoPageRank = pageRankIntraCluster (resultLouvain, rede)
-	
-	print "PAGERANK INTRACLUSTER \n", ordenacaoPageRank
-	print "\n\n"
 	
 	centrality_eigenvector = centralidade_autovetor (rede)
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
 	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
 
-	"""print "\n#################### RESULTADOS ####################\n"
+	print "\n#################### RESULTADOS ####################\n"
 
 	print ":: NUMERO COMENTARIOS ::", len(comentarios)	
 
@@ -149,28 +141,41 @@ def main():
 	print "\n\n:: NUMERO TOKENS APOS PRE-PROCESSAMENTO ::", countPreProcessado
 
 	print "\n\n:: TOTAL TOKENS REMOVIDOS ::", (countOriginal-countPreProcessado)
-
-	print "\n#######################################################\n"
 	
+	#print comentariosPreProcessado[4]
+	
+	#media = 0
+	
+	#for i in range(len(comentariosPreProcessado)):
+	#	media = media + len(comentariosPreProcessado[i])
+	#	print "Numero de termos comentário", i, ":", len(comentariosPreProcessado[i])
+	
+	#media1 = media/len(comentariosPreProcessado)
+	#print "MEDIA TERMOS",media1
+
+	print "\n#######################################################\n"	
 	print ":: RESULTADO ALGORITMO COMUNIDADE ::\n", resultLouvain
 	print "\n\n:: MODULARIDADE :: ", resultLouvain.modularity
 
-
 	print "\n#######################################################\n"
-
+	print "\n:: RANKING CLUSTERS ::\n"
+	for i in range(len(rankingClusters)):
+		print rankingClusters[i], "\n"
+		
 	print "\n:: RANKING INTRA CLUSTER ::\n"
-
 	for i in range(len(rankingComunidade)):
 		print "--> Cluster: ", i
 		for j in range(len(rankingComunidade[i])):
 			print rankingComunidade[i][j][0]
 		print "\n"
-
-	print "\n:: RANKING CLUSTERS ::\n"
-
-	for i in range(len(rankingClusters)):
-		print rankingClusters[i], "\n" """
-
+ 
+		
+	print "\n#######################################################\n"
+	print "\n:: PAGERANK ::\n", resultadoPageRank
+	
+	print "\n#######################################################\n"
+	print "\n:: MASSEY ::\n", resultadoMassey
+	
 	return 0
 
 if __name__ == '__main__':
