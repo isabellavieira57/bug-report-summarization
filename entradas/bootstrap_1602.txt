@@ -51,7 +51,6 @@ justin808 commented
 +1 on separating the hover property. This is overwriting any customization of table row color.
 Does anybody know of a workaround? (without modifying the bootstrap source?)
 
-
 chhuang commented
 As a temporary and not semantic solution, you can try to put your rows inside <thead> if you don't want the hover effect.
 

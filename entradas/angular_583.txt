@@ -115,7 +115,6 @@ daviesgeek commented
 2ix commented
 @daviesgeek I would guess Angular 2.0
 
-
 daviesgeek commented
 @2ix okay
 

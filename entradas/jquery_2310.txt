@@ -107,12 +107,12 @@ This comes up in ui and mobile quite a bit it turns out. Both jQuery UI and Mobi
 There are also many many situations where a widget or other plugin of some sort may be instantiated or called inside of a hidden container. This is a major issue for plugin authors that cant ever reasonably know if they may be inside a hidden container ( think popups panels etc ) or in jQuery Mobile everything is hidden when the page is initialized.
 This all means where as in the past you could call offset() on any element with out any worry you now need to always check the return value before using it. So it will make a lot of code go from
 var left = $( elem ).offset().left
-to
-var offset = $( elem ).offset();
+to var offset = $( elem ).offset();
 var left = offset ? offset.left || 0;
 Who knows it would not surprise me if you start seeing things where offset is used a lot, doing something like the below to just not have to worry about it.
 $.fn.safeOffset = function() { return this.offset() || { top: 0, left: 0 }; };
 Because with this change it essentially makes it ( as a plugin author ) never safe to use offset with out first checking its return value, unless it is in direct response to a user action, that essentially cant happen on hidden or detached elements. for example dragging and mouse interaction type stuff ( this is a case for many of the cases of offset in ui )
+
 gabrielschulhof
 The fact that .offset() used as a setter also crashes is bad because the only way to avoid the crash when calling the setter is to find out first whether the element is disconnected/hidden:
 if ( this.element.offset() ) {
@@ -122,7 +122,6 @@ if ( this.element.offset() ) {
   } );
 }
 This code is hugely bad when the element is not disconnected, because querying and setting coordinates in close succession causes reflows.
-
 
 gabrielschulhof commented
 Well, either the above or
