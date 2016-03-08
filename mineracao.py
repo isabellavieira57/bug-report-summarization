@@ -132,7 +132,32 @@ def tfxidf (token, i, j, comentariosPreProcessado, vetorIntermerdiario):
 		resultadoTFXIDF = (frequenciaTokenDocumento * (np.log(numeroComentarios)))
 
 	vetorIntermerdiario.append(resultadoTFXIDF)
-
+	
+	
+#-----------------------------------------------------------------------#
+# Normaliza numero colunas na matriz tfxidf								#
+# Todas as linhas passam a ter o mesmo numero de colunas preenchidas com #
+# 999																	#
+#-----------------------------------------------------------------------#
+def normalizaTFXIDF (matriztfxidf):
+	
+	# Encontra qual a maior dimensao da matriz
+	maiorDimensao = 0
+	for i in (range(len(matriztfxidf))):
+		if (len(matriztfxidf[i]) > maiorDimensao):
+			maiorDimensao = len(matriztfxidf[i])
+			#maiorIndice = i
+	
+	maiorDimensao = maiorDimensao
+	
+	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
+	for i in range(len(matriztfxidf)):
+		j = len(matriztfxidf[i])
+		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
+		for j in range(quantidadeColunasFaltantes):
+			matriztfxidf[i].append(9999)		#TODO Arrumar! Alocar com 0.0 pode ser um problema
+			
+	#print len(matriztfxidf)
 
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
@@ -238,24 +263,8 @@ def calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSim
 #-----------------------------------------------------------------------------#
 def nmf (matriztfxidf):
 	
-	# Encontra qual a maior dimensao da matriz
-	maiorDimensao = 0
-	for i in (range(len(matriztfxidf))):
-		if (len(matriztfxidf[i]) > maiorDimensao):
-			maiorDimensao = len(matriztfxidf[i])
-			#maiorIndice = i
+	normalizaTFXIDF(matriztfxidf)
 	
-	maiorDimensao = maiorDimensao
-	
-	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
-	for i in range(len(matriztfxidf)):
-		j = len(matriztfxidf[i])
-		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
-		for j in range(quantidadeColunasFaltantes):
-			matriztfxidf[i].append(9999)		#TODO Arrumar! Alocar com 0.0 pode ser um problema
-			
-	#print len(matriztfxidf)
-		
 	model = NMF(n_components=2, init='random', random_state=0)
 	model.fit(matriztfxidf) 
 	
@@ -270,29 +279,12 @@ def nmf (matriztfxidf):
 #-----------------------------------------------------------------------------#
 def pca (matriztfxidf):
 
-# Encontra qual a maior dimensao da matriz
-	maiorDimensao = 0
-	for i in (range(len(matriztfxidf))):
-		if (len(matriztfxidf[i]) > maiorDimensao):
-			maiorDimensao = len(matriztfxidf[i])
-			#maiorIndice = i
-	
-	maiorDimensao = maiorDimensao
-	
-	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
-	for i in range(len(matriztfxidf)):
-		j = len(matriztfxidf[i])
-		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
-		for j in range(quantidadeColunasFaltantes):
-			matriztfxidf[i].append(9999)		#TODO Arrumar! Alocar com 0.0 pode ser um problema
-			
-	#print len(matriztfxidf)
+	normalizaTFXIDF (matriztfxidf)
 		
 	pca = PCA(n_components=4)
 	pca.fit(matriztfxidf)
 	
 	#pca.transform(matriztfxidf)
-	
 	
 	print(pca.explained_variance_ratio_) 
 	
