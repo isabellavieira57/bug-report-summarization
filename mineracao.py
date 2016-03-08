@@ -18,6 +18,8 @@
 #-----------------------------------------------------------------------#
 
 import numpy as np
+from sklearn.decomposition import NMF
+from sklearn.decomposition import PCA
 from scipy import spatial
 np.seterr(divide='ignore', invalid='ignore')
 
@@ -229,3 +231,69 @@ def calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSim
 		mediaDescricaoTitulo.append(np.mean(vetorParaMedia[i]))		# contem a media da similaridade do titulo e da descricao, o index do vetor mediaDescricaoTitulo é o ID do comentário
 
 	return mediaDescricaoTitulo
+	
+#-----------------------------------------------------------------------------#
+# Método de Fatorização de Matrizes: NMF									  #
+# Matriz tfxidf nao tem like e referencia explicita
+#-----------------------------------------------------------------------------#
+def nmf (matriztfxidf):
+	
+	# Encontra qual a maior dimensao da matriz
+	maiorDimensao = 0
+	for i in (range(len(matriztfxidf))):
+		if (len(matriztfxidf[i]) > maiorDimensao):
+			maiorDimensao = len(matriztfxidf[i])
+			#maiorIndice = i
+	
+	maiorDimensao = maiorDimensao
+	
+	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
+	for i in range(len(matriztfxidf)):
+		j = len(matriztfxidf[i])
+		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
+		for j in range(quantidadeColunasFaltantes):
+			matriztfxidf[i].append(9999)		#TODO Arrumar! Alocar com 0.0 pode ser um problema
+			
+	#print len(matriztfxidf)
+		
+	model = NMF(n_components=2, init='random', random_state=0)
+	model.fit(matriztfxidf) 
+	
+	"""print "\n\nCOMPONENTES"
+	print model.components_
+	print "\n\nMODEL RECONSTRUCTION"
+	print model.reconstruction_err_ """
+
+#-----------------------------------------------------------------------------#
+# Método de Fatorização de Matrizes: PCA									  #
+# Matriz tfxidf nao tem like e referencia explicita
+#-----------------------------------------------------------------------------#
+def pca (matriztfxidf):
+
+# Encontra qual a maior dimensao da matriz
+	maiorDimensao = 0
+	for i in (range(len(matriztfxidf))):
+		if (len(matriztfxidf[i]) > maiorDimensao):
+			maiorDimensao = len(matriztfxidf[i])
+			#maiorIndice = i
+	
+	maiorDimensao = maiorDimensao
+	
+	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
+	for i in range(len(matriztfxidf)):
+		j = len(matriztfxidf[i])
+		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
+		for j in range(quantidadeColunasFaltantes):
+			matriztfxidf[i].append(9999)		#TODO Arrumar! Alocar com 0.0 pode ser um problema
+			
+	#print len(matriztfxidf)
+		
+	pca = PCA(n_components=4)
+	pca.fit(matriztfxidf)
+	
+	#pca.transform(matriztfxidf)
+	
+	
+	print(pca.explained_variance_ratio_) 
+	
+	print(pca.get_covariance) 

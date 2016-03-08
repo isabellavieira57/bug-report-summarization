@@ -96,6 +96,12 @@ def main():
 
 	mediaDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo)
 	
+	# NMF
+	nmf (matriztfxidf)
+	
+	# PCA
+	pca (matriztfxidf)
+	
 	# Fazer massey antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoMassey = massey(len(comentarios), matrizSimilaridadeCosseno)
 	
@@ -122,6 +128,7 @@ def main():
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
 	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
 
+	"""
 	print "\n#################### RESULTADOS ####################\n"
 
 	print ":: NUMERO COMENTARIOS ::", len(comentarios)	
@@ -249,6 +256,7 @@ def main():
 	print "Oráculo Colley: \n", oraculo_algoritmo
 	print "Acertos Colley: \n", acertos
 	print "\n\n"
+	"""
 		
 	return 0
 
