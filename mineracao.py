@@ -137,7 +137,7 @@ def tfxidf (token, i, j, comentariosPreProcessado, vetorIntermerdiario):
 #-----------------------------------------------------------------------#
 # Normaliza numero colunas na matriz tfxidf								#
 # Todas as linhas passam a ter o mesmo numero de colunas preenchidas com #
-# 999																	#
+# 0 (ou seja, nao possui aquele termo)									#
 #-----------------------------------------------------------------------#
 def normalizaTFXIDF (matriztfxidf):
 	
@@ -155,7 +155,7 @@ def normalizaTFXIDF (matriztfxidf):
 		j = len(matriztfxidf[i])
 		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
 		for j in range(quantidadeColunasFaltantes):
-			matriztfxidf[i].append(9999)		#TODO Arrumar! Alocar com 0.0 pode ser um problema
+			matriztfxidf[i].append(0)
 			
 	#print len(matriztfxidf)
 
@@ -268,10 +268,10 @@ def nmf (matriztfxidf):
 	model = NMF(n_components=2, init='random', random_state=0)
 	model.fit(matriztfxidf) 
 	
-	"""print "\n\nCOMPONENTES"
+	print "\n\nCOMPONENTES"
 	print model.components_
 	print "\n\nMODEL RECONSTRUCTION"
-	print model.reconstruction_err_ """
+	print model.reconstruction_err_
 
 #-----------------------------------------------------------------------------#
 # Método de Fatorização de Matrizes: PCA									  #
@@ -280,12 +280,27 @@ def nmf (matriztfxidf):
 def pca (matriztfxidf):
 
 	normalizaTFXIDF (matriztfxidf)
+	
+	vetor = []
+
+	# testa qual o melhor numero de componentes	que representa 95% dos dados
+	for i in range(len(matriztfxidf[0])):	# todas as linhas da matriz tem o mesmo número de colunas
+		num_pca_components = i
+		pca = PCA(num_pca_components)
+		#pca.fit(np.transpose(matriztfxidf))
+		pca.fit(matriztfxidf)
+		PCA(copy=True, whiten=False)
+	
+		# guardo em um vetor para montar graficos
+		vetor.append(sum(pca.explained_variance_ratio_))
 		
-	pca = PCA(n_components=4)
-	pca.fit(matriztfxidf)
-	
-	#pca.transform(matriztfxidf)
-	
-	print(pca.explained_variance_ratio_) 
-	
-	print(pca.get_covariance) 
+		# Numero de componentes ideal é aquele que explica mais que 95% dos meus dados
+		if(sum(pca.explained_variance_ratio_) >= 0.95):
+			print "Numero de colunas: ", len(matriztfxidf[0])
+			print "Numero de PCA componentes (95%): ",num_pca_components
+			print "Componentes"
+			print pca.explained_variance_ratio_
+			break
+			
+	#print "VETOR\n"
+	#print vetor

@@ -97,7 +97,7 @@ def main():
 	mediaDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo)
 	
 	# NMF
-	nmf (matriztfxidf)
+	#nmf (matriztfxidf)
 	
 	# PCA
 	pca (matriztfxidf)

@@ -343,7 +343,7 @@ def colley (numeroComentarios, matrizSimilaridadeCosseno):
 	soma = []
 	for i in range(len(matrizSimilaridadeCosseno)):
 		aux = np.sum(colley[i])
-		soma.append(1 + 0.5 * aux)
+		soma.append(1 + 0.5 * aux)   # ?
 	
 	a = np.array(ranking)
 	b = np.array(soma)
