@@ -37,8 +37,10 @@ def inicializaVetor (comentarios):
 	matrizSimilaridadeCosseno = [0 for x in range(len(comentarios))]
 
 	return matrizSimilaridadeCosseno
+	
 
 oraculo = [1, 4, 5, 17, 20, 23, 28, 3, 6, 2]
+
 #-----------------------------------------------------------------------#
 # MAIN																	#
 #-----------------------------------------------------------------------#
@@ -56,10 +58,12 @@ def main():
 	comentariosSemNumeros = removeNumeros(comentariosSemStopWords)
 	comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
 	comentariosPreProcessado = stemming(comentariosSemCaracteresEspeciais)
-
+	
 	# matriz de ordem N, onde N é o número de comentários (Com descricao, sem titulo)
 	matrizSimilaridadeCosseno = inicializaMatriz(comentarios)		
+	matrizDistanciaEuclidiana = inicializaMatriz(comentarios)		
 	vetorSimilaridadeCossenoTitulo = inicializaVetor(comentariosPreProcessado)
+	vetorDistanciaEuclidianaTitulo = inicializaVetor(comentariosPreProcessado)
 
 	# Calculo TFXIDF para cada token (incluindo descricao, sem titulo)
 	for i in range(len(comentariosPreProcessado)):
@@ -70,14 +74,15 @@ def main():
 		matriztfxidf.append(vetorIntermerdiario)
 		vetorIntermerdiario = []
 
-	# Para cada comentario calcula a similaridade daquele comentario para todos (incluindo descricao, sem titulo)
+	# Para cada comentario calcula a similaridade de cosseno e a distancia euclidiana daquele comentario para todos (incluindo descricao, sem titulo)
 	for i in range(len(comentariosPreProcessado)):
 		for j in range(i+1,len(comentariosPreProcessado)):
 			listaTokensDistintos = getTokensDistintos(comentariosPreProcessado[i], comentariosPreProcessado[j])
 			frequenciaComentario1 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[i], listaTokensDistintos, i, matriztfxidf)
 			frequenciaComentario2 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[j], listaTokensDistintos, j, matriztfxidf)
 			calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, i, j, frequenciaComentario1, frequenciaComentario2)
-
+			calculaDistanciaEuclidiana(matrizDistanciaEuclidiana, i, j, frequenciaComentario1, frequenciaComentario2)
+		
 	# Calculo TFXIDF para titulo (olhando tokens em todos os comentarios)
 	for i in range(len(titulo)):
 		j = 0
@@ -87,21 +92,36 @@ def main():
 		matriztfxidfTitulo.append(vetorIntermerdiario)
 		vetorIntermerdiario = []
 
-	# Para cada comentario calcula a frequencia (TFXIDF) e a similaridade daquele comentario com o titulo
+	# Para cada comentario calcula a frequencia (TFXIDF) e a similaridade de cosseno e a distancia euclidiana daquele comentario com o titulo
 	for i in range(len(comentariosPreProcessado)):
 		listaTokensDistintos = getTokensDistintosTitulo(comentariosPreProcessado[i], titulo[0])
 		frequenciaComentario1 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[i], listaTokensDistintos, i, matriztfxidf)
 		frequenciaComentario2 = calculaFrequenciaSimilaridadeCossenoTitulo(titulo[0], listaTokensDistintos, 0, matriztfxidfTitulo)
 		calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, i, frequenciaComentario1, frequenciaComentario2)
+		calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTitulo, i, frequenciaComentario1, frequenciaComentario2)
 
-	mediaDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo)
+	# Tenho a similaridade de cosseno média de cada comentário com o título e a descrição do bug
+	mediaSimilaridadeCossenoDescricaoTitulo = calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, 
+	vetorSimilaridadeCossenoTitulo)
+	# Ordena a média da similaridade do comentário com o título e a descrição
+	rankingSimilaridadeCossenoMediaTituloDescricao = rankingSimilaridadeMediaComentarioTituloDescricao (mediaSimilaridadeCossenoDescricaoTitulo)
+	
+	# Tenho a distancia euclidiana média de cada comentário com o título e a descrição do bug
+	mediaDistanciaEuclidianaTituloDescricao = calculaMediaSimilaridadeTituloDescricao (matrizDistanciaEuclidiana, 
+	vetorDistanciaEuclidianaTitulo)
+	# Ordena a média da distancia euclidiana do comentário com o título e a descrição
+	rankingMediaDistanciaEuclidianaTituloDescricao = rankingSimilaridadeMediaComentarioTituloDescricao (mediaDistanciaEuclidianaTituloDescricao)
 	
 	# NMF
-	#nmf (matriztfxidf)
+	# nmf (matriztfxidf)
 	
 	# PCA
-	pca (matriztfxidf)
-	
+	matrizReduzidaPCA = pca (matriztfxidf)
+		
+	#Kmeans
+	kmeansResultSimilaridadeCosseno = kmeans (matrizSimilaridadeCosseno)
+	kmeansResultPCA = kmeans (matrizReduzidaPCA)
+
 	# Fazer massey antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoMassey = massey(len(comentarios), matrizSimilaridadeCosseno)
 	
@@ -119,14 +139,14 @@ def main():
 	resultadoPageRank = pageRank(rede)
 	
 	resultLouvain = louvain(rede)
-		
-	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
 	
+	clusterPossuiDescricao = verificaClusterPossuiDescricao(resultLouvain)
+
 	ordenacaoPageRank = pageRankIntraCluster (resultLouvain, rede)
 	
 	centrality_eigenvector = centralidade_autovetor (rede)
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
-	rankingClusters = clusterImportante (mediaDescricaoTitulo, resultLouvain)
+	rankingClusters = clusterImportante (mediaSimilaridadeCossenoDescricaoTitulo, resultLouvain)
 
 	"""
 	print "\n#################### RESULTADOS ####################\n"
@@ -258,6 +278,86 @@ def main():
 	print "\n\n"
 	"""
 		
+	print "\n###################################### RESULTADOS #########################################\n"
+	
+	ranking = ""
+	print "\n###################################### ESTUDO 1 ###########################################\n"
+	print "### RANKING ORACULO X RANKING DE SIMILARIDADE DA DESCRIÇÃO E DO TÍTULO COM CADA COMENTÁRIO ###\n"
+	print "\n :: ESPAÇO ORIGINAL: SIMILARIDADE DE COSSENO ::\n"
+	for i in range(len(rankingSimilaridadeCossenoMediaTituloDescricao)):
+		ranking = ranking+" "+str(rankingSimilaridadeCossenoMediaTituloDescricao[i][0])
+	print ranking
+		
+	ranking = ""
+	print "\n :: ESPAÇO ORIGINAL: EUCLIDIANA ::\n"
+	for i in range(len(rankingMediaDistanciaEuclidianaTituloDescricao)):
+		ranking = ranking+" "+str(rankingMediaDistanciaEuclidianaTituloDescricao[i][0])
+	print ranking
+
+	print "\n :: ESPAÇO TRANSFORMADO: SIMILARIDADE DE COSSENO ::\n"
+
+	print "\n :: ESPAÇO TRANSFORMADO: DISTÂNCIA EUCLIDIANA ::\n"
+	
+	print "\n###################################### ESTUDO 2 ###########################################\n"
+	print "### RANKING ORACULO X RANKING REDES ###\n"
+	
+	ranking = ""
+	print "\n :: ESPAÇO ORIGINAL: PAGERANK ::\n"
+	for i in range(len(resultadoPageRank)):
+		ranking = ranking+" "+str(resultadoPageRank[i][0])
+	print ranking
+	
+	ranking = ""
+	print "\n :: ESPAÇO ORIGINAL: MASSEY ::\n"
+	for i in range(len(resultadoMassey)):
+		ranking = ranking+" "+str(resultadoMassey[i][0])
+	print ranking
+	
+	ranking = ""
+	print "\n :: ESPAÇO ORIGINAL: COLLEY ::\n"
+	for i in range(len(resultadoColley)):
+		ranking = ranking+" "+str(resultadoColley[i][0])
+	print ranking
+	
+	print "\n :: ESPAÇO TRANSFORMADO: PAGERANK ::\n"
+	
+	print "\n :: ESPAÇO TRANSFORMADO: MASSEY ::\n"
+	
+	print "\n :: ESPAÇO TRANSFORMADO: COLLEY ::\n"
+	
+	print "\n###################################### ESTUDO 3 ###########################################\n"
+	print "### RANKING ORACULO X RANKING GRUPO ONDE ESTÁ A DESCRIÇÃO ###\n"
+	
+	print "\n :: ESPAÇO ORIGINAL: LOUVAIN ::\n"
+	print resultLouvain
+	#print "\nCluster que possui descricao: ", clusterPossuiDescricao
+	#print "\n"	
+	#print "Ranking clusters: ", rankingClusters
+	#print "\n"
+	print "\n"
+	
+	ranking = ""
+	for i in range(len(ordenacaoPageRank[clusterPossuiDescricao])):
+		ranking = ranking+" "+str(ordenacaoPageRank[clusterPossuiDescricao][i][0])
+	print "PAGERANK: ",ranking
+	print "\n"
+	
+	ranking = ""
+	for i in range(len(rankingComunidade[clusterPossuiDescricao])):
+		ranking = ranking+" "+str(rankingComunidade[clusterPossuiDescricao][i][0])
+	print "CENTRALIDADE POR AUTOVETOR: ", ranking
+	print "\n"
+	
+	print "\n :: ESPAÇO ORIGINAL: K-MEANS ::\n"
+	print kmeansResultSimilaridadeCosseno
+	print "\n"
+	
+	print "\n :: ESPAÇO TRANSFORMADO: LOUVAIN ::\n"
+	
+		
+	print "\n :: ESPAÇO TRANSFORMADO: K-MEANS ::\n"
+	print kmeansResultPCA
+	print "\n"
 	return 0
 
 if __name__ == '__main__':

@@ -129,6 +129,15 @@ def rankingIntraComunidade (centrality_eigenvector, resultLouvain):
  	return ranking
  	
 #-----------------------------------------------------------------------------#
+# Verifica se cluster possui a descrição									  #
+#-----------------------------------------------------------------------------#
+def verificaClusterPossuiDescricao (resultLouvain):
+	
+	for i in range(len(resultLouvain)):			# percorre cada comunidade
+			if 0 in resultLouvain[i]:
+				return i
+	
+#-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
 def clusterImportante (mediaDescricaoTitulo, resultLouvain):
@@ -211,19 +220,29 @@ def agrupaComentarios (comentarios, matrizSimilaridadeCosseno, threshold):
 # Retorna a ordenacao dos autovalores										  #
 # Estrutura: [indice_comentario, autovalor_daquele_comentario]				  #
 #-----------------------------------------------------------------------------#
-def ordenaRanking (resultadoPageRank):
+def ordenaRanking (resultadoParaOrdenar):
 	
 	listaIntermediaria = []
 	matriz = []
 	
-	for i in range(len(resultadoPageRank)):
+	for i in range(len(resultadoParaOrdenar)):
 		listaIntermediaria.append(i)
-		listaIntermediaria.append(resultadoPageRank[i])
+		listaIntermediaria.append(resultadoParaOrdenar[i])
 		matriz.append(listaIntermediaria)
 		listaIntermediaria = []
 
 	# ordena pelas similaridades em ordem descrescente
 	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
+	
+	return ranking
+	
+#-----------------------------------------------------------------------------#
+# Ordena a similaridade média entre titulo e descricao de todos os comentarios# 
+# para comparar com oráculo													  #
+#-----------------------------------------------------------------------------#
+def rankingSimilaridadeMediaComentarioTituloDescricao (mediaDescricaoTitulo):
+	
+	ranking = ordenaRanking(mediaDescricaoTitulo)
 	
 	return ranking
 	

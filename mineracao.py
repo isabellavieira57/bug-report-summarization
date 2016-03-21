@@ -20,8 +20,10 @@
 import numpy as np
 from sklearn.decomposition import NMF
 from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.metrics.pairwise import euclidean_distances
 from scipy import spatial
-np.seterr(divide='ignore', invalid='ignore')
+#np.seterr(divide='ignore', invalid='ignore')
 
 #-----------------------------------------------------------------------#
 # Coloca os tokens distintos dos dois comentarios a serem analisados em #
@@ -168,12 +170,12 @@ def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, indexComentario1, ind
 	#print "frequencia comentario 1 ", frequenciaComentario1
 	#print "frequencia comentario 2 ", frequenciaComentario2
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
-	similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
+	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
 	#print "similaridade truncada ", similaridadeTruncada
-	matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridadeTruncada
-	matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridadeTruncada
-	#matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridade
-	#matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridade
+	#matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridadeTruncada
+	#matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridadeTruncada
+	matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridade
+	matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridade
 
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
@@ -182,9 +184,9 @@ def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, indexComentario1, ind
 def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
 
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
-	similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
-	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridadeTruncada
-	#vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade
+	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
+	#vetorSimilaridadeCossenoTitulo[indexComentario] = similaridadeTruncada
+	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade
 
 #-----------------------------------------------------------------------------#
 # average(cosine_similarities)+alpha*standard_deviation(cosine_similarities)  #
@@ -256,6 +258,24 @@ def calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSim
 		mediaDescricaoTitulo.append(np.mean(vetorParaMedia[i]))		# contem a media da similaridade do titulo e da descricao, o index do vetor mediaDescricaoTitulo é o ID do comentário
 
 	return mediaDescricaoTitulo
+
+#-----------------------------------------------------------------------------#
+# 																			  #
+#-----------------------------------------------------------------------------#
+def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
+
+	distanciaEuclidiana = spatial.distance.euclidean(frequenciaComentario1, frequenciaComentario2)
+	matrizDistanciaEuclidiana[indexComentario1][indexComentario2] = distanciaEuclidiana
+	matrizDistanciaEuclidiana[indexComentario2][indexComentario1] = distanciaEuclidiana
+	
+#-----------------------------------------------------------------------#
+# spatial.distance.cosine calcula a distância e não a similaridade.     # 
+# Para avaliar a similaridade, deve-se subtrair 1.                      #
+#-----------------------------------------------------------------------#
+def calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
+
+	distanciaEuclidiana = spatial.distance.euclidean(frequenciaComentario1, frequenciaComentario2)
+	vetorDistanciaEuclidianaTitulo[indexComentario] = distanciaEuclidiana
 	
 #-----------------------------------------------------------------------------#
 # Método de Fatorização de Matrizes: NMF									  #
@@ -282,25 +302,44 @@ def pca (matriztfxidf):
 	normalizaTFXIDF (matriztfxidf)
 	
 	vetor = []
-
+	
 	# testa qual o melhor numero de componentes	que representa 95% dos dados
-	for i in range(len(matriztfxidf[0])):	# todas as linhas da matriz tem o mesmo número de colunas
+	for i in range(len(matriztfxidf[0])):
 		num_pca_components = i
 		pca = PCA(num_pca_components)
-		#pca.fit(np.transpose(matriztfxidf))
 		pca.fit(matriztfxidf)
 		PCA(copy=True, whiten=False)
-	
+
 		# guardo em um vetor para montar graficos
-		vetor.append(sum(pca.explained_variance_ratio_))
+		# vetor.append(sum(pca.explained_variance_ratio_))
 		
-		# Numero de componentes ideal é aquele que explica mais que 95% dos meus dados
 		if(sum(pca.explained_variance_ratio_) >= 0.95):
-			print "Numero de colunas: ", len(matriztfxidf[0])
-			print "Numero de PCA componentes (95%): ",num_pca_components
-			print "Componentes"
-			print pca.explained_variance_ratio_
-			break
+			#print "Numero de colunas: ", len(np.transpose(matriztfxidf))
+			#print "Numero de linhas: ", len(matriztfxidf)
+			#print "Numero de PCA componentes (95%): ",num_pca_components
+			#print "Componentes"
+			#print pca.explained_variance_ratio_
+
+			pca.n_components = num_pca_components
+			pca.fit(matriztfxidf)
+			matrizReduzida = pca.fit_transform(matriztfxidf)
+			#print "Tamanho da matriz redimensionada: ", matrizReduzida.shape
+			#print "Nova matriz reduzida: ", matrizReduzida
 			
+			break
+	
+
+	return matrizReduzida
 	#print "VETOR\n"
 	#print vetor
+
+
+#-----------------------------------------------------------------------------#
+# 	    					 												  #
+#-----------------------------------------------------------------------------#
+def kmeans (matriz):
+	
+	kmeans = KMeans(init='k-means++', n_clusters=4, n_init=10, copy_x=True)
+	kmeans.fit(matriz)
+
+	return kmeans.cluster_centers_
