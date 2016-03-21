@@ -127,6 +127,20 @@ def main():
 	
 	# Fazer colley antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoColley = colley(len(comentarios), matrizSimilaridadeCosseno)
+		
+	"""vetorMassey = []
+	for i in range(len(resultadoMassey)):
+		vetorMassey.append(resultadoMassey[i][1])
+		
+	vetorColley = []
+	for i in range(len(resultadoColley)):
+		vetorColley.append(resultadoColley[i][1])
+	
+	spearman = spearmanCorrelation(vetorMassey, vetorColley)
+	print "SPEARMAN", spearman
+	
+	kendall = kendallCorrelation(vetorMassey,vetorColley)
+	print "KENDALL", kendall"""
 	
 	#thresholdIdeal = thresholdModularidade (matrizSimilaridadeCosseno, len(comentariosPreProcessado))
 	#contaIntervalosSimilaridade (matrizSimilaridadeCosseno)

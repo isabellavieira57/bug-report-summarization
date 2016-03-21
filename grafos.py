@@ -20,6 +20,7 @@
 import numpy as np
 import cairo
 from igraph import *
+import scipy
 	
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
@@ -371,3 +372,17 @@ def colley (numeroComentarios, matrizSimilaridadeCosseno):
 	rankingOrdenado = ordenaRanking(x)
 	
 	return rankingOrdenado
+	
+#-----------------------------------------------------------------------------#
+# 												 							  #
+#-----------------------------------------------------------------------------#
+def spearmanCorrelation (a,b):
+
+	return scipy.stats.stats.spearmanr(a,b)
+	
+#-----------------------------------------------------------------------------#
+# 												 							  #
+#-----------------------------------------------------------------------------#
+def kendallCorrelation (a,b):
+
+	return scipy.stats.stats.kendalltau(a,b)
