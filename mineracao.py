@@ -165,17 +165,22 @@ def normalizaTFXIDF (matriztfxidf):
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
-def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
-
+def calculaSimilaridadeCosseno (matriz, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
+	
+	#print "Index comentario 1: ", indexComentario1
+	#print "Index comentario 2: ", indexComentario2
 	#print "frequencia comentario 1 ", frequenciaComentario1
 	#print "frequencia comentario 2 ", frequenciaComentario2
+	
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
+	
 	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
 	#print "similaridade truncada ", similaridadeTruncada
 	#matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridadeTruncada
 	#matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridadeTruncada
-	matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridade
-	matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridade
+	
+	matriz[indexComentario1][indexComentario2] = similaridade
+	matriz[indexComentario2][indexComentario1] = similaridade
 
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
@@ -283,16 +288,43 @@ def calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTitulo, indexComen
 #-----------------------------------------------------------------------------#
 def nmf (matriztfxidf):
 	
-	normalizaTFXIDF(matriztfxidf)
+	"""normalizaTFXIDF(matriztfxidf)
+	
+	print "Numero de linhas Matriz TFXIDF: ", len(matriztfxidf)
+	print "Numero de colunas Matriz TFXIDF: ", len(matriztfxidf[0])
 	
 	model = NMF(n_components=2, init='random', random_state=0)
-	model.fit(matriztfxidf) 
+	matrizReduzida = model.fit_transform(matriztfxidf)
 	
 	print "\n\nCOMPONENTES"
-	print model.components_
+	print matrizReduzida
 	print "\n\nMODEL RECONSTRUCTION"
-	print model.reconstruction_err_
-
+	print model.reconstruction_err_"""
+	
+	normalizaTFXIDF (matriztfxidf)
+	
+	num_nmf_components = 1
+	while (num_nmf_components <= len(np.transpose(matriztfxidf))):
+	
+		nmf = NMF(n_components = num_nmf_components, init='random', random_state=0)
+		matrizReduzida = nmf.fit_transform(matriztfxidf)
+		
+		if(nmf.reconstruction_err_ < 0.5):
+			"""print "Numero de colunas: ", len(np.transpose(matriztfxidf))
+			print "Numero de linhas: ", len(matriztfxidf)
+			print "Erro NMF: ",nmf.reconstruction_err_
+			print "Numero de componentes: ", num_nmf_components
+			print "Componentes"
+			print "Numero de linhas matriz reduzida: ", len(matrizReduzida)
+			print "Numero de colunas matriz reduzida: ", len(np.transpose(matrizReduzida))
+			print matrizReduzida"""
+		
+			break
+	
+		num_nmf_components = num_nmf_components + 1
+		
+	return matrizReduzida
+	
 #-----------------------------------------------------------------------------#
 # Método de Fatorização de Matrizes: PCA									  #
 # Matriz tfxidf nao tem like e referencia explicita
@@ -329,6 +361,11 @@ def pca (matriztfxidf):
 			break
 	
 
+	#inverso = pca.inverse_transform(matrizReduzida)
+	
+	#print "INVERSO"
+	#print inverso
+	
 	return matrizReduzida
 	#print "VETOR\n"
 	#print vetor

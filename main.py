@@ -64,6 +64,8 @@ def main():
 	matrizDistanciaEuclidiana = inicializaMatriz(comentarios)		
 	vetorSimilaridadeCossenoTitulo = inicializaVetor(comentariosPreProcessado)
 	vetorDistanciaEuclidianaTitulo = inicializaVetor(comentariosPreProcessado)
+	vetorSimilaridadeCossenoTituloNMF = inicializaVetor(comentariosPreProcessado)
+	vetorDistanciaEuclidianaTituloNMF = inicializaVetor(comentariosPreProcessado)
 
 	# Calculo TFXIDF para cada token (incluindo descricao, sem titulo)
 	for i in range(len(comentariosPreProcessado)):
@@ -76,7 +78,7 @@ def main():
 
 	# Para cada comentario calcula a similaridade de cosseno e a distancia euclidiana daquele comentario para todos (incluindo descricao, sem titulo)
 	for i in range(len(comentariosPreProcessado)):
-		for j in range(i+1,len(comentariosPreProcessado)):
+		for j in range(len(comentariosPreProcessado)):
 			listaTokensDistintos = getTokensDistintos(comentariosPreProcessado[i], comentariosPreProcessado[j])
 			frequenciaComentario1 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[i], listaTokensDistintos, i, matriztfxidf)
 			frequenciaComentario2 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[j], listaTokensDistintos, j, matriztfxidf)
@@ -113,14 +115,28 @@ def main():
 	rankingMediaDistanciaEuclidianaTituloDescricao = rankingSimilaridadeMediaComentarioTituloDescricao (mediaDistanciaEuclidianaTituloDescricao)
 	
 	# NMF
-	# nmf (matriztfxidf)
+	matrizReduzidaNMF = nmf(matriztfxidf)
 	
+	matrizSimilaridadeCossenoNMF = [[0 for x in range(len(np.transpose(matrizReduzidaNMF)))] for x in range(len(matrizReduzidaNMF))]
+	matrizDistanciaEuclidianaNMF = [[0 for x in range(len(matrizReduzidaNMF))] for x in range(len(np.transpose(matrizReduzidaNMF)))]
+	
+	# Calculo a similaridade de cosseno e a distancia euclidiana na matriz reduzida
+	for i in range(len(matrizReduzidaNMF)):
+		for j in range(len(matrizReduzidaNMF)):
+			calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, i, j, matrizReduzidaNMF[i], matrizReduzidaNMF[j])
+			calculaDistanciaEuclidiana(matrizDistanciaEuclidianaNMF, i, j, matrizReduzidaNMF[i], matrizReduzidaNMF[j])
+			
+	for i in range(len(matrizReduzidaNMF)):
+		calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTituloNMF, i, frequenciaComentario1, frequenciaComentario2)
+		calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTituloNMF, i, frequenciaComentario1, frequenciaComentario2)
+
+			
 	# PCA
-	matrizReduzidaPCA = pca (matriztfxidf)
-		
+	#matrizReduzidaPCA = pca (matriztfxidf)
+			
 	#Kmeans
-	kmeansResultSimilaridadeCosseno = kmeans (matrizSimilaridadeCosseno)
-	kmeansResultPCA = kmeans (matrizReduzidaPCA)
+	#kmeansResultSimilaridadeCosseno = kmeans (matrizSimilaridadeCosseno)
+	#kmeansResultPCA = kmeans (matrizReduzidaPCA)
 
 	# Fazer massey antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoMassey = massey(len(comentarios), matrizSimilaridadeCosseno)
@@ -292,7 +308,7 @@ def main():
 	print "\n\n"
 	"""
 		
-	print "\n###################################### RESULTADOS #########################################\n"
+	"""print "\n###################################### RESULTADOS #########################################\n"
 	
 	ranking = ""
 	print "\n###################################### ESTUDO 1 ###########################################\n"
@@ -371,7 +387,8 @@ def main():
 		
 	print "\n :: ESPAÇO TRANSFORMADO: K-MEANS ::\n"
 	print kmeansResultPCA
-	print "\n"
+	print "\n"""
+	
 	return 0
 
 if __name__ == '__main__':
