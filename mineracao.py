@@ -48,7 +48,7 @@ def getTokensDistintos (comentario1, comentario2):
 # Coloca os tokens distintos dos dois comentarios a serem analisados em #
 # uma lista						 										#
 #-----------------------------------------------------------------------#
-def getTokensDistintosTitulo (comentario1, titulo):
+"""def getTokensDistintosTitulo (comentario1, titulo):
 
 	listaTokensDistintos = []
 
@@ -61,7 +61,7 @@ def getTokensDistintosTitulo (comentario1, titulo):
 		if titulo[i] not in listaTokensDistintos:
 			listaTokensDistintos.append(titulo[i])
 
-	return listaTokensDistintos
+	return listaTokensDistintos"""
 
 #-----------------------------------------------------------------------#
 # Calcula a frequencia de um termo em uma lista de tokens distintos 	#
@@ -82,7 +82,7 @@ def calculaFrequenciaSimilaridadeCosseno (comentario, listaTokensDistintos, inde
 #-----------------------------------------------------------------------#
 # Calcula a frequencia de um termo em uma lista de tokens distintos 	#
 #-----------------------------------------------------------------------#
-def calculaFrequenciaSimilaridadeCossenoTitulo (titulo, listaTokensDistintos, indexComentario, matriztfxidfTitulo):
+"""def calculaFrequenciaSimilaridadeCossenoTitulo (titulo, listaTokensDistintos, indexComentario, matriztfxidfTitulo):
 
 	frequenciaComentario = []
 
@@ -93,7 +93,7 @@ def calculaFrequenciaSimilaridadeCossenoTitulo (titulo, listaTokensDistintos, in
 		else:
 			frequenciaComentario.append(0)
 
-	return frequenciaComentario
+	return frequenciaComentario"""
 
 #-----------------------------------------------------------------------#
 # Conta quantas vezes o token aparece no documento						#
@@ -186,12 +186,12 @@ def calculaSimilaridadeCosseno (matriz, indexComentario1, indexComentario2, freq
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
-def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
+"""def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
 
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
 	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
 	#vetorSimilaridadeCossenoTitulo[indexComentario] = similaridadeTruncada
-	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade
+	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade"""
 
 #-----------------------------------------------------------------------------#
 # average(cosine_similarities)+alpha*standard_deviation(cosine_similarities)  #
@@ -225,9 +225,9 @@ def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComen
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
 #-----------------------------------------------------------------------------#
-def salvaMatrizSimilaridadeCossenoEsparsa (matriz, tamanhoMatriz):
+def salvaMatrizSimilaridadeCossenoEsparsa (matriz, tamanhoMatriz, nomeArquivo):
 
-	arquivoGrafoPonderado = open("grafo.txt", 'wr+')
+	arquivoGrafoPonderado = open(nomeArquivo, 'wr+')
 	
 	for i in range(tamanhoMatriz):
 		for j in range(i+1,tamanhoMatriz):
@@ -247,19 +247,19 @@ def fazCopiaMatrizSimilaridadeCosseno (matrizSimilaridadeCosseno, copiaMatrizSim
 #-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
-def calculaMediaSimilaridadeTituloDescricao (matrizSimilaridadeCosseno, vetorSimilaridadeCossenoTitulo):
+def calculaMediaSimilaridadeComentarioTituloDescricao (matriz):
 
 	mediaDescricaoTitulo = []
 	vetorParaMedia = []
 	vetorIntermerdiario = []
 
-	for i in range(len(matrizSimilaridadeCosseno)):
-		vetorIntermerdiario.append(matrizSimilaridadeCosseno[0][i])
-		vetorIntermerdiario.append(vetorSimilaridadeCossenoTitulo[i])
+	for i in range(len(matriz)):
+		vetorIntermerdiario.append(matriz[0][i])	# titulo
+		vetorIntermerdiario.append(matriz[1][i]) # descricao
 		vetorParaMedia.append(vetorIntermerdiario)
 		vetorIntermerdiario = []
 
-	for i in range(len(matrizSimilaridadeCosseno)):
+	for i in range(len(matriz)):
 		mediaDescricaoTitulo.append(np.mean(vetorParaMedia[i]))		# contem a media da similaridade do titulo e da descricao, o index do vetor mediaDescricaoTitulo é o ID do comentário
 
 	return mediaDescricaoTitulo
@@ -277,10 +277,10 @@ def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, indexComentario1, ind
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
-def calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
+"""def calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
 
 	distanciaEuclidiana = spatial.distance.euclidean(frequenciaComentario1, frequenciaComentario2)
-	vetorDistanciaEuclidianaTitulo[indexComentario] = distanciaEuclidiana
+	vetorDistanciaEuclidianaTitulo[indexComentario] = distanciaEuclidiana"""
 	
 #-----------------------------------------------------------------------------#
 # Método de Fatorização de Matrizes: NMF									  #
@@ -376,7 +376,7 @@ def pca (matriztfxidf):
 #-----------------------------------------------------------------------------#
 def kmeans (matriz):
 	
-	kmeans = KMeans(init='k-means++', n_clusters=4, n_init=10, copy_x=True)
+	kmeans = KMeans(init='k-means++', n_clusters=2, n_init=10, copy_x=True)
 	kmeans.fit(matriz)
 
 	return kmeans.cluster_centers_

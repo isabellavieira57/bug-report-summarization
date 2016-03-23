@@ -25,9 +25,9 @@ import scipy
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
 #-----------------------------------------------------------------------------#
-def inicializaGrafo ():
+def inicializaGrafo (nomeArquivo):
 
-	rede = Graph.Read_Ncol('grafo.txt', names=True, weights=True, directed=False)
+	rede = Graph.Read_Ncol(nomeArquivo, names=True, weights=True, directed=False)
 
 	return rede
 
@@ -241,11 +241,11 @@ def ordenaRanking (resultadoParaOrdenar):
 # Ordena a similaridade média entre titulo e descricao de todos os comentarios# 
 # para comparar com oráculo													  #
 #-----------------------------------------------------------------------------#
-def rankingSimilaridadeMediaComentarioTituloDescricao (mediaDescricaoTitulo):
+"""def rankingSimilaridadeMediaComentarioTituloDescricao (mediaDescricaoTitulo):
 	
 	ranking = ordenaRanking(mediaDescricaoTitulo)
 	
-	return ranking
+	return ranking"""
 	
 	
 #-----------------------------------------------------------------------------#

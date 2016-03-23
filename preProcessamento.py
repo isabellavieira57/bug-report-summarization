@@ -44,7 +44,7 @@ def leArquivo():
 	
 	conteudo = arquivo.readlines()		# conteudo armazena os itens de cada linha
 	comentarios = []
-	titulo = []
+	#titulo = []
 	texto = []
 	string = ""
 	tokenizer = RegexpTokenizer('\w+|\$[\d\.]+|\S+')		# Expressao regular que quebra a string em substrings
@@ -60,15 +60,16 @@ def leArquivo():
 		else:
 			stringUpper = string.lower()
 			tokens = tokenizer.tokenize(stringUpper)	
-			if (flag == 1):
-				titulo.append(tokens)
-				flag = 0
-			else:
-				comentarios.append(tokens)
+			#if (flag == 1):
+			#	titulo.append(tokens)
+			#	flag = 0
+			#else:
+			comentarios.append(tokens)
 			texto = []
 			string = ""
 
-	return comentarios, titulo
+	#return comentarios, titulo
+	return comentarios
 	
 #-----------------------------------------------------------------------------#
 # 							 												  #
