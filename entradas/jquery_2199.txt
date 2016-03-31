@@ -60,6 +60,9 @@ Off topic: if we no longer decline patches for SVG elements, perhaps, we should 
 On topic: -1, just like in case of the shadow DOM, support of the SVG will decrease the performance increase the size and complicate the code.
 If user operates on SVG elements through JS, sooner then later their would need more then CSS-classes - use of special libs is more appropriate way to do this IMHO.
 
+markelog commented
++1
+
 caitp commented
 On topic: -1, just like in case of the shadow DOM, support of the SVG will decrease the performance increase the size and complicate the code
 @markelog we've found that this is actually not the case. Using the className IDL attribute, or the setAttribute/getAttribute methods, are identical work for a VM to do. In fact, the className property merely reflects the attribute (although the reflection works differently for SVG). --- Or as this is noted non-normatively in the HTML spec, "The className and classList IDL attributes, defined in the DOM specification, reflect the class content attribute.".

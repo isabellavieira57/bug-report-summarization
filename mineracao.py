@@ -151,6 +151,7 @@ def normalizaTFXIDF (matriztfxidf):
 			#maiorIndice = i
 	
 	maiorDimensao = maiorDimensao
+	print "MAIOR DIMENSAO: ", maiorDimensao
 	
 	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
 	for i in range(len(matriztfxidf)):
@@ -158,20 +159,13 @@ def normalizaTFXIDF (matriztfxidf):
 		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
 		for j in range(quantidadeColunasFaltantes):
 			matriztfxidf[i].append(0)
-			
-	#print len(matriztfxidf)
-
+		
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
 def calculaSimilaridadeCosseno (matriz, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
-	
-	#print "Index comentario 1: ", indexComentario1
-	#print "Index comentario 2: ", indexComentario2
-	#print "frequencia comentario 1 ", frequenciaComentario1
-	#print "frequencia comentario 2 ", frequenciaComentario2
-	
+
 	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
 	
 	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
@@ -303,26 +297,34 @@ def nmf (matriztfxidf):
 	
 	normalizaTFXIDF (matriztfxidf)
 	
-	num_nmf_components = 1
-	while (num_nmf_components <= len(np.transpose(matriztfxidf))):
+	print "Numero linhas normal: ", len(matriztfxidf)
+	print "Numero colunas normal: ", len(np.transpose(matriztfxidf))
 	
-		nmf = NMF(n_components = num_nmf_components, init='random', random_state=0)
-		matrizReduzida = nmf.fit_transform(matriztfxidf)
-		
-		if(nmf.reconstruction_err_ < 0.5):
-			"""print "Numero de colunas: ", len(np.transpose(matriztfxidf))
-			print "Numero de linhas: ", len(matriztfxidf)
-			print "Erro NMF: ",nmf.reconstruction_err_
-			print "Numero de componentes: ", num_nmf_components
-			print "Componentes"
-			print "Numero de linhas matriz reduzida: ", len(matrizReduzida)
-			print "Numero de colunas matriz reduzida: ", len(np.transpose(matrizReduzida))
-			print matrizReduzida"""
-		
-			break
+	#num_nmf_components = 1
+	#while (num_nmf_components <= len(np.transpose(matriztfxidf))):
 	
-		num_nmf_components = num_nmf_components + 1
+		#nmf = NMF(n_components = num_nmf_components, init='random', random_state=0)
+	nmf = NMF(n_components = 34, init='random', random_state=0)
+	#nmf = NMF(n_components = 13, init='nndsvd')
+	matrizReduzida = nmf.fit_transform(matriztfxidf)
+	
+	#	if(nmf.reconstruction_err_ < 1.0):
+			#print "Numero de colunas: ", len(np.transpose(matriztfxidf))
+			#print "Numero de linhas: ", len(matriztfxidf)
+			#print "Erro NMF: ",nmf.reconstruction_err_
+			#print "Numero de componentes: ", num_nmf_components
+			#print "Componentes"
+			#print "Numero de linhas matriz reduzida: ", len(matrizReduzida)
+			#print "Numero de colunas matriz reduzida: ", len(np.transpose(matrizReduzida))
+			#print matrizReduzida
 		
+	#		break
+	
+	#	num_nmf_components = num_nmf_components + 1
+	
+	print "numero linhas reduzida: ", len(matrizReduzida)
+	print "numero colunas reduzida: ", len(np.transpose(matrizReduzida))
+	print "erro: ", nmf.reconstruction_err_
 	return matrizReduzida
 	
 #-----------------------------------------------------------------------------#
@@ -366,7 +368,8 @@ def pca (matriztfxidf):
 	#print "INVERSO"
 	#print inverso
 	
-	return matrizReduzida
+	#return matrizReduzida
+	return num_pca_components
 	#print "VETOR\n"
 	#print vetor
 
@@ -377,6 +380,7 @@ def pca (matriztfxidf):
 def kmeans (matriz):
 	
 	kmeans = KMeans(init='k-means++', n_clusters=2, n_init=10, copy_x=True)
-	kmeans.fit(matriz)
+	kmeans.fit_transform(matriz)
 
 	return kmeans.cluster_centers_
+	#return kmeans.labels_

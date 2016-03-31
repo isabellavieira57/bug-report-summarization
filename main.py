@@ -38,8 +38,33 @@ def inicializaVetor (comentarios):
 
 	return matrizSimilaridadeCosseno
 	
+# Angular 1412
+#oraculo = [0, 1, 3, 4, 7, 15, 29, 6, 10, 12, 14, 16, 18, 22, 23, 24, 28, 30, 31, 5, 26, 33, 28, 19, 20, 21, 9, 11, 13, 17, 25, 27, 32]
+#oraculo = [0, 1, 3, 4, 7, 15, 29, 6]	# top 25% = 8
+#oraculo = [0, 1, 3, 4, 7, 15, 29, 6, 10, 12]			# tamanho_cluster_matriz_normal = 10
+#oraculo_matriz_reduzida = [0, 1, 3, 4, 7, 15, 29, 6, 10, 12, 14, 16, 18, 22, 23, 24, 28, 30, 31, 5, 26, 33, 28, 19, 20, 21, 9]			# tamanho_cluster_matriz_reduzida = 27 componentes = 2
+#oraculo_matriz_reduzida = [0, 1, 3, 4, 7, 15, 29, 6]			#  tamanho_cluster_matriz_reduzida = 8 componentes = 10 e 14
+#oraculo_matriz_reduzida = [0, 1, 3, 4, 7, 15, 29, 6, 10, 12, 14, 16, 18, 22]			#  tamanho_cluster_matriz_reduzida = 14 componentes = 8 e 53
+#oraculo_matriz_reduzida = [0, 1, 3, 4, 7, 15, 29]			#  tamanho_cluster_matriz_reduzida = 7 componentes = 20
 
-oraculo = [0, 1, 3, 4, 7, 15, 29, 6, 10, 12, 14, 16, 18, 22, 23, 24, 28, 30, 31, 5, 26, 33, 28, 19, 20, 21, 9, 11, 13, 17, 25, 27, 32]
+
+# Angular 5160
+oraculo = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8, 10, 12, 13, 16, 21, 24, 11, 17, 18, 19, 20, 22, 23, 25, 26, 27, 28, 29, 30]
+#oraculo = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8, 10, 12, 13, 16, 21, 24, 11]	 # 19 itens
+#oraculo_matriz_reduzida = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8, 10, 12, 13, 16, 21, 24, 11, 17, 18, 19, 20, 22] # 2 componentes = 24 itens
+#oraculo = [0, 1, 5, 6, 2, 3, 7, 9]		# top 25% = 8
+#oraculo_matriz_reduzida = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8, 10, 12] # 14 itens
+#oraculo_matriz_reduzida = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8] # 12 itens
+#oraculo_matriz_reduzida = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8, 10] # 13 itens
+#oraculo_matriz_reduzida = [0, 1, 5, 6, 2, 3, 7, 9, 14, 15, 4, 8, 10, 12, 13, 16, 21]	 # 17 itens
+
+# jQuery 2199
+#oraculo = [0, 1, 7, 9, 12, 15, 16, 19, 20, 3, 4, 6, 8, 10, 11, 13, 17, 18, 2, 5, 14]
+#oraculo = [0, 1, 7, 9, 12] 		# top 25% = 5
+
+# Bootstrap 341
+#oraculo = [0, 1, 3, 21, 29, 31, 35, 5, 6, 9, 7, 8, 12, 13, 15, 17, 19, 22, 23, 24, 25, 26, 28, 30, 32, 33, 34, 40, 36, 2, 4, 10, 11, 16, 18, 20, 3, 38, 14, 27, 39]
+#oraculo = [0, 1, 3, 21, 29, 31, 35, 5, 6, 9]		# top 25% = 10
 
 #-----------------------------------------------------------------------#
 # MAIN																	#
@@ -53,7 +78,6 @@ def main():
 	
 	# "\n#################################### PRE-PROCESSAMENTO ###########################################\n"
 	
-	#comentarios, titulo = leArquivo()
 	comentarios = leArquivo()	
 	salvaReferenciaExplicita(comentarios)
 	verificaLike(comentarios)
@@ -65,8 +89,6 @@ def main():
 	# matriz de ordem N, onde N é o número de comentários (Com descricao, sem titulo)
 	matrizSimilaridadeCosseno = inicializaMatriz(comentarios)		
 	matrizDistanciaEuclidiana = inicializaMatriz(comentarios)		
-	#vetorSimilaridadeCossenoTitulo = inicializaVetor(comentariosPreProcessado)
-	#vetorDistanciaEuclidianaTitulo = inicializaVetor(comentariosPreProcessado)
 	vetorSimilaridadeCossenoTituloNMF = inicializaVetor(comentariosPreProcessado)
 	vetorDistanciaEuclidianaTituloNMF = inicializaVetor(comentariosPreProcessado)
 
@@ -78,6 +100,7 @@ def main():
 			j = j + 1
 		matriztfxidf.append(vetorIntermerdiario)
 		vetorIntermerdiario = []
+
 		
     # "\n#################################### MATRIZ ORIGINAL ###########################################\n"
     
@@ -89,24 +112,8 @@ def main():
 			frequenciaComentario2 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[j], listaTokensDistintos, j, matriztfxidf)
 			calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, i, j, frequenciaComentario1, frequenciaComentario2)
 			calculaDistanciaEuclidiana(matrizDistanciaEuclidiana, i, j, frequenciaComentario1, frequenciaComentario2)
-		
-	# Calculo TFXIDF para titulo (olhando tokens em todos os comentarios)
-	#for i in range(len(titulo)):
-    #		j = 0
-	#	while (j < len(titulo[i])):
-	#		tfxidf(titulo[i][j], i, j, comentariosPreProcessado, vetorIntermerdiario)
-	#		j = j + 1
-	#	matriztfxidfTitulo.append(vetorIntermerdiario)
-	#	vetorIntermerdiario = []
-
-	# Para cada comentario calcula a frequencia (TFXIDF) e a similaridade de cosseno e a distancia euclidiana daquele comentario com o titulo
-	#for i in range(len(comentariosPreProcessado)):
-	#	listaTokensDistintos = getTokensDistintosTitulo(comentariosPreProcessado[i], titulo[0])
-	#	frequenciaComentario1 = calculaFrequenciaSimilaridadeCosseno(comentariosPreProcessado[i], listaTokensDistintos, i, matriztfxidf)
-	#	frequenciaComentario2 = calculaFrequenciaSimilaridadeCossenoTitulo(titulo[0], listaTokensDistintos, 0, matriztfxidfTitulo)
-	#	calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, i, frequenciaComentario1, frequenciaComentario2)
-	#	calculaDistanciaEuclidianaTitulo (vetorDistanciaEuclidianaTitulo, i, frequenciaComentario1, frequenciaComentario2)
-
+			
+	
 	# Tenho a similaridade de cosseno média de cada comentário com o título e a descrição do bug
 	mediaSimilaridadeCossenoDescricaoTitulo = calculaMediaSimilaridadeComentarioTituloDescricao (matrizSimilaridadeCosseno)
 	# Ordena a média da similaridade do comentário com o título e a descrição
@@ -121,14 +128,22 @@ def main():
 	
 	# NMF
 	matrizReduzidaNMF = nmf(matriztfxidf)
+	
+	#PCA
+	numeroComponentesIdeal = pca(matriztfxidf)
+	
+	print "Numero de componentes ideal PCA: ", numeroComponentesIdeal
 		
 	# Inicializa matrizes de Similaridade para NMF
-	matrizSimilaridadeCossenoNMF = [[0 for x in range(len(matrizReduzidaNMF))] for x in range(len(matrizReduzidaNMF))]
-	matrizDistanciaEuclidianaNMF = [[0 for x in range(len(matrizReduzidaNMF))] for x in range(len(matrizReduzidaNMF))]
+	matrizSimilaridadeCossenoNMF = [[0 for x in range(len(comentariosPreProcessado))] for x in range(len(comentariosPreProcessado))]
+	matrizDistanciaEuclidianaNMF = [[0 for x in range(len(comentariosPreProcessado))] for x in range(len(comentariosPreProcessado))]
+	
+	#matrizSimilaridadeCossenoNMF = [[0 for x in range(len(matrizReduzidaNMF))] for x in range(len(matrizReduzidaNMF))]
+	#matrizDistanciaEuclidianaNMF = [[0 for x in range(len(matrizReduzidaNMF))] for x in range(len(matrizReduzidaNMF))]	
 	
 	# Calculo a similaridade de cosseno e a distancia euclidiana na matriz reduzida (com titulo e descricao)
-	for i in range(len(matrizReduzidaNMF)):
-		for j in range(len(matrizReduzidaNMF)):
+	for i in range(len(comentariosPreProcessado)):
+		for j in range(len(comentariosPreProcessado)):
 			calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, i, j, matrizReduzidaNMF[i], matrizReduzidaNMF[j])
 			calculaDistanciaEuclidiana(matrizDistanciaEuclidianaNMF, i, j, matrizReduzidaNMF[i], matrizReduzidaNMF[j])
 		
@@ -142,9 +157,6 @@ def main():
 	# Ordena a média da distancia euclidiana do comentário com o título e a descrição
 	rankingMediaDistanciaEuclidianaTituloDescricaoNMF = ordenaRanking (mediaDistanciaEuclidianaTituloDescricaoNMF)
 			
-	# PCA
-	#matrizReduzidaPCA = pca (matriztfxidf)
-	
 	# "\n######################################### GRAFO ################################################\n"
 			
 	# Fazer massey antes de fazer esparcidade da matriz de similaridade de cosseno
@@ -154,24 +166,7 @@ def main():
 	# Fazer colley antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoColley = colley(len(comentarios), matrizSimilaridadeCosseno)
 	resultadoColleyNMF = colley(len(matrizReduzidaNMF), matrizSimilaridadeCossenoNMF)
-		
-	"""vetorMassey = []
-	for i in range(len(resultadoMassey)):
-		vetorMassey.append(resultadoMassey[i][1])
-		
-	vetorColley = []
-	for i in range(len(resultadoColley)):
-		vetorColley.append(resultadoColley[i][1])
-	
-	spearman = spearmanCorrelation(vetorMassey, vetorColley)
-	print "SPEARMAN", spearman
-	
-	kendall = kendallCorrelation(vetorMassey,vetorColley)
-	print "KENDALL", kendall"""
-	
-	#thresholdIdeal = thresholdModularidade (matrizSimilaridadeCosseno, len(comentariosPreProcessado))
-	#contaIntervalosSimilaridade (matrizSimilaridadeCosseno)
-	
+			
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno)
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCossenoNMF)
 	
@@ -207,136 +202,6 @@ def main():
 	#Kmeans
 	kmeansResultSimilaridadeCosseno = kmeans (matrizSimilaridadeCosseno)
 	kmeansResultNMF = kmeans (matrizSimilaridadeCossenoNMF)
-
-	"""
-	print "\n#################### RESULTADOS ####################\n"
-
-	print ":: NUMERO COMENTARIOS ::", len(comentarios)	
-
-	countOriginal = 0
-	for i in range(len(comentarios)):
-		j = 0
-		while (j < len(comentarios[i])):
-			countOriginal = countOriginal + 1
-			j = j + 1
-
-	print "\n\n:: NUMERO TOKENS DOCUMENTO ORIGINAL ::", countOriginal
-
-	countPreProcessado = 0
-	for i in range(len(comentariosPreProcessado)):
-		j = 0
-		while (j < len(comentariosPreProcessado[i])):
-			countPreProcessado = countPreProcessado + 1
-			j = j + 1
-
-	print "\n\n:: NUMERO TOKENS APOS PRE-PROCESSAMENTO ::", countPreProcessado
-
-	print "\n\n:: TOTAL TOKENS REMOVIDOS ::", (countOriginal-countPreProcessado)
-	
-	#print comentariosPreProcessado[4]
-	
-	#media = 0
-	
-	#for i in range(len(comentariosPreProcessado)):
-	#	media = media + len(comentariosPreProcessado[i])
-	#	print "Numero de termos comentário", i, ":", len(comentariosPreProcessado[i])
-	
-	#media1 = media/len(comentariosPreProcessado)
-	#print "MEDIA TERMOS",media1
-
-	print "\n#######################################################\n"	
-	print ":: RESULTADO ALGORITMO COMUNIDADE ::\n", resultLouvain
-	print "\n\n:: MODULARIDADE :: ", resultLouvain.modularity
-
-	print "\n#######################################################\n"
-	print "\n:: RANKING CLUSTERS ::\n"
-	for i in range(len(rankingClusters)):
-		print rankingClusters[i], "\n"
-		
-	print "\n:: RANKING INTRA CLUSTER ::\n"
-	for i in range(len(rankingComunidade)):
-		print "--> Cluster: ", i
-		for j in range(len(rankingComunidade[i])):
-			print rankingComunidade[i][j][0]
-		print "\n"
- 
-	print "\n#######################################################\n"
-	print "\n:: PAGERANK ::\n", resultadoPageRank
-	
-	print "\n#######################################################\n"
-	print "\n:: MASSEY ::\n", resultadoMassey
-	
-	print "\n#######################################################\n"
-	print "\n:: COLLEY ::\n", resultadoColley
-	
-	print "\n#######################################################\n"
-	print "\n:: RESULTADOS PARA EXPERIMENTOS::\n"
-	print "Oráculo desenvolvedores: \n", oraculo
-	print "\n\n"
-	
-	acertos = 0
-	oraculo_algoritmo = []
-	
-	# LOUVAIN
-	# percorro os top10 da comunidade mais importante
-	
-	if (len(rankingComunidade[rankingClusters[0][0]]) < 10):
-		print "Tamanho cluster Louvain: ", len(rankingComunidade[rankingClusters[0][0]])
-		
-		for i in range(len(rankingComunidade[rankingClusters[0][0]])):	
-			oraculo_algoritmo.append(rankingComunidade[rankingClusters[0][0]][i][0]) 
-			if (rankingComunidade[rankingClusters[0][0]][i][0] in oraculo):
-				acertos = acertos + 1
-				
-		print "Oráculo algoritmo Louvain: \n", oraculo_algoritmo
-		print "Acertos algoritmo Louvain: \n", acertos
-		print "\n\n"
-	else: 			
-		for i in range(10):	
-			print "Tamanho cluster Louvain: 10", 
-			oraculo_algoritmo.append(rankingComunidade[rankingClusters[0][0]][i][0]) 
-			if (rankingComunidade[rankingClusters[0][0]][i][0] in oraculo):
-				acertos = acertos + 1
-		print "Oráculo algoritmo Louvain: \n", oraculo_algoritmo
-		print "Acertos algoritmo Louvain: \n", acertos
-		print "\n\n"
-		
-	acertos = 0
-	oraculo_algoritmo = []
-	
-	# PAGERANK
-	for i in range(10):	
-		oraculo_algoritmo.append(resultadoPageRank[i][0]) 
-		if (resultadoPageRank[i][0] in oraculo):
-			acertos = acertos + 1
-	print "Oráculo PageRank: \n", oraculo_algoritmo
-	print "Acertos PageRank: \n", acertos
-	print "\n\n"
-
-	acertos = 0
-	oraculo_algoritmo = []
-	
-	# MASSEY
-	for i in range(10):	
-		oraculo_algoritmo.append(resultadoMassey[i][0]) 
-		if (resultadoMassey[i][0] in oraculo):
-			acertos = acertos + 1
-	print "Oráculo Massey: \n", oraculo_algoritmo
-	print "Acertos Massey: \n", acertos
-	print "\n\n"
-	
-	acertos = 0
-	oraculo_algoritmo = []
-	
-	# COLLEY
-	for i in range(10):	
-		oraculo_algoritmo.append(resultadoColley[i][0]) 
-		if (resultadoColley[i][0] in oraculo):
-			acertos = acertos + 1
-	print "Oráculo Colley: \n", oraculo_algoritmo
-	print "Acertos Colley: \n", acertos
-	print "\n\n"
-	"""
 		
 	print "\n###################################### RESULTADOS #########################################\n"
 	
@@ -410,10 +275,6 @@ def main():
 	
 	print "\n :: ESPAÇO ORIGINAL: LOUVAIN ::\n"
 	print resultLouvain
-	#print "\nCluster que possui descricao: ", clusterPossuiDescricao
-	#print "\n"	
-	#print "Ranking clusters: ", rankingClusters
-	#print "\n"
 	print "\n"
 	
 	ranking = ""
@@ -434,10 +295,6 @@ def main():
 	
 	print "\n :: ESPAÇO TRANSFORMADO: LOUVAIN ::\n"
 	print resultLouvainNMF
-	#print "\nCluster que possui descricao: ", clusterPossuiDescricao
-	#print "\n"	
-	#print "Ranking clusters: ", rankingClusters
-	#print "\n"
 	print "\n"
 	
 	ranking = ""
@@ -461,86 +318,158 @@ def main():
 	
 	print ":: KENDALL ::"
 	
-	print ":: ESTUDO 1::"
+	"""print ":: ESTUDO 1::\n"
+	
+	print ">>>> Distancia euclidiana matriz normal"
 	vetor1 = []
 	for i in range(len(rankingMediaDistanciaEuclidianaTituloDescricao)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(rankingMediaDistanciaEuclidianaTituloDescricao[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"
 	
-	vetor1 = []
-	for i in range(len(rankingSimilaridadeCossenoMediaTituloDescricao)):
-		vetor1.append(rankingSimilaridadeCossenoMediaTituloDescricao[i][1])
-	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
-	
+	print ">>>> Distancia euclidiana matriz reduzida"
 	vetor1 = []
 	for i in range(len(rankingMediaDistanciaEuclidianaTituloDescricaoNMF)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(rankingMediaDistanciaEuclidianaTituloDescricaoNMF[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"
 	
+	print ">>>> Similaridade de cosseno matriz normal"
+	vetor1 = []
+	for i in range(len(rankingSimilaridadeCossenoMediaTituloDescricao)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
+		vetor1.append(rankingSimilaridadeCossenoMediaTituloDescricao[i][1])
+	kendall = kendallCorrelation(vetor1, oraculo)
+	print kendall, "\n"
+	
+	print ">>>> Similaridade de cosseno matriz reduzida"
 	vetor1 = []
 	for i in range(len(rankingSimilaridadeCossenoMediaTituloDescricaoNMF)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(rankingSimilaridadeCossenoMediaTituloDescricaoNMF[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"""
 		
 	
-	print ":: ESTUDO 2::"
+	"""print ":: ESTUDO 2::"
+	
+	print ">>>> PageRank matriz normal"
 	vetor1 = []
 	for i in range(len(resultadoPageRank)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(resultadoPageRank[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"
 	
-	vetor1 = []
-	for i in range(len(resultadoMassey)):
-		vetor1.append(resultadoMassey[i][1])
-	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
-	
-	vetor1 = []
-	for i in range(len(resultadoColley)):
-		vetor1.append(resultadoColley[i][1])
-	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
-	
-	
+	print ">>>> PageRank matriz reduzida"
 	vetor1 = []
 	for i in range(len(resultadoPageRankNMF)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(resultadoPageRankNMF[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"
 	
+	print ">>>> Massey matriz normal"
+	vetor1 = []
+	for i in range(len(resultadoMassey)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
+		vetor1.append(resultadoMassey[i][1])
+	kendall = kendallCorrelation(vetor1, oraculo)
+	print kendall, "\n"
 	
+	print ">>>> Massey matriz reduzida"
 	vetor1 = []
 	for i in range(len(resultadoMasseyNMF)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(resultadoMasseyNMF[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"
 	
+	print ">>>> Colley matriz normal"
+	vetor1 = []
+	for i in range(len(resultadoColley)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
+		vetor1.append(resultadoColley[i][1])
+	kendall = kendallCorrelation(vetor1, oraculo)
+	print kendall, "\n"
+	
+	print ">>>> Massey matriz reduzida"
 	vetor1 = []
 	for i in range(len(resultadoColleyNMF)):
+	#for i in range(8):
+	#for i in range(5):
+	#for i in range(10):
 		vetor1.append(resultadoColleyNMF[i][1])
 	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	print kendall, "\n"""
 	
-	"""
-	print ":: ESTUDO 3::"
+	
+	print ":: ESTUDO 3::\n"
+	
+	#print "TAMANHO CLUSTER LOUVAIN + PAGERANK normal: ", len(ordenacaoPageRank[clusterPossuiDescricao])
+	#print "TAMANHO CLUSTER LOUVAIN + PAGERANK reduzida: ", len(ordenacaoPageRankNMF[clusterPossuiDescricaoNMF])
+	#print "TAMANHO CLUSTER LOUVAIN + CENTRALIDADE AUTOVETOR normal: ", len(rankingComunidade[clusterPossuiDescricao])
+	#print "TAMANHO CLUSTER LOUVAIN + CENTRALIDADE AUTOVETOR reduzida: ", len(rankingComunidadeNMF[clusterPossuiDescricaoNMF])
+	#print "\n"
+	
+	oraculoClusterMatrizOriginal = oraculo[:len(ordenacaoPageRank[clusterPossuiDescricao])]
+	
+	oraculoClusterMatrizReduzida = oraculo[:len(ordenacaoPageRankNMF[clusterPossuiDescricaoNMF])]
+	
+	#print "TAMANHOOO ", tamanhoClusterMatrizOriginal
+	#print "TAMANHOOO ", tamanhoClusterMatrizReduzida
+	
+	print ">>>> Louvain + PageRank - matriz normal"
 	vetor1 = []
 	for i in range(len(ordenacaoPageRank[clusterPossuiDescricao])):
 		vetor1.append(ordenacaoPageRank[clusterPossuiDescricao][i][0])
-	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall
+	kendall = kendallCorrelation(vetor1, oraculoClusterMatrizOriginal)
+	print kendall, "\n"
 	
+	print ">>>> Louvain + PageRank - matriz reduzida"
+	vetor1 = []
+	for i in range(len(ordenacaoPageRankNMF[clusterPossuiDescricaoNMF])):
+		vetor1.append(ordenacaoPageRankNMF[clusterPossuiDescricaoNMF][i][0])
+	kendall = kendallCorrelation(vetor1, oraculoClusterMatrizReduzida)
+	print kendall, "\n"
+	
+	print ">>>> Louvain + Centralidade por Autovetor - matriz normal"
 	vetor1 = []
 	for i in range(len(rankingComunidade[clusterPossuiDescricao])):
 		vetor1.append(rankingComunidade[clusterPossuiDescricao][i][0])
-	kendall = kendallCorrelation(vetor1, oraculo)
-	print kendall"""
+	kendall = kendallCorrelation(vetor1, oraculoClusterMatrizOriginal)
+	print kendall, "\n"
 	
-	print ":: SPEARMAN ::"
+	print ">>>> Louvain + Centralidade por Autovetor - matriz reduzida"
+	vetor1 = []
+	for i in range(len(rankingComunidadeNMF[clusterPossuiDescricaoNMF])):
+		vetor1.append(rankingComunidadeNMF[clusterPossuiDescricaoNMF][i][0])
+	kendall = kendallCorrelation(vetor1, oraculoClusterMatrizReduzida)
+	print kendall, "\n"
+	
+
+	
+	"""print ":: SPEARMAN ::"
 	
 	print ":: ESTUDO 1::"
 	vetor1 = []
@@ -605,7 +534,7 @@ def main():
 	for i in range(len(resultadoColleyNMF)):
 		vetor1.append(resultadoColleyNMF[i][1])
 	spearman = spearmanCorrelation(vetor1, oraculo)
-	print spearman
+	print spearman"""
 	
 	return 0
 
