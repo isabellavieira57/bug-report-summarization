@@ -33,13 +33,14 @@ def leArquivo():
 	try:
 	    if(argv[1] == "-c"):
 	        arquivo = open(argv[2], 'r')
+	        oraculo = argv[3]
 	    else:
 	        print "O padrao a ser seguido deve ser:\n"
-	        print "python linksGrafo.py -c <nome_arquivo_entrada>"
+	        print "python main.py -c <nome_arquivo_entrada>"
 	        exit(0)
 	except:
 	    print "O padrao a ser seguido deve ser:\n"
-	    print "python linksGrafo.py -c <nome_arquivo_entrada>"
+	    print "python main.py -c <nome_arquivo_entrada>"
 	    exit(0)
 	
 	conteudo = arquivo.readlines()		# conteudo armazena os itens de cada linha
@@ -63,7 +64,7 @@ def leArquivo():
 			texto = []
 			string = ""
 
-	return comentarios
+	return comentarios, argv[2], oraculo
 	
 #-----------------------------------------------------------------------------#
 # 							 												  #

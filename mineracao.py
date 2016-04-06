@@ -151,7 +151,7 @@ def normalizaTFXIDF (matriztfxidf):
 			#maiorIndice = i
 	
 	maiorDimensao = maiorDimensao
-	print "MAIOR DIMENSAO: ", maiorDimensao
+	#print "MAIOR DIMENSAO: ", maiorDimensao
 	
 	# Percorre a matriz toda e depois cada linha, concatenando ate atingir a maior dimensao
 	for i in range(len(matriztfxidf)):
@@ -297,14 +297,14 @@ def nmf (matriztfxidf):
 	
 	normalizaTFXIDF (matriztfxidf)
 	
-	print "Numero linhas normal: ", len(matriztfxidf)
-	print "Numero colunas normal: ", len(np.transpose(matriztfxidf))
+	#print "Numero linhas normal: ", len(matriztfxidf)
+	#print "Numero colunas normal: ", len(np.transpose(matriztfxidf))
 	
 	#num_nmf_components = 1
 	#while (num_nmf_components <= len(np.transpose(matriztfxidf))):
 	
 		#nmf = NMF(n_components = num_nmf_components, init='random', random_state=0)
-	nmf = NMF(n_components = 34, init='random', random_state=0)
+	nmf = NMF(n_components = 14, init='random', random_state=0)
 	#nmf = NMF(n_components = 13, init='nndsvd')
 	matrizReduzida = nmf.fit_transform(matriztfxidf)
 	
@@ -322,9 +322,9 @@ def nmf (matriztfxidf):
 	
 	#	num_nmf_components = num_nmf_components + 1
 	
-	print "numero linhas reduzida: ", len(matrizReduzida)
-	print "numero colunas reduzida: ", len(np.transpose(matrizReduzida))
-	print "erro: ", nmf.reconstruction_err_
+	#print "numero linhas reduzida: ", len(matrizReduzida)
+	#print "numero colunas reduzida: ", len(np.transpose(matrizReduzida))
+	#print "erro: ", nmf.reconstruction_err_
 	return matrizReduzida
 	
 #-----------------------------------------------------------------------------#
@@ -384,3 +384,28 @@ def kmeans (matriz):
 
 	return kmeans.cluster_centers_
 	#return kmeans.labels_
+	
+#-----------------------------------------------------------------------------#
+# 	    					 												  #
+#-----------------------------------------------------------------------------#
+def calculaPrecision (acertos, tamanhoSumario):
+	
+	return (float(acertos)/float(tamanhoSumario))
+	
+#-----------------------------------------------------------------------------#
+# 	    					 												  #
+#-----------------------------------------------------------------------------#
+def calculaRecall (acertos, tamanhoOraculo):
+	
+	return (float(acertos)/float(tamanhoOraculo))
+	
+#-----------------------------------------------------------------------------#
+# 	    					 												  #
+#-----------------------------------------------------------------------------#
+def calculaFscore (precision, recall):
+	
+	if ((precision==0) and (recall==0)): 
+		return 0
+	else:
+		return (2*((float(precision)*float(recall))/(float(precision)+float(recall))))
+	
