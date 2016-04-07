@@ -11,7 +11,6 @@ echo "Angular_583.txt"
 python main.py -c entradas/angular_583.txt 0,1,2,8,10,11,13,18
 echo "Angular_5160.txt"
 python main.py -c entradas/angular_5160.txt 0,1,5,6
-#python main.py -c entradas/angular_5160.txt 0,1,5,6,2,3,7,9,14,15
 echo "Fim teste angularjs"
 echo
 echo

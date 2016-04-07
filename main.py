@@ -118,9 +118,7 @@ def main():
 	
 	#PCA
 	numeroComponentesIdeal = pca(matriztfxidf)
-	
-	#print "Numero de componentes ideal PCA: ", numeroComponentesIdeal
-		
+			
 	# Inicializa matrizes de Similaridade para NMF
 	matrizSimilaridadeCossenoNMF = [[0 for x in range(len(comentariosPreProcessado))] for x in range(len(comentariosPreProcessado))]
 	matrizDistanciaEuclidianaNMF = [[0 for x in range(len(comentariosPreProcessado))] for x in range(len(comentariosPreProcessado))]
@@ -160,24 +158,34 @@ def main():
 	rede = inicializaGrafo ("grafo.txt")
 	redeNMF = inicializaGrafo ("grafoNMF.txt")
 	
+	# Pagerank
 	resultadoPageRank = pageRank(rede)
 	resultadoPageRankNMF = pageRank(redeNMF)
 	
+	# Acho os clusters na rede
 	resultLouvain = louvain(rede)
 	resultLouvainNMF = louvain(redeNMF)
 	
+	# Verifico qual cluster possui a descrição
 	clusterPossuiDescricao = verificaClusterPossuiDescricao(resultLouvain)
 	clusterPossuiDescricaoNMF = verificaClusterPossuiDescricao(resultLouvainNMF)
-
-	ordenacaoPageRank = pageRankIntraCluster (resultLouvain, rede)
-	ordenacaoPageRankNMF = pageRankIntraCluster (resultLouvainNMF, redeNMF)
 	
+	# Calculo o pagerank dentro do cluster que possui descricao
+	ordenacaoPageRank = pageRankIntraCluster (clusterPossuiDescricao, resultLouvain, rede)
+	ordenacaoPageRankNMF = pageRankIntraCluster (clusterPossuiDescricaoNMF, resultLouvainNMF, redeNMF)
+	
+	#print "Ordenacao page rank ", ordenacaoPageRank
+	#print "Ordenacao page rankNMF ", ordenacaoPageRankNMF
+	
+	# Calculo a centralidade por autovetor da rede
 	centrality_eigenvector = centralidade_autovetor (rede)
 	centrality_eigenvectorNMF = centralidade_autovetor (redeNMF)
 	
+	# Calculo a centralidade por autovetor dentro de cada comunidade
 	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
 	rankingComunidadeNMF = rankingIntraComunidade (centrality_eigenvectorNMF, resultLouvainNMF)
 	
+	# Cluster importante 
 	rankingClusters = clusterImportante (mediaSimilaridadeCossenoDescricaoTitulo, resultLouvain)
 	rankingClustersNMF = clusterImportante (mediaSimilaridadeCossenoDescricaoTituloNMF, resultLouvainNMF)
 	
@@ -187,7 +195,14 @@ def main():
 	kmeansResultSimilaridadeCosseno = kmeans (matrizSimilaridadeCosseno)
 	kmeansResultNMF = kmeans (matrizSimilaridadeCossenoNMF)
 	
-	resultados(oraculo, nomeArquivo, len(comentariosPreProcessado), rankingSimilaridadeCossenoMediaTituloDescricao, rankingSimilaridadeCossenoMediaTituloDescricaoNMF, rankingMediaDistanciaEuclidianaTituloDescricao, rankingMediaDistanciaEuclidianaTituloDescricaoNMF, resultadoPageRank, resultadoPageRankNMF, resultadoColley, resultadoColleyNMF, resultadoMassey, resultadoMasseyNMF, ordenacaoPageRank, ordenacaoPageRankNMF, rankingComunidade, rankingComunidadeNMF)
+	# "\n######################################### RESULTADO ################################################\n"
+	
+	resultadosPrecisionRecallFscore(oraculo, nomeArquivo, len(comentariosPreProcessado), rankingSimilaridadeCossenoMediaTituloDescricao, rankingSimilaridadeCossenoMediaTituloDescricaoNMF, rankingMediaDistanciaEuclidianaTituloDescricao, rankingMediaDistanciaEuclidianaTituloDescricaoNMF, resultadoPageRank, resultadoPageRankNMF, resultadoColley, resultadoColleyNMF, resultadoMassey, resultadoMasseyNMF, ordenacaoPageRank, ordenacaoPageRankNMF, rankingComunidade, rankingComunidadeNMF)
+	
+	resultadosMAPIndividual(oraculo, nomeArquivo, len(comentariosPreProcessado), rankingSimilaridadeCossenoMediaTituloDescricao, rankingSimilaridadeCossenoMediaTituloDescricaoNMF, rankingMediaDistanciaEuclidianaTituloDescricao, rankingMediaDistanciaEuclidianaTituloDescricaoNMF, resultadoPageRank, resultadoPageRankNMF, resultadoColley, resultadoColleyNMF, resultadoMassey, resultadoMasseyNMF, ordenacaoPageRank, ordenacaoPageRankNMF, rankingComunidade, rankingComunidadeNMF)
+	
+	# Comentar os dois resultados acima e executar experimentosMAP.sh
+	#resultadosMAPGeral ()
 	
 	return 0
 

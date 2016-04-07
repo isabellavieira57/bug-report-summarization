@@ -391,7 +391,15 @@ def kmeans (matriz):
 def calculaPrecision (acertos, tamanhoSumario):
 	
 	return (float(acertos)/float(tamanhoSumario))
+
+#-----------------------------------------------------------------------------#
+# 	    					 												  #
+#-----------------------------------------------------------------------------#
+def calculaAveragePrecision (acertos, tamanhoSumario, numeroComentarios):
 	
+	return (calculaPrecision(acertos,tamanhoSumario) / numeroComentarios)
+	
+		
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
 #-----------------------------------------------------------------------------#
@@ -409,3 +417,12 @@ def calculaFscore (precision, recall):
 	else:
 		return (2*((float(precision)*float(recall))/(float(precision)+float(recall))))
 	
+
+#-----------------------------------------------------------------------------#
+# Calcula Mean Average Precision (MAP)										  #
+#-----------------------------------------------------------------------------#
+def calculaMAP (acertos, tamanhoSumario, numeroComentarios, totalRelatoriosBugProjeto):
+
+	averagePrecision = calculaAveragePrecision (acertos, tamanhoSumario, numeroComentarios)
+	
+	return (averagePrecision/totalRelatoriosBugProjeto)
