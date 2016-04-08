@@ -202,7 +202,7 @@ def main():
 	resultadosMAPIndividual(oraculo, nomeArquivo, len(comentariosPreProcessado), rankingSimilaridadeCossenoMediaTituloDescricao, rankingSimilaridadeCossenoMediaTituloDescricaoNMF, rankingMediaDistanciaEuclidianaTituloDescricao, rankingMediaDistanciaEuclidianaTituloDescricaoNMF, resultadoPageRank, resultadoPageRankNMF, resultadoColley, resultadoColleyNMF, resultadoMassey, resultadoMasseyNMF, ordenacaoPageRank, ordenacaoPageRankNMF, rankingComunidade, rankingComunidadeNMF)
 	
 	# Comentar os dois resultados acima e executar experimentosMAP.sh
-	resultadosMAPGeral ()
+	#resultadosMAPGeral ()
 	
 	return 0
 
