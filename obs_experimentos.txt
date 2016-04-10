@@ -1,1 +1,0 @@
-Resultados kendall e spearman podem estar ruins pois quando tem a mesma importancia, o id esta em ordem ascendente... isso influenciara na correlacao
