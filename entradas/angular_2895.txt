@@ -160,4 +160,7 @@ This http://stackoverflow.com/a/23999356 doesn't work and this http://stackoverf
 @caitp would love to understand what you think is the 'angular' way for my use case. Dynamic templateUrl just seems like a no brainer to me.
 
 JoomSavvy commented
-+1 for this feature. Using ng-include inside a template to pass scope is an obvious cludge, and extra boilerplate is...what it is.
++1
+
+JoomSavvy commented
++1

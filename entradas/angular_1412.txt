@@ -156,3 +156,6 @@ kalyan542 commented
 georgebatalinski commented
 Thank you guys for the contributions and looking at this, there is some awesome answers here - I posted a small post - to explain my approach
 https://medium.com/@gbatalinski/save-3-days-of-your-dev-life-date-picker-multi-field-validation-angular-js-validators-f5712a5add4f
+
+georgebatalinski commented
++1

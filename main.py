@@ -57,8 +57,10 @@ def main():
 
 	nomeArquivo = retorno[1]
 	nomeArquivo = nomeArquivo.split("/")
-	nomeArquivo = nomeArquivo[1]
-	
+	nomeArquivo = nomeArquivo[1].split(".")
+	nomeArquivo = nomeArquivo[0].split("_")
+	nomeArquivo = nomeArquivo[0]+nomeArquivo[1]
+		
 	oraculoParametro = retorno[2]
 	oraculoParametro = oraculoParametro.split(',')
 	oraculo = []
@@ -106,10 +108,14 @@ def main():
 	# Ordena a média da similaridade do comentário com o título e a descrição
 	rankingSimilaridadeCossenoMediaTituloDescricao = ordenaRanking (mediaSimilaridadeCossenoDescricaoTitulo)
 	
+	salvaDadosArquivoTXT (rankingSimilaridadeCossenoMediaTituloDescricao, "rankingSimCosseno_original", nomeArquivo)
+	
 	# Tenho a distancia euclidiana média de cada comentário com o título e a descrição do bug
 	mediaDistanciaEuclidianaTituloDescricao = calculaMediaSimilaridadeComentarioTituloDescricao (matrizDistanciaEuclidiana)
 	# Ordena a média da distancia euclidiana do comentário com o título e a descrição
 	rankingMediaDistanciaEuclidianaTituloDescricao = ordenaRanking (mediaDistanciaEuclidianaTituloDescricao)
+	
+	salvaDadosArquivoTXT (rankingMediaDistanciaEuclidianaTituloDescricao, "rankingEuclidiana_original", nomeArquivo)
 	
 	# "\n#################################### MATRIZ TRANSFORMADA ###########################################\n"
 	
@@ -134,10 +140,15 @@ def main():
 	# Ordena a média da similaridade do comentário com o título e a descrição
 	rankingSimilaridadeCossenoMediaTituloDescricaoNMF = ordenaRanking (mediaSimilaridadeCossenoDescricaoTituloNMF)
 	
+	salvaDadosArquivoTXT (rankingSimilaridadeCossenoMediaTituloDescricaoNMF, "rankingSimCosseno_transformada", nomeArquivo)
+
 	# Tenho a distancia euclidiana média de cada comentário com o título e a descrição do bug
 	mediaDistanciaEuclidianaTituloDescricaoNMF = calculaMediaSimilaridadeComentarioTituloDescricao (matrizDistanciaEuclidianaNMF)
 	# Ordena a média da distancia euclidiana do comentário com o título e a descrição
 	rankingMediaDistanciaEuclidianaTituloDescricaoNMF = ordenaRanking (mediaDistanciaEuclidianaTituloDescricaoNMF)
+	
+	salvaDadosArquivoTXT (rankingMediaDistanciaEuclidianaTituloDescricaoNMF, "rankingEuclidiana_transformada", nomeArquivo)
+	
 			
 	# "\n######################################### GRAFO ################################################\n"
 			
@@ -145,9 +156,15 @@ def main():
 	resultadoMassey = massey(len(comentarios), matrizSimilaridadeCosseno)
 	resultadoMasseyNMF = massey(len(matrizReduzidaNMF), matrizSimilaridadeCossenoNMF)
 	
+	salvaDadosArquivoTXT (resultadoMassey, "rankingMassey_original", nomeArquivo)
+	salvaDadosArquivoTXT (resultadoMassey, "rankingMassey_transformada", nomeArquivo)
+	
 	# Fazer colley antes de fazer esparcidade da matriz de similaridade de cosseno
 	resultadoColley = colley(len(comentarios), matrizSimilaridadeCosseno)
 	resultadoColleyNMF = colley(len(matrizReduzidaNMF), matrizSimilaridadeCossenoNMF)
+	
+	salvaDadosArquivoTXT (resultadoColley, "rankingColley_original", nomeArquivo)
+	salvaDadosArquivoTXT (resultadoColleyNMF, "rankingColley_transformada", nomeArquivo)
 			
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno)
 	aumentaEsparcidadeMatriz (matrizSimilaridadeCossenoNMF)
@@ -158,15 +175,21 @@ def main():
 	rede = inicializaGrafo ("grafo.txt")
 	redeNMF = inicializaGrafo ("grafoNMF.txt")
 	
+	os.remove("grafo.txt")
+	os.remove("grafoNMF.txt")
+	
 	# Pagerank
 	resultadoPageRank = pageRank(rede)
 	resultadoPageRankNMF = pageRank(redeNMF)
+	
+	salvaDadosArquivoTXT (resultadoPageRank, "rankingPageRank_original", nomeArquivo)
+	salvaDadosArquivoTXT (resultadoPageRankNMF, "rankingPageRank_transformada", nomeArquivo)
 	
 	# Acho os clusters na rede
 	resultLouvain = louvain(rede)
 	resultLouvainNMF = louvain(redeNMF)
 	
-	# Verifico qual cluster possui a descrição
+	# Verifico qual cluster possui a descrição (id=1)
 	clusterPossuiDescricao = verificaClusterPossuiDescricao(resultLouvain)
 	clusterPossuiDescricaoNMF = verificaClusterPossuiDescricao(resultLouvainNMF)
 	
@@ -174,25 +197,37 @@ def main():
 	ordenacaoPageRank = pageRankIntraCluster (clusterPossuiDescricao, resultLouvain, rede)
 	ordenacaoPageRankNMF = pageRankIntraCluster (clusterPossuiDescricaoNMF, resultLouvainNMF, redeNMF)
 	
-	#print "Ordenacao page rank ", ordenacaoPageRank
-	#print "Ordenacao page rankNMF ", ordenacaoPageRankNMF
+	salvaDadosArquivoTXT (ordenacaoPageRank, "rankingLouvain+PageRank_original", nomeArquivo)
+	salvaDadosArquivoTXT (ordenacaoPageRank, "rankingLouvain+PageRank_transformada", nomeArquivo)
 	
 	# Calculo a centralidade por autovetor da rede
 	centrality_eigenvector = centralidade_autovetor (rede)
 	centrality_eigenvectorNMF = centralidade_autovetor (redeNMF)
 	
-	# Calculo a centralidade por autovetor dentro de cada comunidade
-	rankingComunidade = rankingIntraComunidade (centrality_eigenvector, resultLouvain)
-	rankingComunidadeNMF = rankingIntraComunidade (centrality_eigenvectorNMF, resultLouvainNMF)
+	#print 'Centralidade autovetor: ', centrality_eigenvector, "\n"
+	#print 'Centralidade autovetor NMF: ', centrality_eigenvectorNMF, "\n"
+	
+	# Pego a centralidade por autovetor dentro do cluster que possui a descricao e ordeno
+	rankingComunidade = rankingIntraComunidade (clusterPossuiDescricao, centrality_eigenvector, resultLouvain)
+	rankingComunidadeNMF = rankingIntraComunidade (clusterPossuiDescricaoNMF, centrality_eigenvectorNMF, resultLouvainNMF)
+	
+	salvaDadosArquivoTXT (rankingComunidade, "rankingLouvain+Centralidade_original", nomeArquivo)
+	salvaDadosArquivoTXT (rankingComunidadeNMF, "rankingLouvain+Centralidade_transformada", nomeArquivo)
+	
+	#print "ranking: ", rankingComunidade
+	#print "ranking NMF: ", rankingComunidadeNMF
 	
 	# Cluster importante 
-	rankingClusters = clusterImportante (mediaSimilaridadeCossenoDescricaoTitulo, resultLouvain)
-	rankingClustersNMF = clusterImportante (mediaSimilaridadeCossenoDescricaoTituloNMF, resultLouvainNMF)
+	#rankingClusters = clusterImportante (mediaSimilaridadeCossenoDescricaoTitulo, resultLouvain)
+	#rankingClustersNMF = clusterImportante (mediaSimilaridadeCossenoDescricaoTituloNMF, resultLouvainNMF)
 	
 	# "\n######################################### K-MEANS ################################################\n"
 	
 	#Kmeans
 	kmeansResultSimilaridadeCosseno = kmeans (matrizSimilaridadeCosseno)
+	
+	#print "Kmeans: ", kmeansResultSimilaridadeCosseno
+	#print "len ", len(comentariosPreProcessado)
 	kmeansResultNMF = kmeans (matrizSimilaridadeCossenoNMF)
 	
 	# "\n######################################### RESULTADO ################################################\n"
@@ -201,7 +236,7 @@ def main():
 	
 	resultadosMAPIndividual(oraculo, nomeArquivo, len(comentariosPreProcessado), rankingSimilaridadeCossenoMediaTituloDescricao, rankingSimilaridadeCossenoMediaTituloDescricaoNMF, rankingMediaDistanciaEuclidianaTituloDescricao, rankingMediaDistanciaEuclidianaTituloDescricaoNMF, resultadoPageRank, resultadoPageRankNMF, resultadoColley, resultadoColleyNMF, resultadoMassey, resultadoMasseyNMF, ordenacaoPageRank, ordenacaoPageRankNMF, rankingComunidade, rankingComunidadeNMF)
 	
-	# Comentar os dois resultados acima e executar experimentosMAP.sh
+	# Comentar os dois resultados acima e executar experimentosMAP.sh, pois e necessario que tenha feito todos os testes para executar o MAP geral
 	#resultadosMAPGeral ()
 	
 	return 0

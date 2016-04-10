@@ -125,3 +125,6 @@ You can detect submit event, right? Isn't it possible for jQuery to store a vari
 If you're looking for a simple workaround,
 No, I wasn't. I was hoping for a better jQuery where one wouldn't need any workaround at all in order to have a form guaranteed to be serialized always exactly the same way as it would be if sent by the browser.
 But I do understand that the lack of that is mostly JavaScript's fault itself, which apparently doesn't provide you a method to obtain that, obliging you (i.e. jQuery) to write from scratch the code that does the serialization, having to mimic what the browser itself would do.
+
+dmethvin commented
++1

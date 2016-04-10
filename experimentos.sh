@@ -45,3 +45,6 @@ echo "Fim teste"
 echo
 echo
 
+Rscript spearman_kendall_angular.R
+Rscript spearman_kendall_jquery.R
+Rscript spearman_kendall_bootstrap.R

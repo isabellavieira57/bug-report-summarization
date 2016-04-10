@@ -164,3 +164,6 @@ How often do you simultaneously set the offset of more than one element?
 Im not aware of any case in either library where this is done ( i can only think of one case where i did this ever ) it was just the first thing i thought of looking at the code because the offset documentation says "Set the current coordinates of every element in the set of matched elements, relative to the document." specifically mentioning collections being supported.
 the behavior would actually be more in line with native gBCR
 This seems like a valid point to me.
+
+arschmitz commented
++1

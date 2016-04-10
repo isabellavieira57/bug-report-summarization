@@ -397,7 +397,8 @@ def calculaPrecision (acertos, tamanhoSumario):
 #-----------------------------------------------------------------------------#
 def calculaAveragePrecision (acertos, tamanhoSumario, numeroComentarios):
 	
-	return (calculaPrecision(acertos,tamanhoSumario) / numeroComentarios)
+	#return (calculaPrecision(acertos,tamanhoSumario) / numeroComentarios)
+	return (calculaPrecision(acertos,tamanhoSumario))
 	
 		
 #-----------------------------------------------------------------------------#
@@ -426,3 +427,38 @@ def calculaMAP (acertos, tamanhoSumario, numeroComentarios, totalRelatoriosBugPr
 	averagePrecision = calculaAveragePrecision (acertos, tamanhoSumario, numeroComentarios)
 	
 	return (averagePrecision/totalRelatoriosBugProjeto)
+	
+	
+#-----------------------------------------------------------------------------#
+# 																			  #
+#-----------------------------------------------------------------------------#	
+def leArquivoMAPIndividual (arquivo):
+	
+	linha = arquivo.readlines()	# possui todas as linhas do arquivo em um vetor
+	
+	MAP = []
+	
+	for conteudo in linha:
+		tokens = conteudo.split("		")
+		MAP.append(float(tokens[1]))
+			
+	somatorioMAPAngular = 0
+	i=0
+	while (i<5):
+		somatorioMAPAngular = somatorioMAPAngular + MAP[i]
+		i = i + 1
+	
+	somatorioMAPJquery = 0
+	i = 5
+	while (i<10):
+		somatorioMAPJquery = somatorioMAPJquery + MAP[i]
+		i = i + 1
+	
+	somatorioMAPBootstrap = 0
+	i = 10
+	while (i<15):
+		somatorioMAPBootstrap = somatorioMAPBootstrap + MAP[i]
+		i = i + 1
+
+	return somatorioMAPAngular, somatorioMAPJquery, somatorioMAPBootstrap
+	

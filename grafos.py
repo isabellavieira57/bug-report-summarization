@@ -112,20 +112,27 @@ def centralidade_autovetor (rede):
 #-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
-def rankingIntraComunidade (centrality_eigenvector, resultLouvain):
+def rankingIntraComunidade (clusterPossuiDescricao, centrality_eigenvector, resultLouvain):
 
-	ranking = []
 	vetorIntermerdiario = []
 	vetor = []
 
-	for i in range(len(resultLouvain)):			# percorre cada comunidade
-		for j in range(len(resultLouvain[i])):	# percorre cada elemento da comunidade
-			vetor.append(resultLouvain[i][j])	# id do comentario
-			vetor.append(centrality_eigenvector[resultLouvain[i][j]])	# autovetor de centralidade
-			vetorIntermerdiario.append(vetor)
-			vetor = []
- 		ranking.append(sorted(vetorIntermerdiario, key=operator.itemgetter(1), reverse=True))# ordena pelo autovetor em ordem descrescente
- 		vetorIntermerdiario = []
+	#print "result louvain: ", resultLouvain
+	#print "GRUPO POSSUI DESCRICAO: ", resultLouvain[clusterPossuiDescricao]
+	
+	for i in range(len(resultLouvain[clusterPossuiDescricao])):
+		#for j in range(len(resultLouvain[i])):	# percorre cada elemento da comunidade
+		vetor.append(resultLouvain[clusterPossuiDescricao][i])	# id do comentario
+		vetor.append(centrality_eigenvector[resultLouvain[clusterPossuiDescricao][i]])	# autovetor de centralidade
+		vetorIntermerdiario.append(vetor)
+		vetor = []
+	
+	#print "Centralidade autovetor: ", vetorIntermerdiario
+		
+	ranking = sorted(vetorIntermerdiario, key=operator.itemgetter(1), reverse=True)# ordena pelo autovetor em ordem descrescente
+	
+	#print "ordenado: ", ranking
+
 
  	return ranking
  	

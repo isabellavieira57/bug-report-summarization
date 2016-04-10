@@ -168,3 +168,9 @@ trisweb commented
 
 blowsie commented
 tr:hover is extremely slow in ie8 and below, with this in mind does anyone think there should be a mention on the documentation or a workaround?
+
+wsanter commented
++1
+
+trisweb commented
++1 @nragaz

@@ -197,3 +197,9 @@ bitboxx commented
 Ignore my previous comment. After further investigation of the problem I found the cause of the problem. It was caused by improper public API use. In previous jQuery versions...
 $.each('', function () {});
 will fail silently. jQuery 2.1.4 will show that error.
+
+dmethvin commented
++1
+
+dmethvin commented
++1
