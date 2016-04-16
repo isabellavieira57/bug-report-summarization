@@ -26,11 +26,11 @@ def leArquivo():
 	        oraculo = argv[3]
 	    else:
 	        print "O padrao a ser seguido deve ser:\n"
-	        print "python main.py -c <nome_arquivo_entrada>"
+	        print "python main.py -c <nome_arquivo_entrada> <oraculo>"
 	        exit(0)
 	except:
 	    print "O padrao a ser seguido deve ser:\n"
-	    print "python main.py -c <nome_arquivo_entrada>"
+	    print "python main.py -c <nome_arquivo_entrada> <oraculo>"
 	    exit(0)
 	
 	conteudo = arquivo.readlines()		# conteudo armazena os itens de cada linha
@@ -140,13 +140,11 @@ def stemming (comentarios):
 	for i in range(len(comentarios)):
 		j = 1
 		listaIntermediaria.append(comentarios[i][0])		#nao remove numeros do nome do usuario
-		while (j < (len(comentarios[i])-2)):				#nao remove referencia explicita e like
+		while (j < (len(comentarios[i]))):				#nao remove referencia explicita e like
 			#comentarioStemmer = stemmer.stem(comentarios[i][j])
 			comentarioStemmer = SnowballStemmer("english").stem(comentarios[i][j])
 			listaIntermediaria.append(str(comentarioStemmer))
 			j = j + 1
-		listaIntermediaria.append(comentarios[i][len(comentarios[i])-2])	# adiciona na lista referencia explicita
-		listaIntermediaria.append(comentarios[i][len(comentarios[i])-1])	# adiciona na lista like	
 		comentariosPreProcessado.append(listaIntermediaria)
 		listaIntermediaria = []
 
