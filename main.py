@@ -98,10 +98,6 @@ def main():
 	# tenho uma lista com todos os tokens distintos desse relatorio
 	listaTokensDistintos = getTokensDistintos(comentariosPreProcessado)
 
-	#print "Lista tokens distintos: ", listaTokensDistintos, "\n\n"
-	
-	#print "Lista tokens distintos do documento: ", listaTokensDistintos
-
 	# Matriz tfxidf -> linhas = numero comentarios, colunas = numero tokens distintos
 	matriztfxidf = [[0.0 for x in range(len(listaTokensDistintos))] for x in range(len(comentariosPreProcessado))]
 
