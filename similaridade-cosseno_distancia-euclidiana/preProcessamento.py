@@ -112,15 +112,12 @@ def removeNumeros (comentarios):
 	for i in range(len(comentarios)):		
 		j = 1
 		listaIntermediaria.append(comentarios[i][0])		#nao remove numeros do nome do usuario
-	
-		while (j < (len(comentarios[i])-2)):				#nao remove referencia explicita e like
+		while (j < (len(comentarios[i]))):		
 			lista = str(comentarios[i][j])
 			x = filter(lambda y: not str.isdigit(y), lista)	# x recebe true ou false se for digito ou nao
 			if x != '':										# se x for digito, sera removido e sera uma string vazia
 				listaIntermediaria.append(x)				# adiciona na lista se nao for digito
 			j = j + 1
-		listaIntermediaria.append(comentarios[i][len(comentarios[i])-2])	# adiciona na lista referencia explicita
-		listaIntermediaria.append(comentarios[i][len(comentarios[i])-1])	# adiciona na lista like
 		comentariosPreProcessado.append(listaIntermediaria)
 		listaIntermediaria = []
 
@@ -139,8 +136,8 @@ def stemming (comentarios):
 
 	for i in range(len(comentarios)):
 		j = 1
-		listaIntermediaria.append(comentarios[i][0])		#nao remove numeros do nome do usuario
-		while (j < (len(comentarios[i]))):				#nao remove referencia explicita e like
+		listaIntermediaria.append(comentarios[i][0])
+		while (j < (len(comentarios[i]))):
 			#comentarioStemmer = stemmer.stem(comentarios[i][j])
 			comentarioStemmer = SnowballStemmer("english").stem(comentarios[i][j])
 			listaIntermediaria.append(str(comentarioStemmer))
