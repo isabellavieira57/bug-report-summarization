@@ -118,6 +118,9 @@ def main():
 	aumentaEsparcidadeMatriz (matrizPageRank)
 	aumentaEsparcidadeMatriz (matrizPageRankNMF)
 	
+	matrizEstocasticaPageRank(matrizPageRank)
+	matrizEstocasticaPageRank(matrizPageRankNMF)
+	
 	salvaMatrizSimilaridadeCossenoEsparsa (matrizPageRank, "grafo.txt")
 	salvaMatrizSimilaridadeCossenoEsparsa (matrizPageRankNMF, "grafoNMF.txt")
 
