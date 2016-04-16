@@ -296,3 +296,17 @@ def calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno):
 				matrizPageRank[i][j] = 1
 			else: 
 				matrizPageRank[i][j] = ((matrizSimilaridadeCosseno[i][0] + matrizSimilaridadeCosseno[0][j])/2 + (matrizSimilaridadeCosseno[i][j]))/2
+				
+				
+#-----------------------------------------------------------------------------#
+# 												 							  #
+#-----------------------------------------------------------------------------#				
+def matrizEstocasticaPageRank(matrizPageRank):
+
+	for i in range(len(matrizPageRank)):							# percorro as linhas da matrizPageRank
+		quantidade1s = float(matrizPageRank[i].count(1))			# conta o numero de 1s na linha
+		for j in range(len(matrizPageRank)):						# percorro as colunas da matrizPageRank
+			if (quantidade1s == 0.0):									# se nao tem nenhum 1 na linha:
+				matrizPageRank[i][j] = float(1/len(matrizPageRank[0]))		#faço 1/numeroColunas	
+			else:
+				matrizPageRank[i][j] = float(matrizPageRank[i][j]/quantidade1s) 
