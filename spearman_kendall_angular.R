@@ -11,7 +11,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingSimCosseno_original_a
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 0:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(1) SIM COSSENO: ORIGINAL"))
@@ -22,7 +22,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingSimCosseno_transforma
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(1) SIM COSSENO: TRANSFORMADA"))
@@ -33,7 +33,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingEuclidiana_original_a
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(1) EUCLIDIANA: ORIGINAL"))
@@ -44,7 +44,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingEuclidiana_transforma
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(1) EUCLIDIANA: TRANSFORMADA"))
@@ -55,7 +55,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingPageRank_original_ang
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(2) PAGERANK: ORIGINAL"))
@@ -66,7 +66,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingPageRank_transformada
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(2) PAGERANK: TRANSFORMADA"))
@@ -77,7 +77,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingMassey_original_angul
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(2) MASSEY: ORIGINAL"))
@@ -88,7 +88,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingMassey_transformada_a
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(2) MASSEY: TRANSFORMADA"))
@@ -99,7 +99,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingColley_original_angul
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(2) COLLEY: ORIGINAL"))
@@ -110,7 +110,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingColley_transformada_a
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 2895		", kendall,"		", spearman, "				(2) COLLEY: TRANSFORMADA"))
@@ -121,7 +121,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingLouvain+PageRank_orig
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 oraculo <- head(oraculo, numLinhas)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
@@ -133,7 +133,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingLouvain+PageRank_tran
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 oraculo <- head(oraculo, numLinhas)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
@@ -145,7 +145,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingLouvain+Centralidade_
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 oraculo <- head(oraculo, numLinhas)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
@@ -157,7 +157,7 @@ arquivo <- read.table("resultados/resultadosRanking/rankingLouvain+Centralidade_
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 1:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 28, 1, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
+oraculo <- c (28, 17, 18, 20, 23, 27, 33, 2 , 3, 4, 6, 7, 8, 10, 11, 13, 14, 21, 22, 24, 25, 26, 29, 30, 32, 34, 9, 12, 15, 16, 19, 31, 35, 5)
 oraculo <- head(oraculo, numLinhas)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
@@ -176,7 +176,9 @@ arquivo <- read.table("resultados/resultadosRanking/rankingSimCosseno_original_a
 numLinhas <- nrow(arquivo)
 rankingAlgoritmo <- integer()
 for (i in 0:numLinhas)	rankingAlgoritmo[i] <- arquivo[i,]
-oraculo <- c (0, 1, 4, 5, 36, 2, 12, 22, 25, 26, 39, 8, 10, 34, 6, 19, 28, 32, 35, 38, 3, 7, 9, 11, 13, 14, 15, 17, 18, 21, 23, 24, 29, 30, 33, 20, 27, 31, 16, 37)
+oraculo <- c(0, 1, 4, 5, 36, 2, 12, 22, 25, 26, 39, 8, 10, 34, 6, 19, 28, 32, 35, 38, 3, 7, 9, 11, 13, 14, 15, 17, 18, 21, 23, 24, 29, 30, 33, 20, 27, 31, 16, 37)
+#length(rankingAlgoritmo)
+#length(oraculo)
 kendall <- cor(oraculo, rankingAlgoritmo, method="kendall")
 spearman <- cor(oraculo, rankingAlgoritmo, method="spearman")
 test<-t(rbind("ANGULAR 734		", kendall,"		", spearman, "				(1) SIM COSSENO: ORIGINAL"))

@@ -48,7 +48,6 @@ def leArquivo():
 	texto = []
 	string = ""
 	tokenizer = RegexpTokenizer('\w+|\$[\d\.]+|\S+')		# Expressao regular que quebra a string em substrings
-	flag = 1
 
 	# Verifica se é uma linha vazia
 	# Se não for, contatena toda a string (comentario), coloca tudo em letra maiuscula, separa os tokens e coloca na lista de comentarios
@@ -59,11 +58,11 @@ def leArquivo():
 			string = re.sub(r'[\xe2\x80\x94]'," ", string)	# expressao regular para dash (\xe2\x80\x94 == -)
 		else:
 			stringUpper = string.lower()
-			tokens = tokenizer.tokenize(stringUpper)	
+			tokens = tokenizer.tokenize(stringUpper)
 			comentarios.append(tokens)
 			texto = []
 			string = ""
-
+	
 	return comentarios, argv[2], oraculo
 	
 #-----------------------------------------------------------------------------#
@@ -97,7 +96,7 @@ def removeCaracteresEspeciais (comentarios):
 	comentariosPreProcessado = []
 	listaIntermediaria = []
 
-	caracteresEspeciais = {",",".",";","-","_","?","!",":", "(", ")", "/", "|", "=", "[","]", "'", '"', "$", "#","/", "...", "{", "}", "[];", "();", "()", "'s", "..", "->", " ", "-", "'t", "#", "'ll", "<=.", ">=.", "(),"}
+	caracteresEspeciais = {",",".",";","-","_","?","!",":", "(", ")", "/", "|", "=", "[","]", "'", '"', "$", "#","/", "...", "{", "}", "[];", "();", "()", "'s", "..", "->", " ", "-", "'t", "#", "'ll", "<=.", ">=.", "(),", ").", "(."}
 
 	j = 0
 

@@ -104,6 +104,8 @@ def thresholdModularidade (matrizSimilaridadeCosseno, tamanhoComentarios):
 def centralidade_autovetor (rede):
 
 	centrality_eigenvector = rede.evcent(directed=False, scale=True, weights=rede.es["weight"], return_eigenvalue=False)
+	
+	#print "centralidade ", centrality_eigenvector
 
 	#print "peso", rede.es["weight"]
 	
@@ -142,7 +144,7 @@ def rankingIntraComunidade (clusterPossuiDescricao, centrality_eigenvector, resu
 def verificaClusterPossuiDescricao (resultLouvain):
 	
 	for i in range(len(resultLouvain)):			# percorre cada comunidade
-			if 1 in resultLouvain[i]:
+			if 0 in resultLouvain[i]:
 				return i
 	
 #-----------------------------------------------------------------------------#
@@ -193,8 +195,15 @@ def contaIntervalosSimilaridade (matrizSimilaridadeCosseno):
 # funcao thresholdModularidade												  #
 #-----------------------------------------------------------------------------#
 def aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno):
+	
+	soma = 0
+	for i in range(len(matrizSimilaridadeCosseno)):
+		soma = soma + sum(matrizSimilaridadeCosseno[i])
 
-	threshold = 0.2
+	#threshold = round(soma/(len(matrizSimilaridadeCosseno)*len(matrizSimilaridadeCosseno)), 3)
+	#print "threshold ", threshold
+	
+	threshold = 0.4
 
 	for i in range(len(matrizSimilaridadeCosseno)):
 		for j in range(len(matrizSimilaridadeCosseno)):
@@ -241,9 +250,20 @@ def ordenaRanking (resultadoParaOrdenar):
 
 	# ordena pelas similaridades em ordem descrescente
 	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
+
+	#print "ranking: ", ranking
 	
 	return ranking
-	
+
+#-----------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------#
+def removeTituloDescricaoRanking(ranking):
+
+	for i in range(len(ranking)):
+		if (ranking[i][0] == 0):
+			del (ranking[i])
+			break
+
 #-----------------------------------------------------------------------------#
 # Ordena a similaridade média entre titulo e descricao de todos os comentarios# 
 # para comparar com oráculo													  #
@@ -393,3 +413,26 @@ def spearmanCorrelation (a,b):
 def kendallCorrelation (a,b):
 
 	return scipy.stats.stats.kendalltau(a,b)
+	
+	
+#-----------------------------------------------------------------------------#
+# 												 							  #
+#-----------------------------------------------------------------------------#
+def calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno):
+	
+	for i in range(len(matrizSimilaridadeCosseno[0])):
+		matrizPageRank[0][i] = matrizSimilaridadeCosseno[0][i]
+	
+	for i in range(len(matrizSimilaridadeCosseno[0])):
+		matrizPageRank[i][0] = matrizSimilaridadeCosseno[0][i]
+	
+	matrizPageRank[0][0] = 1
+	
+	for i in range(1, len(matrizSimilaridadeCosseno)):
+		for j in range(1, len(matrizSimilaridadeCosseno)):
+			if (i==j):
+				matrizPageRank[i][j] = 1
+			else: 
+				matrizPageRank[i][j] = ((matrizSimilaridadeCosseno[i][0] + matrizSimilaridadeCosseno[0][j])/2 + (matrizSimilaridadeCosseno[i][j]))/2
+			
+			

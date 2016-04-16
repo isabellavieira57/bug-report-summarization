@@ -29,18 +29,27 @@ from scipy import spatial
 # Coloca os tokens distintos dos dois comentarios a serem analisados em #
 # uma lista						 										#
 #-----------------------------------------------------------------------#
-def getTokensDistintos (comentario1, comentario2):
+def getTokensDistintos (comentarios):
 
 	listaTokensDistintos = []
 
-	# -2 para nao verificar a referencia explicita e o like
-	for i in range(len(comentario1)-2):
-		if comentario1[i] not in listaTokensDistintos:
-			listaTokensDistintos.append(comentario1[i])
+	for i in range(len(comentarios)):
+		for j in range(len(comentarios[i])):
+			if comentarios[i][j] not in listaTokensDistintos:
+				listaTokensDistintos.append(comentarios[i][j])
+
+	#print "Lista tokens distintos dentro: ", len(listaTokensDistintos)
 	
-	for i in range(len(comentario2)-2):
-		if comentario2[i] not in listaTokensDistintos:
-			listaTokensDistintos.append(comentario2[i])
+	# -2 para nao verificar a referencia explicita e o like
+	#for i in range(len(comentario1)-2):
+	#for i in range(len(comentario1)):
+	#	if comentario1[i] not in listaTokensDistintos:
+	#		listaTokensDistintos.append(comentario1[i])
+	
+	#for i in range(len(comentario2)-2):
+	#for i in range(len(comentario2)):
+	#	if comentario2[i] not in listaTokensDistintos:
+	#		listaTokensDistintos.append(comentario2[i])
 
 	return listaTokensDistintos
 
@@ -66,7 +75,7 @@ def getTokensDistintos (comentario1, comentario2):
 #-----------------------------------------------------------------------#
 # Calcula a frequencia de um termo em uma lista de tokens distintos 	#
 #-----------------------------------------------------------------------#
-def calculaFrequenciaSimilaridadeCosseno (comentario, listaTokensDistintos, indexComentario, matriztfxidf):
+"""def calculaFrequenciaSimilaridadeCosseno (comentario, listaTokensDistintos, indexComentario, matriztfxidf):
 
 	frequenciaComentario = []
 
@@ -75,9 +84,9 @@ def calculaFrequenciaSimilaridadeCosseno (comentario, listaTokensDistintos, inde
 			index = comentario.index(listaTokensDistintos[i])
 			frequenciaComentario.append(matriztfxidf[indexComentario][index])
 		else:
-			frequenciaComentario.append(0)
+			frequenciaComentario.append(0.0)
 
-	return frequenciaComentario
+	return frequenciaComentario"""
 
 #-----------------------------------------------------------------------#
 # Calcula a frequencia de um termo em uma lista de tokens distintos 	#
@@ -122,19 +131,20 @@ def contaTokenDocumento (token, comentariosPreProcessado):
 #-----------------------------------------------------------------------#
 # 						 												#
 #-----------------------------------------------------------------------#
-def tfxidf (token, i, j, comentariosPreProcessado, vetorIntermerdiario):
+def tfxidf(comentariosPreProcessado, listaTokensDistintos, matriztfxidf):
 
-	totalComentariosTemToken = contaTokenDocumento(token,comentariosPreProcessado)
-	frequenciaTokenDocumento = frequenciaToken(token,comentariosPreProcessado) 
 	numeroComentarios = len(comentariosPreProcessado)
 
-	if (totalComentariosTemToken != 0):
-		resultadoTFXIDF = (frequenciaTokenDocumento * (np.log(numeroComentarios/totalComentariosTemToken)))
-	else:
-		resultadoTFXIDF = (frequenciaTokenDocumento * (np.log(numeroComentarios)))
-
-	vetorIntermerdiario.append(resultadoTFXIDF)
-	
+	for i in range(len(comentariosPreProcessado)):
+		for j in range(len(listaTokensDistintos)):
+			# numero de comentarios que tem o token
+			totalComentariosTemToken = contaTokenDocumento(listaTokensDistintos[j], comentariosPreProcessado)		
+			# quantas vezes o token aparece no documento
+			frequenciaTokenDocumento = frequenciaToken(listaTokensDistintos[j],comentariosPreProcessado[i]) 		
+			# calculo tfxidf	
+			resultadoTFXIDF = (frequenciaTokenDocumento * (np.log(numeroComentarios/totalComentariosTemToken)))
+			#matriztfxidf[i][j] = { 'token' : listaTokensDistintos[j], 'freq' : resultadoTFXIDF }
+			matriztfxidf[i][j] = resultadoTFXIDF
 	
 #-----------------------------------------------------------------------#
 # Normaliza numero colunas na matriz tfxidf								#
@@ -158,74 +168,37 @@ def normalizaTFXIDF (matriztfxidf):
 		j = len(matriztfxidf[i])
 		quantidadeColunasFaltantes = maiorDimensao - len(matriztfxidf[i])
 		for j in range(quantidadeColunasFaltantes):
-			matriztfxidf[i].append(0)
+			matriztfxidf[i].append(0.0)
 		
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
-def calculaSimilaridadeCosseno (matriz, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
+def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, comentariosPreProcessado, matriztfxidf):
 
-	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
-	
+	for i in range(len(matriztfxidf)):
+		for j in range(len(matriztfxidf)):
+			similaridade = 1 - spatial.distance.cosine(matriztfxidf[i], matriztfxidf[j])
+			matrizSimilaridadeCosseno[i][j] = similaridade
+
 	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
 	#print "similaridade truncada ", similaridadeTruncada
 	#matrizSimilaridadeCosseno[indexComentario1][indexComentario2] = similaridadeTruncada
 	#matrizSimilaridadeCosseno[indexComentario2][indexComentario1] = similaridadeTruncada
 	
-	matriz[indexComentario1][indexComentario2] = similaridade
-	matriz[indexComentario2][indexComentario1] = similaridade
-
-#-----------------------------------------------------------------------#
-# spatial.distance.cosine calcula a distância e não a similaridade.     # 
-# Para avaliar a similaridade, deve-se subtrair 1.                      #
-#-----------------------------------------------------------------------#
-"""def calculaSimilaridadeCossenoTitulo (vetorSimilaridadeCossenoTitulo, indexComentario, frequenciaComentario1, frequenciaComentario2):
-
-	similaridade = 1 - spatial.distance.cosine(frequenciaComentario1, frequenciaComentario2)
-	#similaridadeTruncada = float(format(similaridade, ".1f"))	# 1 casa decimal depois da virgula
-	#vetorSimilaridadeCossenoTitulo[indexComentario] = similaridadeTruncada
-	vetorSimilaridadeCossenoTitulo[indexComentario] = similaridade"""
-
-#-----------------------------------------------------------------------------#
-# average(cosine_similarities)+alpha*standard_deviation(cosine_similarities)  #
-#-----------------------------------------------------------------------------#
-"""def calculaThresholdSimilaridadeCosseno (matrizSimilaridadeCosseno):
-
-	alpha = 0.75
-
-	threshold = np.mean(matrizSimilaridadeCosseno) + alpha * np.std(matrizSimilaridadeCosseno)
-
-	return threshold"""
-	
-#-----------------------------------------------------------------------------#
-# 	    					 												  #
-#-----------------------------------------------------------------------------#
-"""def salvaMatrizSimilaridadeCosseno (matriz, tamanhoMatriz):
-
-	arquivoGrafoPonderado = open("similaridadeCosseno.txt", 'wr+')
-	
-	for i in range(tamanhoMatriz):
-		for j in range(i+1,tamanhoMatriz):
-			arquivoGrafoPonderado.write("%d %d %0.1f\n" % (i,j,matriz[i][j]))
-	
-	for i in range(tamanhoMatriz):
-		for j in range(tamanhoMatriz):
-			arquivoGrafoPonderado.write("%d %d %0.1f\n" % (i,j,matriz[i][j]))
-	
-	
-	arquivoGrafoPonderado.close()"""
+	#matriz[indexComentario1][indexComentario2] = similaridade
+	#matriz[indexComentario2][indexComentario1] = similaridade
 
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
 #-----------------------------------------------------------------------------#
-def salvaMatrizSimilaridadeCossenoEsparsa (matriz, tamanhoMatriz, nomeArquivo):
+def salvaMatrizSimilaridadeCossenoEsparsa (matriz, nomeArquivo):
 
 	arquivoGrafoPonderado = open(nomeArquivo, 'wr+')
 	
-	for i in range(tamanhoMatriz):
-		for j in range(i+1,tamanhoMatriz):
-			arquivoGrafoPonderado.write("%d %d %0.1f\n" % (i,j,matriz[i][j]))
+	for i in range(len(matriz)):
+		for j in range(len(matriz)):
+			arquivoGrafoPonderado.write("%d %d %f\n" % (i,j,matriz[i][j]))
 				
 	arquivoGrafoPonderado.close()
 	
@@ -241,7 +214,7 @@ def fazCopiaMatrizSimilaridadeCosseno (matrizSimilaridadeCosseno, copiaMatrizSim
 #-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
-def calculaMediaSimilaridadeComentarioTituloDescricao (matriz):
+"""def calculaMediaSimilaridadeComentarioTituloDescricao (matriz):
 
 	mediaDescricaoTitulo = []
 	vetorParaMedia = []
@@ -256,16 +229,17 @@ def calculaMediaSimilaridadeComentarioTituloDescricao (matriz):
 	for i in range(len(matriz)):
 		mediaDescricaoTitulo.append(np.mean(vetorParaMedia[i]))		# contem a media da similaridade do titulo e da descricao, o index do vetor mediaDescricaoTitulo é o ID do comentário
 
-	return mediaDescricaoTitulo
+	return mediaDescricaoTitulo"""
 
 #-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
-def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, indexComentario1, indexComentario2, frequenciaComentario1, frequenciaComentario2):
+def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, comentariosPreProcessado, matriztfxidf):
 
-	distanciaEuclidiana = spatial.distance.euclidean(frequenciaComentario1, frequenciaComentario2)
-	matrizDistanciaEuclidiana[indexComentario1][indexComentario2] = distanciaEuclidiana
-	matrizDistanciaEuclidiana[indexComentario2][indexComentario1] = distanciaEuclidiana
+	for i in range(len(comentariosPreProcessado)):
+		for j in range(len(comentariosPreProcessado)):
+			distanciaEuclidiana = spatial.distance.euclidean(matriztfxidf[i], matriztfxidf[j])
+			matrizDistanciaEuclidiana[i][j] = distanciaEuclidiana
 	
 #-----------------------------------------------------------------------#
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
@@ -282,31 +256,22 @@ def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, indexComentario1, ind
 #-----------------------------------------------------------------------------#
 def nmf (matriztfxidf):
 	
-	"""normalizaTFXIDF(matriztfxidf)
-	
-	print "Numero de linhas Matriz TFXIDF: ", len(matriztfxidf)
-	print "Numero de colunas Matriz TFXIDF: ", len(matriztfxidf[0])
-	
-	model = NMF(n_components=2, init='random', random_state=0)
-	matrizReduzida = model.fit_transform(matriztfxidf)
-	
-	print "\n\nCOMPONENTES"
-	print matrizReduzida
-	print "\n\nMODEL RECONSTRUCTION"
-	print model.reconstruction_err_"""
-	
-	normalizaTFXIDF (matriztfxidf)
-	
-	#print "Numero linhas normal: ", len(matriztfxidf)
-	#print "Numero colunas normal: ", len(np.transpose(matriztfxidf))
+	#normalizaTFXIDF (matriztfxidf)
 	
 	#num_nmf_components = 1
 	#while (num_nmf_components <= len(np.transpose(matriztfxidf))):
+
+	#print "Matriz TFXIDF ", matriztfxidf, "\n\n"
 	
 		#nmf = NMF(n_components = num_nmf_components, init='random', random_state=0)
-	nmf = NMF(n_components = 14, init='random', random_state=0)
-	#nmf = NMF(n_components = 13, init='nndsvd')
-	matrizReduzida = nmf.fit_transform(matriztfxidf)
+	nmf = NMF(n_components = 50, init='random', random_state=0)
+	matrizReduzida = nmf.fit_transform(matriztfxidf)			# w
+	#h = nmf.components_										# h
+	#resultado = np.dot(matrizReduzida, h)						# w.h -> volta na matriz original aproximada
+
+	#print "Matriz reduzida: ", matrizReduzida, "\n\n"
+	#print "h: ", h, "\n\n"
+	#print "resultado: ", resultado,  "\n\n"
 	
 	#	if(nmf.reconstruction_err_ < 1.0):
 			#print "Numero de colunas: ", len(np.transpose(matriztfxidf))
@@ -317,14 +282,9 @@ def nmf (matriztfxidf):
 			#print "Numero de linhas matriz reduzida: ", len(matrizReduzida)
 			#print "Numero de colunas matriz reduzida: ", len(np.transpose(matrizReduzida))
 			#print matrizReduzida
-		
-	#		break
+			#break
+		#num_nmf_components = num_nmf_components + 1
 	
-	#	num_nmf_components = num_nmf_components + 1
-	
-	#print "numero linhas reduzida: ", len(matrizReduzida)
-	#print "numero colunas reduzida: ", len(np.transpose(matrizReduzida))
-	#print "erro: ", nmf.reconstruction_err_
 	return matrizReduzida
 	
 #-----------------------------------------------------------------------------#

@@ -1,8 +1,10 @@
+# Oraculo: comentarios com importancia 4 e 5
+
 echo
 echo
 echo "Executando testes AngularJS..."
 echo "Angular_2895.txt"
-python main.py -c entradas/angular_2895.txt 0,28,1,17,18,20,23,27,33
+python main.py -c entradas/angular_2895.txt 28,17,18,20,23,27,33,2,10,13
 echo "Angular_734.txt"
 python main.py -c entradas/angular_734.txt 0,1,4,5,36,2,12,22,25,26,39
 echo "Angular_1412.txt"
