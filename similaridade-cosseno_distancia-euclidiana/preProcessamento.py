@@ -63,7 +63,7 @@ def removeStopWords (comentarios):
 	comentariosPreProcessado = []
 	listaIntermediaria = []
 
-	stopwords = {'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now', 'll', 't'}
+	stopwords = {'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now', 'll', 't', 'http', "hm", "(as"}
 	
 	j = 0
 
@@ -86,7 +86,7 @@ def removeCaracteresEspeciais (comentarios):
 	comentariosPreProcessado = []
 	listaIntermediaria = []
 
-	caracteresEspeciais = {",",".",";","-","_","?","!",":", "(", ")", "/", "|", "=", "[","]", "'", '"', "$", "#","/", "...", "{", "}", "[];", "();", "()", "'s", "..", "->", " ", "-", "'t", "#", "'ll", "<=.", ">=.", "(),", ").", "(."}
+	caracteresEspeciais = {',','.',';','-','_','?','!',':', '(', ')', '/', '|', '=', '[',']', "'", '"', '$', '#','/', '...', '{', '}', "[];", "();", "()", "'s", "..", "->", ' ', '-', "'t", '#', "'ll", "<=.", ">=.", "(),", ").", "(.", "===", "/>", "'=", "<!--", "-->", "||", "&&", "//", "{{}}"}
 
 	j = 0
 
@@ -146,3 +146,24 @@ def stemming (comentarios):
 		listaIntermediaria = []
 
 	return comentariosPreProcessado
+	
+
+#-----------------------------------------------------------------------------#
+#					 		 												  #
+#-----------------------------------------------------------------------------#
+def removeURL(comentarios):	
+
+	listaIntermediaria = []
+	comentariosPreProcessado = []
+	
+	for i in range(len(comentarios)):
+		for j in range(len(comentarios[i])):
+			urls = re.findall('(:((//)|(\\\\))+([\w\d:#@%/;$()~_?\+-=\\\.&](#!)?)*)', comentarios[i][j])
+			if (len(urls) == 0):
+				listaIntermediaria.append(comentarios[i][j])
+		comentariosPreProcessado.append(listaIntermediaria)
+		listaIntermediaria = []
+		
+	return comentariosPreProcessado
+				
+

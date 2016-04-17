@@ -53,12 +53,13 @@ def main():
 	oraculo = []
 	for i in range(len(oraculoParametro)):
 		oraculo.append(int(oraculoParametro[i]))
-	
-	comentariosSemStopWords = removeStopWords(comentarios)
+		
+	comentariosSemURL = removeURL(comentarios)
+	comentariosSemStopWords = removeStopWords(comentariosSemURL)
 	comentariosSemNumeros = removeNumeros(comentariosSemStopWords)
 	comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
 	comentariosPreProcessado = stemming(comentariosSemCaracteresEspeciais)
-
+	
 	# Concateno titulo e descricao para um unico comentario
 	tituloEDescricao = comentariosPreProcessado[0]+comentariosPreProcessado[1]
 	del (comentariosPreProcessado[0])		# remove titulo dos comentarios pre processados
