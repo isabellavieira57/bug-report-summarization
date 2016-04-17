@@ -157,7 +157,7 @@ def ordenaRanking (resultadoParaOrdenar):
 #-----------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------#
 def normalizaRanking(ranking):
-
+	
 	# Remove o titulo+descricao do ranking
 	for i in range(len(ranking)):
 		if (ranking[i][0] == 0):
@@ -166,10 +166,8 @@ def normalizaRanking(ranking):
 	
 	# Normaliza id ranking para bater com oraculo, pois no oraculo titulo=0, descricao=1 e no algoritmo titulo+descricao=0
 	for i in range(len(ranking)):
-			ranking[i][0] = ranking[i][0] - 1 
-		
-
-	
+			ranking[i][0] = ranking[i][0] - 1
+				
 #-----------------------------------------------------------------------------#
 # PageRank: retorna o autovalor de cada comentario 							  #
 #-----------------------------------------------------------------------------#
@@ -310,10 +308,22 @@ def calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno):
 #-----------------------------------------------------------------------------#				
 def matrizEstocasticaPageRank(matrizPageRank):
 
-	for i in range(len(matrizPageRank)):							# percorro as linhas da matrizPageRank
-		quantidade1s = float(matrizPageRank[i].count(1))			# conta o numero de 1s na linha
-		for j in range(len(matrizPageRank)):						# percorro as colunas da matrizPageRank
+	# Para somar 1 nas linhas
+	#for i in range(len(matrizPageRank)):							# percorro as linhas da matrizPageRank
+	#	quantidade1s = float(matrizPageRank[i].count(1))			# conta o numero de 1s na linha
+	#	for j in range(len(matrizPageRank)):						# percorro as colunas da matrizPageRank
+	#		if (quantidade1s == 0.0):									# se nao tem nenhum 1 na linha:
+	#			matrizPageRank[i][j] = float(1/len(matrizPageRank[0]))		#faço 1/numeroColunas	
+	#		else:
+	#			matrizPageRank[i][j] = float(matrizPageRank[i][j]/quantidade1s)
+			
+	
+	# Para somar 1 nas colunas			
+	for i in range(len(np.transpose(matrizPageRank))):					# percorro as coluna da matrizPageRank
+		quantidade1s = float(matrizPageRank[i].count(1))				# conta o numero de 1s na coluna
+		for j in range(len(matrizPageRank)):							# percorro as linhas da matrizPageRank
 			if (quantidade1s == 0.0):									# se nao tem nenhum 1 na linha:
-				matrizPageRank[i][j] = float(1/len(matrizPageRank[0]))		#faço 1/numeroColunas	
+				matrizPageRank[j][i] = float(1/len(matrizPageRank))		#faço 1/numeroLinhas	
 			else:
-				matrizPageRank[i][j] = float(matrizPageRank[i][j]/quantidade1s) 
+				matrizPageRank[j][i] = float(matrizPageRank[i][j]/quantidade1s)  
+	
