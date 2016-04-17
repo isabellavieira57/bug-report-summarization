@@ -85,7 +85,7 @@ def main():
 	# linha 0 da matriz possui a distancia de todos os comentarios para o titulo+descricao
 	calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, comentariosPreProcessado, matriztfxidf)
 	calculaDistanciaEuclidiana(matrizDistanciaEuclidiana, comentariosPreProcessado, matriztfxidf)
-			
+				
 	# Ordena a similaridade de todos os comentarios com o titulo+descricao
 	rankingSimilaridadeCossenoTituloDescricao = ordenaRanking (matrizSimilaridadeCosseno[0])
 	removeTituloDescricaoRanking(rankingSimilaridadeCossenoTituloDescricao)
@@ -108,7 +108,7 @@ def main():
 	# Calculo a similaridade de cosseno e a distancia euclidiana na matriz reduzida
 	calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, matrizReduzidaNMF, matrizReduzidaNMF)
 	calculaDistanciaEuclidiana(matrizDistanciaEuclidianaNMF, matrizReduzidaNMF, matrizReduzidaNMF)
-
+	
 	# Ordena a similaridade dos comentários com o título e a descrição
 	rankingSimilaridadeCossenoTituloDescricaoNMF = ordenaRanking (matrizSimilaridadeCossenoNMF[0])
 	removeTituloDescricaoRanking(rankingSimilaridadeCossenoTituloDescricaoNMF)

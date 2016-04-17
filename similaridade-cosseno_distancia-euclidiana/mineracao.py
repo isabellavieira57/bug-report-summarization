@@ -114,7 +114,7 @@ def nmf (matriztfxidf):
 	matrizReduzida = nmf.fit_transform(matriztfxidf)			# w
 	#h = nmf.components_										# h
 	#resultado = np.dot(matrizReduzida, h)						# w.h -> volta na matriz original aproximada
-
+	
 	return matrizReduzida
 	
 #-----------------------------------------------------------------------------#
