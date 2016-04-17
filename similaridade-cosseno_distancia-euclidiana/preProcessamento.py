@@ -165,5 +165,22 @@ def removeURL(comentarios):
 		listaIntermediaria = []
 		
 	return comentariosPreProcessado
-				
+	
+#-----------------------------------------------------------------------------#
+#					 		 												  #
+#-----------------------------------------------------------------------------#
+def removeMeses(comentarios):	
 
+	listaIntermediaria = []
+	comentariosPreProcessado = []
+
+	meses = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"}
+				
+	for i in range(len(comentarios)):
+		for j in range(len(comentarios[i])):
+			if (comentarios[i][j] not in meses):
+				listaIntermediaria.append(comentarios[i][j])
+		comentariosPreProcessado.append(listaIntermediaria)
+		listaIntermediaria = []
+		
+	return comentariosPreProcessado

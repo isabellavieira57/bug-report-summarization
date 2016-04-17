@@ -54,7 +54,8 @@ def main():
 	for i in range(len(oraculoParametro)):
 		oraculo.append(int(oraculoParametro[i]))
 	
-	comentariosSemURL = removeURL(comentarios)
+	comentariosSemMeses = removeMeses(comentarios)
+	comentariosSemURL = removeURL(comentariosSemMeses)
 	comentariosSemStopWords = removeStopWords(comentariosSemURL)
 	comentariosSemNumeros = removeNumeros(comentariosSemStopWords)
 	comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
