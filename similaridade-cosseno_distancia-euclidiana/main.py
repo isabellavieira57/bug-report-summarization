@@ -60,13 +60,13 @@ def main():
 	comentariosSemNumeros = removeNumeros(comentariosSemStopWords)
 	comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
 	comentariosPreProcessado = stemming(comentariosSemCaracteresEspeciais)
-		
+			
 	# Concateno titulo e descricao para um unico comentario
 	tituloEDescricao = comentariosPreProcessado[0]+comentariosPreProcessado[1]
 	del (comentariosPreProcessado[0])		# remove titulo dos comentarios pre processados
 	del (comentariosPreProcessado[0])		# remove descricao dos comentarios pre processados
 	comentariosPreProcessado.insert(0, tituloEDescricao)		# insere titulo + descricao na posicao 0 da matriz
-
+	
 	# matriz de ordem N, onde N é o número de comentários (primeiro comentario é titulo+descricao)
 	matrizSimilaridadeCosseno = inicializaMatriz(comentariosPreProcessado)		
 	matrizDistanciaEuclidiana = inicializaMatriz(comentariosPreProcessado)		
@@ -89,12 +89,12 @@ def main():
 				
 	# Ordena a similaridade de todos os comentarios com o titulo+descricao
 	rankingSimilaridadeCossenoTituloDescricao = ordenaRanking (matrizSimilaridadeCosseno[0])
-	removeTituloDescricaoRanking(rankingSimilaridadeCossenoTituloDescricao)
+	normalizaRanking(rankingSimilaridadeCossenoTituloDescricao)
 	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricao, "rankingSimCosseno_original", nomeArquivo)
 	
 	# Ordena a distancia euclidiana de todos os comentarios com o titulo+descricao
 	rankingDistanciaEuclidianaTituloDescricao = ordenaRanking (matrizDistanciaEuclidiana[0])
-	removeTituloDescricaoRanking(rankingDistanciaEuclidianaTituloDescricao)
+	normalizaRanking(rankingDistanciaEuclidianaTituloDescricao)
 	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricao, "rankingEuclidiana_original", nomeArquivo)
 	
 	# "\n#################################### MATRIZ TRANSFORMADA ###########################################\n"
@@ -112,12 +112,12 @@ def main():
 	
 	# Ordena a similaridade dos comentários com o título e a descrição
 	rankingSimilaridadeCossenoTituloDescricaoNMF = ordenaRanking (matrizSimilaridadeCossenoNMF[0])
-	removeTituloDescricaoRanking(rankingSimilaridadeCossenoTituloDescricaoNMF)
+	normalizaRanking(rankingSimilaridadeCossenoTituloDescricaoNMF)
 	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricaoNMF, "rankingSimCosseno_transformada", nomeArquivo)
 
 	# Ordena distancia euclidiana dos comentários com o título e a descrição
 	rankingDistanciaEuclidianaTituloDescricaoNMF = ordenaRanking (matrizDistanciaEuclidianaNMF[0])	
-	removeTituloDescricaoRanking(rankingDistanciaEuclidianaTituloDescricaoNMF)
+	normalizaRanking(rankingDistanciaEuclidianaTituloDescricaoNMF)
 	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricaoNMF, "rankingEuclidiana_transformada", nomeArquivo)
 	
 	# "\n######################################### RESULTADO ################################################\n"

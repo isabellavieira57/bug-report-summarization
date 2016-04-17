@@ -136,8 +136,8 @@ def main():
 	resultadoPageRank = pageRank(rede)
 	resultadoPageRankNMF = pageRank(redeNMF)
 	
-	removeTituloDescricaoRanking(resultadoPageRank)
-	removeTituloDescricaoRanking(resultadoPageRankNMF)
+	normalizaRanking(resultadoPageRank)
+	normalizaRanking(resultadoPageRankNMF)
 	
 	salvaDadosArquivoTXT (resultadoPageRank, "rankingPageRank_original", nomeArquivo)
 	salvaDadosArquivoTXT (resultadoPageRankNMF, "rankingPageRank_transformada", nomeArquivo)

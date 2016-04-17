@@ -1,7 +1,7 @@
 input not showing invalid model values
 
 nawlbergs commented on Sep 24, 2012 http://jsfiddle.net/nalberg/ERutt/ (i think that link died... and i think this was the same fiddle. http://jsfiddle.net/nalberg/XccGJ/) Im not sure if this is working as intended.... but Im having issues with data coming from our database and using ng-pattern. Some data doesn't fit into the patterns we would like to use... But instead of showing the incorrectly formatted data... its just plain invisible... which makes it look like there is no data there at all. I think it should always show the value.. even if it is invalid... so the user can change their values.. then save it to the new valid format. Or... at least... provide a way to get the value into the inputs so its view-able.
- 
+
 kozlowski-opensource commented on Sep 24, 2012 Hi! There was a discussion about this on the mailing list: https://groups.google.com/d/topic/angular/8Fk-Ya6Juzo/discussion It is kind of corner case but I do agree that this is not intuitive. I would expect the data to be displayed and the input / form marked as invalid.
 
 mhevery commented on Nov 27, 2012 This is a question for @vojtajina, but I think the reason is that when the the conversion is not possible it is better to have undefined, since we literally don't know what it is. Imagine that you are entering longitude/latitude, while you are doing the entering the model is unknown, until you enter all of the coordinates. It makes no sense to have a position randomly assigned by partial parsing. Similarly, when the model is expecting an email, and you have not finished typing, then, you don't have an email, and so it would be wrong to have non-email in the model. I think the other possibility is to have the last valid value in the model rather then undefined.
@@ -52,7 +52,7 @@ xml commented on Jul 9, 2014 Does anybody have any good references on forthcomin
 
 Narretz commented on Jul 9, 2014 The whole form processing / validation looks easy, but it's astonishingly complex. At the moment, some validators live a new $validators collection, which is not a pipeline, so all validators in it are called and applied. However, a few validators are still in $parsers / $formatters, for various reasons. I expect that this will be sorted out before 1.3 is released, which should also have support for writing models to scope even if invalid.
 
-xml commented on Jul 11, 2014 That sounds awesome. Yes, the whole validation thing is remarkably complex, and what's amazing is how transparent and automagical most of it is. If more hands are needed to work on the revisions, I'm interested, but feel like I may be late to the party
+xml commented on Jul 11, 2014 That sounds awesome. Yes, the whole validation thing is remarkably complex,and what's amazing is how transparent and automagical most of it is. If more hands are needed to work on the revisions, I'm interested, but feel like I may be late to the party
 
 ilovett commented on Aug 8, 2014 I found the modelValue being set to undefined after $setValidity('x', false) to be quite annoying and unexpected
 

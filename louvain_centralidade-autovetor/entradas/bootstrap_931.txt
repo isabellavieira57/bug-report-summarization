@@ -1,7 +1,7 @@
 aria, accessiblity, and other coolness
 
 fat commented on Jan 8, 2012 would be awesome to write a plugin which you could drop in to easily extend all other plugins with accessibility support etc.
- 
+
 pokonski commented on Jan 8, 2012 I'm willing to try. What should that involve except for aria and keyboard navigation? I presume manipulating auto complete etc?
 
 fat commented on Jan 9, 2012 That would be awesome - i think accessibility just needs to be taken into account, I was planning on asking @BenWard for some advice next week.

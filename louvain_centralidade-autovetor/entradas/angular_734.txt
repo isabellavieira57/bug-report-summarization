@@ -1,7 +1,7 @@
 Feature request: a way to detect if Angular finished rendering of HTML DOM
 
 kstep commented on Jan 25, 2012 We often need to do some operations on DOM nodes, e.g. bind custom events to them (like "mouseover", "click" or "dblclick"), but Angular changes DOM eventually at the end of digest cycle. What we need is a way to bind some handler upon DOM modification by Angular is finished and it's safe to handle DOM elements (so they won't disappear next moment). From what I understand ng:init runs only once per node on first document rendering and doesn't guarantee any surrounding nodes are rendered. Is there a way to set a hook to run on end of digest cycle after all DOM nodes are rendered, so it's safe to go on with DOM operations?
- 
+
 IgorMinar commented on Jan 25, 2012 Why isn't creating directives sufficient to bind these events? The thing is that the compilation is a continuous process in angular, if you don't use directives, you are bypassing the compiler and then you run the issue of not knowing when things are ready. If I'm missing something (which I may be!), can you create a simple jsfiddle demonstrating your use case?
 
 mhevery commented on Jan 25, 2012 I think you are looking for this: http://docs-next.angularjs.org/api/angular.module.ng.$rootScope.Scope#$evalAsync 2012/1/25 Konstantin Stepanov < reply@reply.github.com

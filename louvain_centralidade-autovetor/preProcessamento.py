@@ -114,9 +114,12 @@ def removeNumeros (comentarios):
 		listaIntermediaria.append(comentarios[i][0])		#nao remove numeros do nome do usuario
 		while (j < (len(comentarios[i]))):		
 			lista = str(comentarios[i][j])
-			x = filter(lambda y: not str.isdigit(y), lista)	# x recebe true ou false se for digito ou nao
-			if x != '':										# se x for digito, sera removido e sera uma string vazia
-				listaIntermediaria.append(x)				# adiciona na lista se nao for digito
+			if ("+1" in lista):
+				listaIntermediaria.append(lista)
+			else:
+				x = filter(lambda y: not str.isdigit(y), lista)	# x recebe true ou false se for digito ou nao
+				if x != '':										# se x for digito, sera removido e sera uma string vazia
+					listaIntermediaria.append(x)				# adiciona na lista se nao for digito
 			j = j + 1
 		comentariosPreProcessado.append(listaIntermediaria)
 		listaIntermediaria = []

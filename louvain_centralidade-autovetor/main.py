@@ -133,8 +133,8 @@ def main():
 	rankingComunidade = rankingIntraComunidade (clusterPossuiDescricao, centrality_eigenvector, resultLouvain)
 	rankingComunidadeNMF = rankingIntraComunidade (clusterPossuiDescricaoNMF, centrality_eigenvectorNMF, resultLouvainNMF)
 	
-	removeTituloDescricaoRanking(rankingComunidade)
-	removeTituloDescricaoRanking(rankingComunidadeNMF)
+	normalizaRanking(rankingComunidade)
+	normalizaRanking(rankingComunidadeNMF)
 	
 	salvaDadosArquivoTXT (rankingComunidade, "rankingLouvain+Centralidade_original", nomeArquivo)
 	salvaDadosArquivoTXT (rankingComunidadeNMF, "rankingLouvain+Centralidade_transformada", nomeArquivo)

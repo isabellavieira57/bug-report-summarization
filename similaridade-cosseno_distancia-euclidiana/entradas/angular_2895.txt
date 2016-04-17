@@ -1,7 +1,7 @@
 Feature: Either add scope to attributes that are passed to templateUrl function or preprocess attributes based on scope parameters
 
 spaceribs commented on Jun 6, 2013 As you can see in the following plunker, you cannot access a scoped value within the directive's templateUrl. All attributes are passed uncompiled, and there is no way to access the scope within this context. I have a workaround with a lot of dependencies injected within the link function of that directive (showing how it should work).
- 
+
 btford commented on Aug 23, 2013 As part of our effort to clean out old issues, this issue is being automatically closed since it has been inactivite for over two months. Please try the newest versions of Angular (1.0.8 and 1.2.0-rc.1), and if the issue persists, comment below so we can discuss it. Thanks!
 
 filiptc commented on Sep 5, 2013 +1 to this feature request. Not being able to access scope from templateURL function nor getting scope-preprocessed attributes forces workaround use of link and manual $http loading of templates.

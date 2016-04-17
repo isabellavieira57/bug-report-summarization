@@ -1,7 +1,7 @@
 Add autocomplete
 
 nahuelange commented on Sep 29, 2011 It would be great if Bootstrap supported "autocomplete" like for a search field.
- 
+
 batuhan commented on Sep 29, 2011 This would be awesome.
 
 drewda commented on Sep 29, 2011 That's really pushing the boundaries of thinking of Bootstrap as a set of presets for page styling. Such a wide variety of autocomplete scripts are already available[1]. It'd be great for Bootstrap to provide increasing amounts of styling for others' widgets, but to build up an entire widget set within Bootstrap? Hey, if it's feature-complete and as stylish as the rest of Bootstrap, I'd use it--but I don't know if anyone wants to actually develop it. [1] Some of my favorites, off the top of my head: http://documentcloud.github.com/visualsearch/ http://jqueryui.com/demos/autocomplete/ https://github.com/laktek/jQuery-Smart-Auto-Complete
