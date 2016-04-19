@@ -166,7 +166,7 @@ def normalizaRanking(ranking):
 	
 	# Normaliza id ranking para bater com oraculo, pois no oraculo titulo=0, descricao=1 e no algoritmo titulo+descricao=0
 	for i in range(len(ranking)):
-			ranking[i][0] = ranking[i][0] - 1
+			ranking[i][0] = ranking[i][0] + 1
 				
 #-----------------------------------------------------------------------------#
 # PageRank: retorna o autovalor de cada comentario 							  #
