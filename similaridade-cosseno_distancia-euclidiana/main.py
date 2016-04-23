@@ -53,6 +53,8 @@ def main():
 	oraculo = []
 	for i in range(len(oraculoParametro)):
 		oraculo.append(int(oraculoParametro[i]))
+		
+	#print "Numero commets: ", len(comentarios)
 
 	comentariosSemMeses = removeMeses(comentarios)
 	comentariosSemURL = removeURL(comentariosSemMeses)
@@ -96,7 +98,7 @@ def main():
 	rankingDistanciaEuclidianaTituloDescricao = ordenaRanking (matrizDistanciaEuclidiana[0])
 	normalizaRanking(rankingDistanciaEuclidianaTituloDescricao)
 	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricao, "rankingEuclidiana_original", nomeArquivo)
-	
+
 	# "\n#################################### MATRIZ TRANSFORMADA ###########################################\n"
 	
 	# NMF
@@ -114,11 +116,29 @@ def main():
 	rankingSimilaridadeCossenoTituloDescricaoNMF = ordenaRanking (matrizSimilaridadeCossenoNMF[0])
 	normalizaRanking(rankingSimilaridadeCossenoTituloDescricaoNMF)
 	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricaoNMF, "rankingSimCosseno_transformada", nomeArquivo)
-
+	
+	# Imprime sumario no arquivo
+	"""arquivo = open("resultados/resultadosRanking/sumario_SimCossenoTransf_" + nomeArquivo + ".txt", 'w')
+	sep = " "
+	for i in range(10):
+		comentario =  sep.join(comentarios[rankingSimilaridadeCossenoTituloDescricaoNMF[i][0]])	
+		arquivo.write(comentario)
+		arquivo.write ("\n\n")
+	arquivo.close()"""
+		
 	# Ordena distancia euclidiana dos comentários com o título e a descrição
 	rankingDistanciaEuclidianaTituloDescricaoNMF = ordenaRanking (matrizDistanciaEuclidianaNMF[0])	
 	normalizaRanking(rankingDistanciaEuclidianaTituloDescricaoNMF)
 	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricaoNMF, "rankingEuclidiana_transformada", nomeArquivo)
+	
+	# Imprime sumario no arquivo
+	"""arquivo = open("resultados/resultadosRanking/sumario_DistEuclidianaTransf_" + nomeArquivo + ".txt", 'w')
+	sep = " "
+	for i in range(10):
+		comentario =  sep.join(comentarios[rankingDistanciaEuclidianaTituloDescricaoNMF[i][0]])	
+		arquivo.write(comentario)
+		arquivo.write ("\n\n")
+	arquivo.close()"""
 	
 	# "\n######################################### RESULTADO ################################################\n"
 	
