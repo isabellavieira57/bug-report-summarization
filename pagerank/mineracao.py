@@ -67,7 +67,7 @@ def tfxidf(comentariosPreProcessado, listaTokensDistintos, matriztfxidf):
 			# quantas vezes o token aparece no documento
 			frequenciaTokenDocumento = frequenciaToken(listaTokensDistintos[j],comentariosPreProcessado[i]) 		
 			# calculo tfxidf	
-			resultadoTFXIDF = (frequenciaTokenDocumento * (np.log(numeroComentarios/totalComentariosTemToken)))
+			resultadoTFXIDF = (frequenciaTokenDocumento * (round(np.log(numeroComentarios/totalComentariosTemToken),3)))
 			#matriztfxidf[i][j] = { 'token' : listaTokensDistintos[j], 'freq' : resultadoTFXIDF }
 			matriztfxidf[i][j] = resultadoTFXIDF
 	
@@ -75,11 +75,11 @@ def tfxidf(comentariosPreProcessado, listaTokensDistintos, matriztfxidf):
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
-def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, comentariosPreProcessado, matriztfxidf):
+def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, matriztfxidf):
 
 	for i in range(len(matriztfxidf)):
 		for j in range(len(matriztfxidf)):
-			similaridade = 1 - spatial.distance.cosine(matriztfxidf[i], matriztfxidf[j])
+			similaridade = 1 - round(spatial.distance.cosine(matriztfxidf[i], matriztfxidf[j]),3)
 			matrizSimilaridadeCosseno[i][j] = similaridade
 			
 #-----------------------------------------------------------------------------#
@@ -110,7 +110,7 @@ def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, comentariosPreProcess
 #-----------------------------------------------------------------------------#
 def nmf (matriztfxidf):
 	
-	nmf = NMF(n_components = 50, init='random', random_state=0)
+	nmf = NMF(n_components = int(len(matriztfxidf[0])*0.10), init='random', random_state=0)
 	matrizReduzida = nmf.fit_transform(matriztfxidf)			# w
 	#h = nmf.components_										# h
 	#resultado = np.dot(matrizReduzida, h)						# w.h -> volta na matriz original aproximada

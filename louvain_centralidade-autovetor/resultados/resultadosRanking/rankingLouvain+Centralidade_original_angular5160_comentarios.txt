@@ -1,0 +1,27 @@
+6
+['akoprow', 'commented', '@igorminar,', 'thanks', 'for', 'the', 'answer', '.', 'what', 'i', "'m", 'trying', 'to', 'do', 'is', 'quite', 'simple', ':', 'i', 'have', 'a', 'list', 'of', 'elements', 'that', 'i', 'display', 'horizontally', '.', 'elements', 'are', 'absolute', 'positioned', 'with', 'a', 'left', 'property', 'computed', 'based', 'on', 'their', '$index.', 'their', 'ordering', 'sometimes', 'changes', 'in', 'which', 'case', 'i', "'d", 'like', 'to', 'animate', 'them', 'moving', 'to', 'appropriate', 'positions', '.', 'this', 'fiddle', 'should', 'make', 'it', 'clear', ':', 'http', '://jsfiddle.net/koper/suzr5.', 'it', "'s", 'a', 'pretty', 'good', 'abstraction', 'of', 'what', 'i', "'m", 'trying', 'to', 'do', ',', 'except', 'i', "'d", 'like', 'to', 'animate', 'the', 'blocks', 'changing', 'their', 'positions', '(which', 'is', 'not', 'happening', 'in', 'the', 'fiddle', ').', 'i', "'m", 'guessing', 'i', 'could', 'just', '$watch', 'the', 'array', 'on', 'the', 'scope', ',', 'and', 'animate', 'the', 'elements', 'in', 'the', 'listener', '.', 'however', ',', 'it', 'feels', '"wrong"', 'to', 'circumvent', 'the', 'animation', 'framework', 'in', 'this', 'way', '.', 'given', 'mine', 'and', "@cfchase's", 'use', '-cases', 'it', 'kinda', 'sounds', 'like', 'there', 'are', 'two', 'kinds', 'of', 'moves', 'one', 'may', 'be', 'interested', 'in', ':', 'relative', '(ordering', 'within', 'the', 'array', 'changes', ')', 'and', 'absolute', '(index', 'changes', ').', 'btw', '.', 'i', "'d", 'be', 'happy', 'to', 'try', 'to', 'work', 'it', 'out', 'and', 'submit', 'a', 'pull', 'request', 'if', 'you', 'guys', 'are', 'interested', 'in', 'that', 'and', 'if', 'we', 'achieve', 'a', 'consensus', 'on', 'how', 'to', 'address', 'that', '.']
+
+10
+['swarajban', 'commented', 'second', '@akoprow,', 'i', 'am', 'trying', 'to', 'do', 'something', 'similar', 'and', 'wish', 'that', 'the', 'ng', '-move', 'classes', 'would', 'be', 'added', '/removed', 'when', 'the', '$index', 'of', 'the', 'element', 'changes']
+
+8
+['akoprow', 'commented', '@matsko', 'i', "'m", 'not', 'sure', 'if', 'i', 'have', 'a', 'good', 'suggestion', 'as', 'i', 'don', "'t", 'think', 'i', 'even', 'have', 'a', 'good', 'grasp', 'of', 'the', 'definition', 'of', 'what', 'constitutes', 'a', 'move', 'in', 'the', 'current', 'implementation', '.', 'one', 'obvious', 'approach', 'would', 'be', 'to', 'have', 'some', 'sort', 'of', 'a', 'flag', 'indicating', 'whether', 'it', "'s", 'an', '"index-based"', 'or', '"regular"', 'move', '.', 'in', 'any', 'case', 'i', 'agree', 'that', 'it', 'would', 'be', 'good', 'to', 'have', 'some', 'sort', 'of', 'event', 'triggered', 'whenever', 'item', "'s", 'index', 'changes', '.']
+
+5
+['igorminar', 'commented', 'in', 'the', 'case', '@akoprow', 'described', ',', 'no', '"move"', 'operation', 'actually', 'happens', 'in', 'the', 'dom', 'because', 'the', 'new', 'node', 'is', 'added', 'before', 'the', 'existing', 'nodes', 'and', 'the', '"move"', 'operations', 'happens', 'only', 'in', 'the', 'browser', "'s", 'render', 'tree', '.', 'this', 'qualifies', 'for', 'the', 'typical', 'dom', 'move', 'operation', 'and', 'it', 'can', "'t", 'be', 'animated', 'as', 'such', '.', 'i', 'think', 'that', 'in', 'this', 'case', 'it', 'would', 'be', 'good', 'to', 'understand', 'what', 'kind', 'of', 'animation', '/effect', 'are', 'you', 'trying', 'to', 'achieve', 'and', 'based', 'on', 'that', 'we', 'can', 'suggest', 'or', 'implement', 'a', 'solution', '.']
+
+12
+['vompy', 'commented', 'running', 'into', 'the', 'same', 'issues', ',', 'it', 'would', 'be', 'great', 'if', 'this', 'feature', 'could', 'be', 'supported', '.', 'for', 'now', 'i', "'m", 'going', 'to', 'write', 'my', 'own', 'ng', '-move', 'classes', '.']
+
+7
+['matsko', 'commented', '@igorminar', '@akoprow', 'we', 'definitely', 'need', 'to', 'have', 'some', 'kind', 'of', 'animation', 'even', 'if', 'the', 'element', 'stays', 'in', 'place', 'and', 'the', 'dom', 'tree', 'jumps', 'up', 'or', 'down', 'a', 'bit', '.', 'but', 'using', 'move', 'for', 'the', 'animation', 'wouldn', "'t", 'really', 'be', 'a', 'move', 'animation', 'since', 'nothing', 'is', 'getting', 'moved', 'around', '.', 'any', 'bright', 'ideas', '?']
+
+3
+['akoprow', 'commented', 'yes', ',', 'correct', '(and,', 'unless', 'i', "'m", 'missing', 'something', ',', 'i', 'consider', 'that', 'a', 'bug', ').', 'additionally', ',', 'it', "'d", 'be', 'great', 'if', 'animation', 'callbacks', 'where', 'invoked', 'after', '$index', 'variables', 'were', 'updates', "(that's", 'more', 'a', 'feature', 'request', ';', 'i', 'can', 'open', 'a', 'separate', 'issue', 'if', 'you', 'like', '?).']
+
+21
+['matsko', 'commented', 'i', 'will', 'have', 'a', 'look', 'at', 'this', 'during', 'this', 'week', 'to', 'see', 'how', 'we', 'can', 'emulate', 'a', 'move', 'animation', 'on', 'elements', 'that', 'got', 'shifted', 'down', '.']
+
+22
+['ossdeveloper', 'commented', 'waiting', 'for', 'the', 'solution', '...']
+

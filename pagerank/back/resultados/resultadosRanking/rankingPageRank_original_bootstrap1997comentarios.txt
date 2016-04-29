@@ -1,0 +1,50 @@
+['jeanlyn', 'commented', 'thanks', '!', 'it', "'s", 'work', '!']
+
+['alepee', 'commented', '@geuis', 'i', 'tried', 'your', 'method', 'by', 'store', 'input', '.typeahead()', 'object', 'into', 'a', 'variable', 'and', 'it', 'works', 'like', 'a', 'charm', '!', 'thank', 'you', ':)']
+
+['paulbarbu', 'commented', 'thank', 'you', '!']
+
+['geuis', 'commented', 'i', 'ran', 'into', 'the', 'same', 'issues', 'and', 'finally', 'figured', 'a', 'solution', '.', 'when', 'you', 'are', 'passing', 'the', 'object', 'into', 'typeahead', '(),', 'nothing', 'is', 'changed', 'if', 'you', 'don', "'t", 'also', 'pass', 'in', 'duplicates', 'of', 'all', 'the', 'other', 'properties', 'and', 'functions', 'that', 'are', 'expected', '.', 'luckily', 'there', "'s", 'a', 'better', 'way', '.', 'access', 'the', 'typeahead', 'input', "'s", 'data', 'attribute', 'and', 'modify', 'the', 'source', 'array', 'directly', '.', 'e', '.g:', 'var', 'autocomplete', '=', "$('input').typeahead();", 'autocomplete', ".data('typeahead').source", '=', 'newsource', ';', '//where', 'newsource', 'is', 'your', 'own', 'array', 'i', 'just', 'finished', 'writing', 'some', 'code', 'that', 'will', 'let', 'me', 'use', 'remote', 'data', 'querying', 'on', 'the', 'typeahead', 'module', '.', 'https', '://gist.github.com/1848558', 'one', 'issue', 'i', 'found', 'is', 'that', 'due', 'to', 'how', 'typeahead', 'is', 'written', ',', 'after', 'you', 'modify', 'the', 'source', 'array', 'the', 'results', 'don', "'t", 'get', 'picked', 'up', 'till', 'the', 'next', 'keystroke', '.', 'in', 'the', 'gist', 'above', ',', 'i', 'got', 'around', 'this', 'by', 'setting', 'the', 'source', 'to', '[]', 'before', 'doing', 'my', 'xhr', 'request', ',', 'setting', 'it', 'in', 'the', 'callback', 'function', 'with', 'the', 'results', ',', 'then', 'triggering', 'a', 'keyup', 'event', 'on', 'the', 'input', 'element', 'again', '.', 'typeahead', 'does', 'technically', 'trigger', '2x', ',', 'but', 'since', 'the', 'initial', 'source', 'array', 'is', '0', 'length', 'it', 'doesn', "'t", 'do', 'any', 'lookups', '.', 'i', 'also', 'had', 'to', 'add', 'an', 'active', 'status', 'that', 'prevents', 'an', 'endless', 'loop', 'of', 'xhr', 'requests', 'due', 'to', 'the', '2x', 'keyup', 'events', '.']
+
+['fat', 'commented', 'yeah', ',', 'we', 'need', 'to', 'make', 'this', 'more', 'extensible', 'for', 'sure', '.', 'we', "'ll", 'be', 'revisting', 'the', 'data', 'source', 'soon', '.', 'thanks', 'for', 'the', 'feedback', '!']
+
+['geuis', 'commented', 'glad', 'you', 'found', 'it', 'useful', '.']
+
+['ralfschimmel', 'commented', 'nice', ',', 'thanks', ',', 'saved', 'me', 'a', 'couple', 'of', 'hours', 'there', '.']
+
+['scotterc', 'commented', '@geuis', 'still', 'really', 'useful', 'code', 'for', 'eliminating', 'duplicates', 'even', 'when', 'using', 'typeahead', "'s", 'newest', 'methods', '.', 'thank', 'you', '!']
+
+['zda', 'commented', 'ps', '\x93', 'you', 'can', 'reproduce', 'this', 'error', 'on', 'the', 'typeahead', '.js', 'website', 'itself', ':', 'http', '://twitter.github.io/typeahead.js/examples/', '>', "$('.example-countries", ".typeahead').typeahead();", '=>', 'typeerror', ':', 'cannot', 'read', 'property', "'name'", 'of', 'undefined']
+
+['zda', 'commented', 'this', 'doesn', "'t", 'actually', 'work', 'for', 'me', '\x93', 'i', 'get', 'typeerror', ':', 'cannot', 'read', 'property', "'name'", 'of', 'undefined', 'every', 'time', 'i', 'try', 'var', 'autocomplete', '=', "$('input').typeahead();.", "$('input')", 'itself', 'is', 'as', 'expected', ',', 'but', 'and', 'has', 'a', 'working', 'typeahead', 'in', 'the', 'ui', ',', 'but', '.typeahead()', 'still', 'returns', 'an', 'error', '.', 'this', 'happening', 'to', 'anyone', 'else', '?']
+
+['greivinlopez', 'commented', '@geuis', 'thank', 'you', '!!', 'you', "'re", 'the', 'man', '!', ':)']
+
+['reefdog', 'commented', '@fat:', '+1', 'for', 'making', 'this', 'more', 'extensible', 'and', 'obvious', '!', ':)']
+
+['cvrebert', 'commented', '@zda', 'the', 'typeahead', 'widget', 'referenced', 'in', 'this', 'issue', 'is', 'bootstrap', 'v2', "'s", 'own', 'old', 'typeahead', '(bootstrap-typeahead.js),', 'not', 'twitter', "'s", 'typeahead', '.js.']
+
+['geuis', 'commented', 'hmm', 'i', 'can', 'update', 'this', 'gist', 'for', '3', '.1', 'if', 'its', 'needed', '.', 'does', 'the', 'new', 'typeahead', 'code', 'support', 'remote', 'data', 'sources', '?']
+
+['cvrebert', 'commented', '@pwkad', 'the', 'typeahead', 'from', 'bootstrap', 'v2', 'was', 'removed', '.', 'for', 'help', 'using', 'the', 'suggested', 'replacement', ',', 'twitter', "'s", 'typeahead', ',', 'ask', 'on', 'that', 'project', "'s", 'github', '.']
+
+['pwkad', 'commented', '@cvrebert', 'i', 'realized', 'that', 'and', 'deleted', 'my', 'comment', 'after', 'i', 'read', 'through', 'everything', 'again', 'my', 'bad']
+
+['rusalex', 'commented', 'thanks', 'guys', ',', 'save', 'my', 'life']
+
+['zda', 'commented', 'yes', ',', 'just', 'realized', 'this', '\x93', 'thanks', '.']
+
+['jayyvis', 'commented', 'my', 'first', 'failed', 'attempt', 'was', 'updating', 'the', 'data', '-source', 'using', 'jquery', '.', 'and', 'landed', 'up', 'here', '.', 'thank', 'you', '@geuis']
+
+['rodleviton', 'commented', 'thanks', '@geuis.']
+
+['beatoss', 'commented', 'thank', 'you', '!']
+
+['geuis', 'commented', 'is', 'this', 'issue', 'still', 'active', '?', 'i', 'thought', 'the', 'data', 'source', 'issue', 'would', 'have', 'been', 'addressed', 'by', 'now', 'and', 'my', 'little', 'hack', 'made', 'obsolete', '.']
+
+['balaclark', 'commented', 'it', 'would', 'be', 'nice', 'to', 'have', 'a', 'better', 'api', 'for', 'this', ',', 'the', 'current', 'workaround', 'looks', 'a', 'little', 'hacky', '.']
+
+['satgi', 'commented', 'thank', 'you', 'so', 'much', ",i've", 'spent', 'almost', '2', 'to', '3', 'hours', 'working', 'on', 'this', 'problem', '.']
+
+['rubic0n', 'commented', 'wow', '..', 'i', 'wasted', '5', 'hours', 'of', 'my', 'life', 'before', 'i', 'found', 'this', 'post', '..', 'thanks', '@geuis', 'for', 'your', 'solution', '..']
+

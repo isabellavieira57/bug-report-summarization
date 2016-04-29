@@ -1,0 +1,27 @@
+44
+['gkalpak', 'commented', '@marmotz:', 'there', 'a', 'probably', 'a', 'dozen', 'different', 'use', '-cases', 'that', 'different', 'people', 'might', 'want', 'to', 'support', '.', 'adding', '2', 'properties', '($xyz,', '$unxyz)', 'and', '2', 'methods', '($setxyz(),', '$setunxyz())', 'to', 'the', 'ngmodelcontroller', 'for', 'each', 'such', 'case', 'will', 'create', 'a', 'messy', 'api', '(not', 'to', 'mention', 'how', 'internally', 'all', 'those', 'properties', 'would', 'need', 'to', 'be', 'managed', ',', 'propagated', 'etc', ').', 'the', 'current', 'properties', 'provide', 'support', 'for', 'enough', 'use', '-cases', '"out', 'of', 'the', 'box', '"', 'and', 'adding', 'extra', 'behaviour', 'is', 'super', 'easy', 'with', 'angular', ',', 'so', 'i', 'don', "'t", 'see', 'a', 'reason', 'to', 'one', 'extra', 'pair', 'of', 'properties', 'and', 'methods', 'for', 'detecting', 'a', 'user', "'s", 'focusing', 'a', 'field', ',', 'blurring', 'a', 'field', 'then', 'focusing', 'again', '.', 'hm', '...reading', 'your', 'comments', 'again', 'seems', 'like', 'you', 'are', 'not', 'suggesting', 'a', 'new', 'property', ',', 'but', 'a', 'change', 'in', 'when', 'the', '$touched', 'property', 'gets', 'set', '.', 'so', 'it', "'s", 'a', 'matter', 'of', 'what', 'scenario', 'comes', 'up', 'more', 'frequently', ':', 'tab', 'through', 'the', 'form', 'and', 'leave', 'inputs', 'invalid', 'or', 'focus', '-blur-focus.', 'my', 'intuition', 'is', 'that', '(as', '@narretz', 'said', ')', 'the', 'current', 'implementation', 'will', 'be', 'more', 'useful', 'most', 'of', 'the', 'time', '.']
+
+29
+['coli', 'commented', 'validation', 'on', 'blur', 'would', 'be', 'very', 'nice']
+
+15
+['troch', 'commented', '#5888', 'i', "'ve", 'send', 'a', 'pr', 'for', 'adding', 'a', '$dirtyafter', 'state', 'for', 'controls', ',', 'which', 'could', 'greatly', 'improve', 'the', 'decision', 'to', 'display', 'or', 'not', 'inline', 'validation', 'messages', '.', 'for', 'example', ',', 'an', 'inline', 'validation', 'message', 'can', 'be', 'shown', 'using', 'the', 'condition', '"myform.myfield.$dirty', '||', 'myform', '.myfield.$dirtyafter".', 'i', 'also', 'think', 'a', 'form', 'level', '"attempted"', 'state', 'would', 'be', 'a', 'great', 'idea', ',', 'and', 'it', 'would', 'work', 'well', 'along', '$dirtyafter', 'by', 'using', 'the', 'following', 'condition', 'for', 'showing', '/hiding', 'inline', 'validation', 'messages', '"myform.$attempted', '||', 'myform', '.myfield.$dirty', '||', 'myform', '.myfield.$dirtyafter"']
+
+20
+['daviesgeek', 'commented', '@matsko', 'any', 'updates', 'on', 'when', 'that', 'will', 'get', 'ported', 'over', 'to', 'the', 'js', 'side', '?']
+
+8
+['matsko', 'commented', 'not', 'sure', 'how', 'this', 'issue', 'came', 'up', 'again', ',', 'but', '...', 'we', "'ve", 'already', 'planned', 'this', 'out', 'and', 'the', 'solution', 'is', 'to', 'have', 'a', 'few', 'extra', 'states', ':', 'inputorform', '.$submitted', '(if', 'the', 'submit', 'event', 'was', 'run', 'even', 'if', 'the', 'form', 'is', 'invalid', ').', 'input', '.$visited', 'or', 'input', '.$blurred', 'or', 'input', '.$touched', '(not', 'the', 'same', 'as', '$pristine', 'since', 'you', 'need', 'to', 'enter', 'data', 'to', 'make', '$pristine', 'change', ').', 'the', 'forms', 'themselves', 'are', 'pretty', 'good', ',', 'but', 'there', 'needs', 'to', 'be', 'more', 'control', 'over', 'when', 'messages', 'are', 'displayed', '.', 'these', 'flags', 'should', 'fill', 'that', 'hole', '.']
+
+40
+['marmotz', 'commented', 'ok', ',', 'so', 'i', 'don', "'t", 'understand', 'the', 'use', 'case', '.', 'on', 'the', 'other', 'hand', ',', 'display', 'an', 'error', 'while', 'you', 'just', 'begin', 'to', 'type', 'an', 'email', '"invalid', 'email', '!!!"', 'is', 'a', 'bad', 'practice', '.', 'so', ',', 'ok', ',', 'it', 'seems', 'that', '$touched', 'is', 'not', 'the', 'information', 'i', 'need', ',', 'but', 'i', 'think', 'this', 'information', 'is', 'missing', ':', '"this', 'field', 'has', 'been', 'changed', 'and', 'the', 'user', 'has', 'just', 'left', 'it', ',', 'so', 'now', ',', 'do', 'what', 'you', 'want', 'as', 'validation', 'or', 'displaying', 'messages', 'or', 'anything', 'else', '"']
+
+31
+['coli', 'commented', '@matsko', 'thanks', ',', 'learned', 'something', 'new', 'today', '.']
+
+21
+['2ix', 'commented', '@daviesgeek', 'i', 'would', 'guess', 'angular', '2', '.0']
+
+22
+['daviesgeek', 'commented', '@2ix', 'okay']
+

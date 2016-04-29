@@ -1,0 +1,20 @@
+chrisantaki commented thanks for the heads up @dmethvin
+
+chrisantaki commented sounds good - nice catch @gibson042
+
+chrisantaki commented agreed @dmethvin! i 'm ready to move on . the namespace based removal isn 't in bad shape , like we 'd originally suspected .
+
+chrisantaki commented nope , will give it a try
+
+markelog commented so at least in chrome , it looks like removing event with namespace is faster then removing individual event ?
+
+markelog commented @chrisantaki did you consider removing recursion entirely ?
+
+chrisantaki commented for sure @markelog
+
+chrisantaki commented good news , the test itself was causing the memory leak .
+
+markelog commented that 's 168 samples of the test loop , in events perf that amount should much lower . this means only one test execution is measured correctly , others aren 't, in other words , it 's still shows the problem just don 't give you precise numbers . common mistake , i should have checked it out more thoroughly . @jdalton, @mathiasbynens am i right here ?
+
+chrisantaki commented sure @markelog - should we move the setup and teardown into the test cases , so they run every loop ?
+

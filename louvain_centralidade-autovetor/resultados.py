@@ -13,32 +13,81 @@ import os
 #-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
-def resultadosPrecisionRecallFscore (oraculo, nomeArquivo, numeroComentarios, rankingComunidade, rankingComunidadeNMF):
+def resultadosPrecisionRecallFscore (oraculo, nomeArquivo, numeroComentarios, resultadoPageRank, resultadoPageRankNMF):
 	
 	arquivoResultados = open("resultados/resultadosMetricas/resultadosPrecisionRecallFscore.txt", 'a')
 			
 	# Sumario terá 25% do numero de comentarios
 	#tamanhoSumario = int(round(numeroComentarios*0.25))
-	tamanhoSumario = 10
-		
-	acertos = 0
-	for i in range(len(rankingComunidade)):
-		if (rankingComunidade[i][0] in oraculo):
-			acertos = acertos + 1
-	precision = calculaPrecision(acertos, len(rankingComunidade))
-	recall = calculaRecall (acertos, len(oraculo))
-	fscore = calculaFscore(precision, recall)
-	arquivoResultados.write("\nRELATORIO DE BUG		PRECISION		RECALL			F-SCORE			ESTUDO\n")	
-	arquivoResultados.write("%s				%f		%f		%f		(3) ESPAÇO ORIGINAL: LOUVAIN+CENTRALIDADE AUTOVETOR\n" % (nomeArquivo, precision, recall, fscore))
+	tamanhoSumario = 0
+
+	if ( len(resultadoPageRank) < 10 ):
+		tamanhoSumario = len(resultadoPageRank)
+	else:
+		tamanhoSumario = 10
 	
 	acertos = 0
-	for i in range(len(rankingComunidadeNMF)):
-		if (rankingComunidadeNMF[i][0] in oraculo):
+	for i in range(tamanhoSumario):
+		if (resultadoPageRank[i][0] in oraculo):
 			acertos = acertos + 1
-	precision = calculaPrecision(acertos, len(rankingComunidadeNMF))
+	precision = calculaPrecision(acertos, tamanhoSumario)
 	recall = calculaRecall (acertos, len(oraculo))
 	fscore = calculaFscore(precision, recall)	
-	arquivoResultados.write("%s				%f		%f		%f		(3) ESPAÇO TRANSFORMADO: LOUVAIN+CENTRALIDADE AUTOVETOR\n" % (nomeArquivo, precision, recall, fscore))
+	arquivoResultados.write("\nRELATORIO DE BUG		PRECISION		RECALL			F-SCORE			ESTUDO\n")
+	arquivoResultados.write("%s				%f		%f		%f		(2) ESPAÇO ORIGINAL: PAGERANK\n" % (nomeArquivo, precision, recall, fscore))	
+	
+	tamanhoSumario = len(resultadoPageRankNMF)
+
+	if ( len(resultadoPageRankNMF) < 10 ):
+		tamanhoSumario = len(resultadoPageRankNMF)
+	else:
+		tamanhoSumario = 10
+
+	acertos = 0
+	for i in range(tamanhoSumario):
+		if (resultadoPageRankNMF[i][0] in oraculo):
+			acertos = acertos + 1
+	precision = calculaPrecision(acertos, tamanhoSumario)
+	recall = calculaRecall (acertos, len(oraculo))
+	fscore = calculaFscore(precision, recall)	
+	arquivoResultados.write("%s				%f		%f		%f		(2) ESPAÇO TRANSFORMADO: PAGERANK\n\n" % (nomeArquivo, precision, recall, fscore))	
+	
+	"""acertos = 0
+	for i in range(tamanhoSumario):
+		if (resultadoMassey[i][0] in oraculo):
+			acertos = acertos + 1
+	precision = calculaPrecision(acertos, tamanhoSumario)
+	recall = calculaRecall (acertos, len(oraculo))
+	fscore = calculaFscore(precision, recall)	
+	arquivoResultados.write("%s				%f		%f		%f		(2) ESPAÇO ORIGINAL: MASSEY\n" % (nomeArquivo, precision, recall, fscore))	
+	
+	acertos = 0
+	for i in range(tamanhoSumario):
+		if (resultadoMasseyNMF[i][0] in oraculo):
+			acertos = acertos + 1
+	precision = calculaPrecision(acertos, tamanhoSumario)
+	recall = calculaRecall (acertos, len(oraculo))
+	fscore = calculaFscore(precision, recall)	
+	arquivoResultados.write("%s				%f		%f		%f		(2) ESPAÇO TRANSFORMADO: MASSEY\n" % (nomeArquivo, precision, recall, fscore))	
+	
+	acertos = 0
+	for i in range(tamanhoSumario):
+		if (resultadoColley[i][0] in oraculo):
+			acertos = acertos + 1
+	precision = calculaPrecision(acertos, tamanhoSumario)
+	recall = calculaRecall (acertos, len(oraculo))
+	fscore = calculaFscore(precision, recall)	
+	arquivoResultados.write("%s				%f		%f		%f		(2) ESPAÇO ORIGINAL: COLLEY\n" % (nomeArquivo, precision, recall, fscore))	
+	
+	acertos = 0
+	for i in range(tamanhoSumario):
+		if (resultadoColleyNMF[i][0] in oraculo):
+			acertos = acertos + 1
+	precision = calculaPrecision(acertos, tamanhoSumario)
+	recall = calculaRecall (acertos, len(oraculo))
+	fscore = calculaFscore(precision, recall)	
+	arquivoResultados.write("%s				%f		%f		%f		(2) ESPAÇO TRANSFORMADO: COLLEY\n" % (nomeArquivo, precision, recall, fscore))"""	
+	
 	
 	arquivoResultados.close()
 	
@@ -319,12 +368,18 @@ def resultadosMAPGeral ():
 #-----------------------------------------------------------------------------#
 #					 		 												  #
 #-----------------------------------------------------------------------------#
-def salvaDadosArquivoTXT (dados, nomeArquivo, nomeRelatorioBug):
+def salvaDadosArquivoTXT (dados, comentarios, nomeArquivo, nomeRelatorioBug):
 	
 	#print "NOME RELATORIO BUG ", nomeRelatorioBug
 	
 	arquivo = open("resultados/resultadosRanking/" + nomeArquivo + "_" + nomeRelatorioBug + ".txt", 'w')
 	
 	for i in range(len(dados)):
+		#if ( dados[i][0] != 0 ):
 		arquivo.write(str(dados[i][0])+"\n")
+
+	arquivo = open("resultados/resultadosRanking/" + nomeArquivo + "_" + nomeRelatorioBug + "_comentarios.txt", 'w')
+
+	for i in range(len(dados)):
+		arquivo.write(str(dados[i][0]) + "\n" + str(comentarios[dados[i][0]])+"\n\n")
 	

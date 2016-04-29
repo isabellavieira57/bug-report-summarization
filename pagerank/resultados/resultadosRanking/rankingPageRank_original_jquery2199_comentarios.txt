@@ -1,0 +1,54 @@
+20
+['artemist', 'commented', 'please', 'see', "@caitp's", 'comment', 'above', '.', 'class', 'operations', 'are', 'a', 'large', 'part', 'of', 'ux', 'interaction', '-', 'if', 'people', 'need', 'a', 'lot', 'more', 'than', 'that', ',', 'then', 'yes', ',', 'they', 'should', 'indeed', 'be', 'using', 'snap', 'or', 'gsap', '.', 'this', 'enhancement', 'seems', 'within', 'scope', 'and', 'easy', 'to', 'define', 'boundaries', 'for', '.']
+
+3
+['rwaldron', 'commented', 'thanks', 'for', 'the', 'report', '.', 'more', 'svg', 'support', 'has', 'long', 'been', 'listed', 'on', 'the', 'won', "'t", 'fix', 'document', ',', 'along', 'with', 'links', 'to', 'relevant', 'discussions', 'that', 'elaborate', 'on', 'that', 'position', '.']
+
+13
+['caitp', 'commented', 'i', 'think', 'there', 'was', 'a', 'valid', 'concern', 'about', 'performance', 'with', 'classlist', ',', 'and', 'buggy', 'implementations', ',', 'too', '.', 'the', 'attribute', 'approach', 'should', 'be', 'a', 'lot', 'simpler', 'and', 'faster']
+
+7
+['artemist', 'commented', 'detecting', 'hasclass', ',', 'or', 'adding', '/removing', 'classes', 'would', 'be', 'a', 'hugely', 'helpful', 'ux', 'interaction', 'boon', '.', 'yes', ',', 'i', 'know', 'raphael', 'and', 'snap', '.svg.', 'but', 'let', "'s", 'say', 'you', "'re", 'using', 'a', 'different', 'animation', 'library', '.', 'to', 'then', 'add', 'snap', 'just', 'to', 'look', 'for', 'classes', 'or', 'add', 'performant', 'click', 'events', '(particularly', 'if', 'you', "'re", 'already', 'loading', 'jquery', ')', 'feels', 'painful', 'if', 'not', 'redundant', '.', 'i', 'realize', 'this', 'request', 'might', 'be', 'too', 'large', 'and', 'out', 'of', 'scope', ',', 'and', 'yes', ',', 'svg', 'isn', "'t", 'html', ',', 'but', 'if', 'there', "'s", 'a', 'possibility', 'jquery', 'could', 'add', 'this', 'feature', ',', 'it', "'s", 'worth', 'a', 'discussion', '.', 'everyday', 'usage', 'of', 'svg', 'on', 'the', 'web', 'is', 'fast', '-growing.', 'adding', 'this', 'kind', 'of', 'support', 'has', 'the', 'potential', 'for', 'a', 'large', 'payoff', 'for', 'the', 'community', '.']
+
+8
+['dmethvin', 'commented', 'the', 'title', 'of', 'this', 'request', '("better', 'svg', 'support', '")', 'is', 'still', 'super', 'vague', ',', 'it', 'would', 'be', 'pretty', 'hard', 'to', 'make', 'a', 'pull', 'request', 'against', '.', 'when', 'you', 'say', '"too', 'large', 'and', 'out', 'of', 'scope', '"', 'it', 'sounds', 'like', 'you', 'are', 'asking', 'for', 'svg', 'dom', 'to', 'be', 'supported', 'on', 'all', 'jquery', 'methods', '.', 'or', 'are', 'you', 'just', 'asking', 'for', 'class', 'operations', '?']
+
+12
+['dmethvin', 'commented', 'if', 'you', 'just', 'want', 'class', 'names', 'and', 'we', 'can', 'draw', 'the', 'line', 'there', 'i', 'agree', 'with', '@gibson042', 'and', 'have', 'fewer', 'concerns', '.', 'well', 'we', 'have', 'two', 'ways', 'to', 'do', 'that', 'afaik', '.', 'one', 'is', 'to', 'switch', 'from', 'the', 'classname', 'property', 'to', 'the', 'class', 'attribute', '.', 'there', "'s", 'a', 'patchwelcome', 'feature', 'ticket', 'for', 'that', 'approach', ',', 'with', 'the', 'idea', 'that', 'we', "'d", 'switch', 'all', 'docs', 'to', 'use', 'that', 'approach', 'to', 'avoid', 'forked', 'code', 'paths', '.', 'another', 'is', 'to', 'support', 'the', 'classlist', 'api', ',', 'which', 'would', 'have', 'to', 'be', 'implemented', 'in', 'parallel', 'with', 'the', 'existing', 'code', 'since', 'several', 'of', 'our', 'currently', 'supported', 'browsers', 'such', 'as', 'android', '2', '.3', 'still', 'do', 'not', 'implement', 'it', '.', 'there', 'is', 'a', 'pr', 'from', '@caitp', 'at', '#1511', 'which', 'i', 'declined', 'to', 'land', 'specifically', 'because', 'of', 'the', 'concern', 'about', 'svg', 'scope', 'creep', '.', 'if', 'someone', 'asks', 'for', 'further', 'svg', 'support', 'under', 'the', '"hey', 'you', 'fixed', 'that', 'so', 'you', 'support', 'svg', ',', 'you', 'should', 'fix', 'this', '"', 'guilt', 'trip', 'you', "'re", 'gonna', 'back', 'us', 'up', ',', 'right', '?', ':smile_cat:', 'e', '.g.', 'trac', '-15156,', 'trac', '-14517,', 'trac', '-13754,', 'trac', '-13231,', 'trac', '-12667', 'and', 'much', 'much', 'more', '.']
+
+16
+['markelog', 'commented', 'off', 'topic', ':', 'if', 'we', 'no', 'longer', 'decline', 'patches', 'for', 'svg', 'elements', ',', 'perhaps', ',', 'we', 'should', 'remove', 'it', 'from', '"won\'t', 'fix', '"', 'list', ',', 'otherwise', 'we', 'say', 'one', 'thing', 'but', 'do', 'the', 'opposite', '.', 'on', 'topic', ':', '-1,', 'just', 'like', 'in', 'case', 'of', 'the', 'shadow', 'dom', ',', 'support', 'of', 'the', 'svg', 'will', 'decrease', 'the', 'performance', 'increase', 'the', 'size', 'and', 'complicate', 'the', 'code', '.', 'if', 'user', 'operates', 'on', 'svg', 'elements', 'through', 'js', ',', 'sooner', 'then', 'later', 'their', 'would', 'need', 'more', 'then', 'css', '-classes', '-', 'use', 'of', 'special', 'libs', 'is', 'more', 'appropriate', 'way', 'to', 'do', 'this', 'imho', '.']
+
+19
+['rwaldron', 'commented', 'off', 'topic', ':', 'if', 'we', 'no', 'longer', 'decline', 'patches', 'for', 'svg', 'elements', ',', 'perhaps', ',', 'we', 'should', 'remove', 'it', 'from', '"won\'t', 'fix', '"', 'list', ',', 'otherwise', 'we', 'say', 'one', 'thing', 'but', 'do', 'the', 'opposite', '.', 'but', 'it', 'appears', 'that', 'svg', 'is', 'limited', 'to', 'class', 'support', '.', 'on', 'topic', ':', '-1,', 'just', 'like', 'in', 'case', 'of', 'the', 'shadow', 'dom', ',', 'support', 'of', 'the', 'svg', 'will', 'decrease', 'the', 'performance', 'increase', 'the', 'size', 'and', 'complicate', 'the', 'code', '.', 'if', 'user', 'operates', 'on', 'svg', 'elements', 'through', 'js', ',', 'sooner', 'then', 'later', 'their', 'would', 'need', 'more', 'then', 'css', '-classes', '-', 'use', 'of', 'special', 'libs', 'is', 'more', 'appropriate', 'way', 'to', 'do', 'this', 'imho', '.', 'i', "'m", 'with', 'you', '100', '%']
+
+18
+['caitp', 'commented', 'on', 'topic', ':', '-1,', 'just', 'like', 'in', 'case', 'of', 'the', 'shadow', 'dom', ',', 'support', 'of', 'the', 'svg', 'will', 'decrease', 'the', 'performance', 'increase', 'the', 'size', 'and', 'complicate', 'the', 'code', '@markelog', 'we', "'ve", 'found', 'that', 'this', 'is', 'actually', 'not', 'the', 'case', '.', 'using', 'the', 'classname', 'idl', 'attribute', ',', 'or', 'the', 'setattribute', '/getattribute', 'methods', ',', 'are', 'identical', 'work', 'for', 'a', 'vm', 'to', 'do', '.', 'in', 'fact', ',', 'the', 'classname', 'property', 'merely', 'reflects', 'the', 'attribute', '(although', 'the', 'reflection', 'works', 'differently', 'for', 'svg', ').', '---', 'or', 'as', 'this', 'is', 'noted', 'non', '-normatively', 'in', 'the', 'html', 'spec', ',', '"the', 'classname', 'and', 'classlist', 'idl', 'attributes', ',', 'defined', 'in', 'the', 'dom', 'specification', ',', 'reflect', 'the', 'class', 'content', 'attribute', '.".', 'now', ',', 'people', 'might', 'ask', 'for', '"please', 'use', 'createelementns', '()', 'depending', 'on', 'context', '"', 'or', 'something', ',', 'which', 'could', 'incur', 'performance', '/complexity', 'costs', ',', 'but', 'the', 'class', 'api', 'issue', 'is', 'pretty', 'easy', 'to', 'fix', ',', 'just', 'a', 'series', 'of', '1', 'line', 'changes', 'to', 'swap', 'classname', 'for', 'get', '/setattribute', '(and', 'adding', 'svg', 'cases', 'for', 'the', 'class', 'api', 'tests', ').']
+
+6
+['dmethvin', 'commented', 'what', 'exactly', 'would', 'you', 'like', 'to', 'see', 'added', '?', 'have', 'you', 'looked', 'at', 'libraries', 'like', 'raphael', 'that', 'are', 'designed', 'to', 'support', 'svg', '?', 'keep', 'in', 'mind', 'that', 'svg', 'is', 'not', 'html', ',', 'despite', 'the', 'fact', 'that', 'they', 'look', 'similar', 'when', 'represented', 'as', 'strings', '.']
+
+9
+['artemist', 'commented', 'better', 'svg', 'support', 'overall', 'would', 'be', 'outstanding', 'but', ',', 'when', 'i', 'say', 'that', 'it', 'might', 'be', 'too', 'large', 'and', 'out', 'of', 'scope', ',', 'i', "'m", 'anticipating', 'that', 'that', 'could', 'be', 'too', 'heavy', 'for', 'jquery', 'to', 'support', '.', 'so', 'yes', ',', 'thanks', 'for', 'clarifying', ',', 'specifically', 'i', 'am', 'asking', 'to', 'add', 'class', 'operations', 'for', 'svg', 'attributes', '.', 'that', ',', 'in', 'and', 'of', 'itself', 'would', 'be', 'a', 'huge', 'ux', 'boon', 'and', 'change', 'the', 'way', 'we', 'could', 'handle', 'interaction', 'and', 'svg', 'moving', 'forward', '.']
+
+15
+['mzgol', 'commented', '@dmethvin', 'classlist', 'is', 'not', 'supported', 'for', 'svg', 'nodes', 'in', 'ie', 'so', 'the', 'only', 'way', 'to', 'make', 'it', 'work', 'is', 'to', 'use', 'the', 'attribute', '.', 'i', "'m", '+1', 'on', 'that', '.', 'full', 'svg', 'support', 'might', 'bloat', 'jquery', 'a', 'lot', 'but', '90', '%', 'of', 'the', 'times', 'i', 'hear', 'from', 'people', 'why', 'sth', 'doesn', "'t", 'work', 'in', 'jquery', 'on', 'svgs', 'it', "'s", 'about', 'classes', '(attributes', 'already', 'sort', '-of', 'work', ',', 'right', '?)', 'so', 'i', 'think', 'it', "'d", 'be', 'nice', 'to', 'support', 'this', 'one', 'thing', '.', 'i', 'was', 'planning', 'to', 'do', 'the', 'patch', 'myself', ',', 'i', 'just', 'haven', "'t", 'found', 'time', 'yet', '.']
+
+5
+['sergzbx', 'commented', '2', 'years', 'later', 'it', 'might', 'be', 'time', 'to', 'reconsider', 'this', '@jeresig.', 'thanks', '.']
+
+14
+['artemist', 'commented', 'ok', ',', 'it', 'sounds', 'like', 'the', 'best', 'way', 'to', 'do', 'this', 'then', 'is', 'to', 'switch', 'from', 'classname', 'to', 'class', 'attribute', '.', 'a', 'cursory', 'look', 'tells', 'me', 'that', 'most', 'of', 'the', 'references', 'to', 'this', 'are', 'in', 'the', 'attributes', '/classes.js', 'file', '-', 'would', 'that', 'be', 'correct', '?', 'i', "'ll", 'try', 'not', 'to', 'let', 'svg', 'support', 'snowball', 'all', 'at', 'once', 'into', 'a', 'huge', 'problem', 'for', 'you', 'guys', ':)']
+
+2
+['sarasoueidan', 'commented', 'i', 'second', 'this', 'request', '.']
+
+10
+['gibson042', 'commented', 'i', 'can', 'get', 'on', 'board', 'with', 'class', 'manipulation', ',', 'and', 'in', 'fact', 'recently', 'updated', 'sizzle', 'to', 'guarantee', 'shorthand', 'class', 'selection', ':', 'jquery', '/sizzle@a7cd096', 'as', 'others', 'here', 'have', 'said', ',', 'the', 'ecosystem', 'was', 'different', 'when', 'svg', 'got', 'added', 'to', 'the', 'wontfix', 'list', '.']
+
+11
+['ramsaylanier', 'commented', '+1', 'for', 'class', 'manipulation', 'of', 'svg', 'elements']
+
+4
+['artemist', 'commented', 'it', "'s", 'a', 'little', 'disappointing', 'that', 'this', 'is', 'the', 'position', 'taken', ',', 'as', 'svg', 'is', 'gaining', 'widespread', 'interest', 'and', 'use', ',', 'and', 'though', 'it', 'isn', "'t", 'the', 'html', 'dom', ',', 'svg', 'attributes', 'are', 'still', 'accessible', 'in', 'the', 'dom', 'via', 'vanilla', 'js', '.', 'most', 'of', 'the', 'tickets', 'shown', 'here', 'are', 'from', '2', '+', 'years', 'ago', '.']
+

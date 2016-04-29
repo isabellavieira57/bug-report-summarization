@@ -1,0 +1,18 @@
+20
+['artemist', 'commented', 'please', 'see', "@caitp's", 'comment', 'above', '.', 'class', 'operations', 'are', 'a', 'large', 'part', 'of', 'ux', 'interaction', '-', 'if', 'people', 'need', 'a', 'lot', 'more', 'than', 'that', ',', 'then', 'yes', ',', 'they', 'should', 'indeed', 'be', 'using', 'snap', 'or', 'gsap', '.', 'this', 'enhancement', 'seems', 'within', 'scope', 'and', 'easy', 'to', 'define', 'boundaries', 'for', '.']
+
+4
+['artemist', 'commented', 'it', "'s", 'a', 'little', 'disappointing', 'that', 'this', 'is', 'the', 'position', 'taken', ',', 'as', 'svg', 'is', 'gaining', 'widespread', 'interest', 'and', 'use', ',', 'and', 'though', 'it', 'isn', "'t", 'the', 'html', 'dom', ',', 'svg', 'attributes', 'are', 'still', 'accessible', 'in', 'the', 'dom', 'via', 'vanilla', 'js', '.', 'most', 'of', 'the', 'tickets', 'shown', 'here', 'are', 'from', '2', '+', 'years', 'ago', '.']
+
+10
+['gibson042', 'commented', 'i', 'can', 'get', 'on', 'board', 'with', 'class', 'manipulation', ',', 'and', 'in', 'fact', 'recently', 'updated', 'sizzle', 'to', 'guarantee', 'shorthand', 'class', 'selection', ':', 'jquery', '/sizzle@a7cd096', 'as', 'others', 'here', 'have', 'said', ',', 'the', 'ecosystem', 'was', 'different', 'when', 'svg', 'got', 'added', 'to', 'the', 'wontfix', 'list', '.']
+
+13
+['caitp', 'commented', 'i', 'think', 'there', 'was', 'a', 'valid', 'concern', 'about', 'performance', 'with', 'classlist', ',', 'and', 'buggy', 'implementations', ',', 'too', '.', 'the', 'attribute', 'approach', 'should', 'be', 'a', 'lot', 'simpler', 'and', 'faster']
+
+3
+['rwaldron', 'commented', 'thanks', 'for', 'the', 'report', '.', 'more', 'svg', 'support', 'has', 'long', 'been', 'listed', 'on', 'the', 'won', "'t", 'fix', 'document', ',', 'along', 'with', 'links', 'to', 'relevant', 'discussions', 'that', 'elaborate', 'on', 'that', 'position', '.']
+
+17
+['markelog', 'commented', '+1']
+

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+	#!/usr/bin/python
 # coding: utf-8
 
 #-----------------------------------------------------------------------#
@@ -36,6 +36,7 @@ def main():
 	# "\n#################################### PRE-PROCESSAMENTO ###########################################\n"
 	
 	retorno = leArquivo()			# leitura arquivo retorna comentarios, nome arquivo, oraculo
+	eventos = leArquivoEventos(retorno[1])
 
 	# Comentarios
 	comentarios = retorno[0]
@@ -59,6 +60,13 @@ def main():
 	comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
 	comentariosPreProcessado = stemming(comentariosSemCaracteresEspeciais)
 
+	#comentariosSemURL = removeURL(comentarios)
+	#comentariosSemStopWords = removeStopWords(comentariosSemURL)
+	#comentariosSemNumeros = removeNumeros(comentariosSemStopWords)
+	#comentariosSemCaracteresEspeciais = removeCaracteresEspeciais(comentariosSemNumeros)
+	#comentariosSemMeses = removeMeses(comentariosSemCaracteresEspeciais)	
+	#comentariosPreProcessado = stemming(comentariosSemCaracteresEspeciais)
+
 	# Concateno titulo e descricao para um unico comentario
 	tituloEDescricao = comentariosPreProcessado[0]+comentariosPreProcessado[1]
 	del (comentariosPreProcessado[0])		# remove titulo dos comentarios pre processados
@@ -73,7 +81,7 @@ def main():
 	listaTokensDistintos = getTokensDistintos(comentariosPreProcessado)
 
 	# Matriz tfxidf -> linhas = numero comentarios, colunas = numero tokens distintos
-	matriztfxidf = [[0.0 for x in range(len(listaTokensDistintos))] for x in range(len(comentariosPreProcessado))]
+	matriztfxidf = [[0.0 for x in range(len(listaTokensDistintos))] for x in range(len(comentariosPreProcessado))]	
 	
 	# Calculo TFXIDF para cada token de cada comentario
 	tfxidf(comentariosPreProcessado, listaTokensDistintos, matriztfxidf)
@@ -82,7 +90,7 @@ def main():
     
 	# Para cada comentario calcula a similaridade de cosseno e a distancia euclidiana daquele comentario para todos
 	# linha 0 da matriz possui a distancia de todos os comentarios para o titulo+descricao
-	calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, comentariosPreProcessado, matriztfxidf)
+	calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, matriztfxidf)
 			
 	# "\n#################################### MATRIZ TRANSFORMADA ###########################################\n"
 	
@@ -93,7 +101,7 @@ def main():
 	matrizSimilaridadeCossenoNMF = inicializaMatriz(matrizReduzidaNMF)		
 	
 	# Calculo a similaridade de cosseno e a distancia euclidiana na matriz reduzida
-	calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, matrizReduzidaNMF, matrizReduzidaNMF)
+	calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, matrizReduzidaNMF)
 			
 	# "\n######################################### GRAFO ################################################\n"
 			
@@ -112,11 +120,14 @@ def main():
 	matrizPageRank = inicializaMatriz(matrizSimilaridadeCosseno)		
 	matrizPageRankNMF = inicializaMatriz(matrizSimilaridadeCossenoNMF)
 			
-	calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno)
-	calculaPesoMatrizPageRank(matrizPageRankNMF, matrizSimilaridadeCossenoNMF)
+	calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno, eventos)
+	calculaPesoMatrizPageRank(matrizPageRankNMF, matrizSimilaridadeCossenoNMF, eventos)
 				
 	aumentaEsparcidadeMatriz (matrizPageRank)
-	aumentaEsparcidadeMatriz (matrizPageRankNMF)
+	aumentaEsparcidadeMatrizNMF (matrizPageRankNMF)	
+
+	matrizEstocasticaPageRank(matrizPageRank)
+	matrizEstocasticaPageRank(matrizPageRankNMF)
 	
 	salvaMatrizSimilaridadeCossenoEsparsa (matrizPageRank, "grafo.txt")
 	salvaMatrizSimilaridadeCossenoEsparsa (matrizPageRankNMF, "grafoNMF.txt")
@@ -131,15 +142,34 @@ def main():
 	resultadoPageRank = pageRank(rede)
 	resultadoPageRankNMF = pageRank(redeNMF)
 	
-	removeTituloDescricaoRanking(resultadoPageRank)
-	removeTituloDescricaoRanking(resultadoPageRankNMF)
+	removeTituloDescricaoRanking(resultadoPageRank)	
+	removeTituloDescricaoRanking(resultadoPageRankNMF)	
+
+	rankingSemUm = removeMaisUm(resultadoPageRank, comentariosPreProcessado)
+	rankingSemUmNMF = removeMaisUm(resultadoPageRankNMF, comentariosPreProcessado)
+
+	for i in range(len(rankingSemUm)):
+		rankingSemUm[i][0] = rankingSemUm[i][0] + 1
+
+	for i in range(len(rankingSemUmNMF)):
+		rankingSemUmNMF[i][0] = rankingSemUmNMF[i][0] + 1	
 	
-	salvaDadosArquivoTXT (resultadoPageRank, "rankingPageRank_original", nomeArquivo)
-	salvaDadosArquivoTXT (resultadoPageRankNMF, "rankingPageRank_transformada", nomeArquivo)
+	salvaDadosArquivoTXT (rankingSemUm, comentarios, "rankingPageRank_original", nomeArquivo)
+	salvaDadosArquivoTXT (rankingSemUmNMF, comentarios, "rankingPageRank_transformada", nomeArquivo)
+
+	arquivo = open("resultados/resultadosRanking/sumario_PageRank" + nomeArquivo + ".txt", 'w')
+	sep = " "
+
+	for i in range(10):
+		comentario =  sep.join(comentarios[rankingSemUm[i][0]])    
+		arquivo.write(comentario)
+		arquivo.write ("\n\n")
+
+	arquivo.close()
 	
 	# "\n######################################### RESULTADO ################################################\n"
 	
-	resultadosPrecisionRecallFscore(oraculo, nomeArquivo, len(comentariosPreProcessado), resultadoPageRank, resultadoPageRankNMF)
+	resultadosPrecisionRecallFscore(oraculo, nomeArquivo, len(comentariosPreProcessado), rankingSemUm, rankingSemUmNMF)
 		
 	return 0
 

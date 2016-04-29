@@ -1,0 +1,6 @@
+19
+['gibson042', 'commented', 'sorry', 'if', 'i', 'came', 'across', 'too', 'strong', 'here', ',', 'but', 'i', 'was', 'thinking', 'of', 'precisely', 'those', 'other', 'changes', 'that', 'got', 'reverted', '.', 'the', 'feedback', 'from', 'jquery', 'ui', 'is', 'valuable', ',', 'and', 'in', 'some', 'cases', 'i', 'can', 'see', 'us', 'expanding', 'our', 'domain', 'of', 'valid', 'input', 'to', 'support', 'broader', 'use', '...', 'maybe', 'this', 'is', 'one', 'of', 'them', '.', 'but', 'i', 'wouldn', "'t", 'consider', 'it', 'unreasonable', 'for', 'ui', '<=1.12', 'ui', 'to', 'break', 'on', 'core', '3', '.0', 'without', 'migrate', '.', 'that', "'s", 'the', 'very', 'purpose', 'of', 'migrate', ',', 'and', 'in', 'my', 'opinion', 'it', 'allows', 'us', 'the', 'flexibility', 'to', 'move', 'forward', 'while', 'preserving', 'temporary', 'backwards', 'compatibility', '.', 'i', 'just', 'don', "'t", 'want', 'to', 'see', 'us', 'stuck', 'because', 'a', 'particularly', 'important', 'and', 'still', 'healthy', 'downstream', 'consumer', 'happens', 'to', 'currently', 'misuse', 'some', 'functionality', '.']
+
+22
+['gibson042', 'commented', '@arschmitz:', 'jquery', '/jquery-migrate#108']
+

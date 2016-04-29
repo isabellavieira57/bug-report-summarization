@@ -1,0 +1,20 @@
+zdroid commented good idea .
+
+mdo commented @zdroid what would you find and replace a .? i don 't think that 's a very feasible solution . finding and replacing across an entire directory isn 't doable without someone to easily modify .
+
+mdo commented how does a new library solve the problem of conflicting namespaces , @zdroid? besides , the prefix thing is something that could be optional i imagine we set it to nothing by default , but folks could customize it .
+
+mdo commented not going to happen folks , sorry .
+
+surbma commented @arturadib thank you for your point of view ! you are absolutely right . i just want to add , if somebody makes a complete webdesign based on bootstrap , that is fine without any prefixes , since the theme is 100 % bootstrap . prefixing makes sense when you want to use just part of it to extend a theme . i 'm working with wordpress and i have made a twitter bootstrap plugin just for the special effects : tabs , collapse , modal , buttons , etc . so for me , prefix would be very useful not to conflict with themes , as this plugin not made for one special theme , but for many wordpress themes . it is essential for me . i just don 't understand if a solution would be beneficial for a lot of developers and this solution will not have any negative effect for those who doesn 't need it , than why one not would make it possible ? it could be a simple checkbox on the customize page if we want to have prefix or not . of course , the default setting would be without prefix . it 's that simple . everybody will be happy ! :)
+
+surbma commented @zdroid i understand your point of view . however bootstrap can be used as a small library to extend an existing theme 's style . that 's exactly how i use bootstrap . so prefixing is not stupid , it can be very -very useful in some cases . i also understand , that mainly it is used as a complete framework . i can see a solution , if there will be an option on the customize page for prefixing all classes . it could be a checkbox if i want to have all the styles with prefix or without . of course , the default setting will be without any prefix . in this case bootstrap can be used for all manner . do you agree , that it will let other developers to use bootstrap on more projects ? it is just a small feature and can help thousands of developers .
+
+mdo commented @zdroid it 's not stupid , and it 's not non -semantic. keep your demeaning opinions to yourself when you comment here this isn 't the place for it and i won 't stand for it
+
+arturadib commented just wanted to add an argument for namespacing i haven 't seen yet - in addition to collision issues , the lack of class prefixes makes it incredibly hard to pluck bootstrap out of one 's code base , so you 're essentially committed to bootstrap for life . with prefixes you could do a global search and identify exactly what html files /elements made use of it , and make changes accordingly .
+
+zdroid commented @mdo sorry if i sound aggressive . i just want to point that prefixing isn 't needed . if someone just have bootstrap as customized small lib (s)he can replace names of all classes with -bs- prefix (all modern editors have the multi -replace feature ). @surbma just dowload wanted css and then prefix class names .
+
+arturadib commented @germainguglielmetti lots of potential , but i agree with @fagnermartinsbrack “ as it stands it doesn 't solve the problem . we need a prefix in the name , without incurring side -effects (i.e. additional selector levels ).
+

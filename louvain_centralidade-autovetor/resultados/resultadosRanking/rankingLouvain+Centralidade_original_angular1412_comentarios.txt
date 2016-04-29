@@ -1,0 +1,24 @@
+6
+['lastnico', 'commented', 'i', 'do', 'agree', 'with', '@pkozlowski-opensource', '(at', '#1412', '(comment)),', 'i', 'would', 'expect', 'such', 'behavior', 'too', '.', 'how', 'the', 'user', 'could', 'fix', 'a', 'mistake', 'from', 'the', 'model', 'in', 'the', 'form', '(like', 'a', 'field', 'not', 'matching', 'its', 'pattern', ')', 'if', 'he', 'cannot', 'even', 'see', 'what', 'was', 'the', 'previous', 'invalid', '(non-matching)', 'value', '(think', 'particularly', 'about', 'patterns', 'added', 'afterwards', ',', 'while', 'there', 'are', 'already', 'existing', 'data', ').', 'and', 'after', 'all', ',', 'the', 'values', 'should', 'be', 'copied', 'at', 'least', 'once', 'at', 'initialization', 'time', 'from', 'model', 'to', 'input', ',', 'because', ',', 'once', 'in', 'inputs', ',', 'they', 'are', 'going', 'to', 'be', 'checked', 'and', 'will', 'be', 'copied', 'back', 'to', 'model', 'only', 'once', 'they', 'will', 'match', 'the', 'requirement', '(here:', 'match', 'their', 'related', 'ng', '-pattern).']
+
+5
+['mforce', 'commented', 'hi', 'guys', 'any', 'updates', 'on', 'this', ',', 'this', 'issue', 'is', 'kind', 'of', 'driving', 'me', 'nuts', '?', 'i', 'have', 'another', 'simple', 'use', 'case', 'that', 'is', 'affected', 'by', 'this', '.', 'let', "'s", 'say', 'one', 'wants', 'a', 'simple', 'way', 'to', 'display', 'the', 'character', 'count', 'of', 'a', 'textbox', 'bound', 'to', 'a', 'model', 'field', ',', 'if', 'i', 'want', 'to', 'use', '{{model.length}}', 'the', 'length', 'property', 'doesn', "'t", 'work', 'since', 'the', 'model', 'is', 'invalid', 'and', 'doesn', "'t", 'have', 'a', 'value', '.', 'is', 'there', 'a', 'way', 'to', 'make', 'this', 'feature', 'of', 'the', 'model', 'optional', '?']
+
+2
+['pkozlowski', '-opensource', 'commented', 'hi', '!', 'there', 'was', 'a', 'discussion', 'about', 'this', 'on', 'the', 'mailing', 'list', ':', 'https', '://groups.google.com/d/topic/angular/8fk-ya6juzo/discussion', 'it', 'is', 'kind', 'of', 'corner', 'case', 'but', 'i', 'do', 'agree', 'that', 'this', 'is', 'not', 'intuitive', '.', 'i', 'would', 'expect', 'the', 'data', 'to', 'be', 'displayed', 'and', 'the', 'input', '/', 'form', 'marked', 'as', 'invalid', '.']
+
+14
+['narretz', 'commented', '@evangalen', 'very', 'slick', 'solution', '.', 'implementation', 'question', ',', 'do', 'your', 'directives', 'simply', 'enhance', 'the', 'core', 'input', 'directives', '(run', 'after', '),', 'since', 'they', 'are', 'defined', 'in', 'another', 'module', ',', 'or', 'is', 'there', 'more', 'to', 'it', '?']
+
+10
+['pkozlowski', '-opensource', 'commented', '@btford', 'i', "'m", 'for', 'reopening', 'this', 'one', '.', 'the', 'current', 'behavior', 'is', 'super', '-confusing.', 'i', 'know', 'that', 'the', 'fix', 'is', 'far', 'from', 'simple', 'and', 'it', 'would', 'be', 'a', 'breaking', 'change', 'but', 'this', 'is', 'one', 'of', 'those', 'things', 'that', 'people', 'keep', 'bumping', 'into', 'over', 'and', 'over', 'again', '.']
+
+9
+['lastnico', 'commented', 'the', '{issue,implementation', 'choice', '}', 'is', 'still', 'here', ',', 'so', 'i', 'guess', 'we', 'should', 'leave', 'this', 'issue', 'open', ';)']
+
+3
+['mhevery', 'commented', 'this', 'is', 'a', 'question', 'for', '@vojtajina,', 'but', 'i', 'think', 'the', 'reason', 'is', 'that', 'when', 'the', 'the', 'conversion', 'is', 'not', 'possible', 'it', 'is', 'better', 'to', 'have', 'undefined', ',', 'since', 'we', 'literally', 'don', "'t", 'know', 'what', 'it', 'is', '.', 'imagine', 'that', 'you', 'are', 'entering', 'longitude', '/latitude,', 'while', 'you', 'are', 'doing', 'the', 'entering', 'the', 'model', 'is', 'unknown', ',', 'until', 'you', 'enter', 'all', 'of', 'the', 'coordinates', '.', 'it', 'makes', 'no', 'sense', 'to', 'have', 'a', 'position', 'randomly', 'assigned', 'by', 'partial', 'parsing', '.', 'similarly', ',', 'when', 'the', 'model', 'is', 'expecting', 'an', 'email', ',', 'and', 'you', 'have', 'not', 'finished', 'typing', ',', 'then', ',', 'you', 'don', "'t", 'have', 'an', 'email', ',', 'and', 'so', 'it', 'would', 'be', 'wrong', 'to', 'have', 'non', '-email', 'in', 'the', 'model', '.', 'i', 'think', 'the', 'other', 'possibility', 'is', 'to', 'have', 'the', 'last', 'valid', 'value', 'in', 'the', 'model', 'rather', 'then', 'undefined', '.']
+
+11
+['ruedamanuel', 'commented', 'has', 'anyone', 'come', 'up', 'with', 'a', 'workaround', 'for', 'this', 'issue', '?', 'i', "'m", 'setting', 'up', 'a', 'show', '/hide', 'function', 'for', 'a', 'password', 'input', 'field', 'but', 'the', 'model', 'won', "'t", 'persist', 'if', 'it', 'doesn', "'t", 'pass', 'validation', 'first', '.']
+

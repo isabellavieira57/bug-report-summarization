@@ -1,0 +1,20 @@
+andreatarr commented probably not for us . we already have mootools and there 's been a lot of demand for us to ship with jquery since most of the extension developers and site builders use that . i think we 'd be strung up by our thumbs if we added another developers js framework instead of simple , wildly popular one .
+
+fjordaan commented please see the work that jquery ui is doing on accessibility : http ://groups.google.com/group/jquery-a11y/topics e .g. here are accessible implementations by hans hillen of most of the principal widgets : http ://hanshillen.github.com/jqtest/ with details of what changes were made to the original widgets . i would love to see the same improvements and commitment to accessibility in bootstrap .
+
+julianhh commented any news on accessibility support (at least for upcoming 3 .0) ? anyway .. +1 on this whole issue !
+
+turbokia commented are there any updates on this ? i work for washington state , usa and accessibility is a big deal these days .
+
+andreatarr commented @jedsundwall yes , i think we 'd be interested in helping with that . when are you thinking of having the challenge ? ideally , we would be merging this in for our beta by the end of july though we 'd have until september to get fixes in . the accessibility issue and lack of rtl support are two things we need feel comfortable that we can solve before we can give the final go ahead .
+
+andreatarr commented we are looking at using bootstrap in joomla for the new release . however if we are going to do that it will need to be accessible since we have no intention of taking a step backwards in accessibility . we 'd love to work with others to make this happen .
+
+jedsundwall commented @andreatarr i 'm considering running a challenge (possibly seeing if we can partner with some govt agencies and get it on http ://challenge.gov/) later this year to create an accessible version of bootstrap “ or just take @fat's approach and write a plugin to make bootstrap accessible . would joomla be willing to work with us on that ?
+
+juthilo commented @gagarine the issue is in fact already closed for that reason .
+
+trumbitta commented hello , i am one of the main contributors of entando . we 're using the great mootools , but also on our way to replace it with the more popular jquery , and just starting to mess around with bootstrap for one of the future releases of entando . accessibility , both in frontend and in the administration area , is very important for us . thus , i will be very glad to try and lend a hand if this effort really will start . a final note : speaking for and offering myself , not the entire team (but i will ask them to join somehow , for sure ).
+
+alienlebarge commented it is certain that "bootstrap" has some lacks for accessibility . one of the first thing to do is to have a correct html code . i have allready identify some problems about it #2326 . i work for a government and accessibility is a key element for us . improved accessibility could be a project for the next release . what do you think ?
+

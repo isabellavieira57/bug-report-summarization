@@ -82,18 +82,18 @@ def main():
     
 	# Para cada comentario calcula a similaridade de cosseno e a distancia euclidiana daquele comentario para todos
 	# linha 0 da matriz possui a distancia de todos os comentarios para o titulo+descricao
-	calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, comentariosPreProcessado, matriztfxidf)
-	calculaDistanciaEuclidiana(matrizDistanciaEuclidiana, comentariosPreProcessado, matriztfxidf)
+	calculaSimilaridadeCosseno(matrizSimilaridadeCosseno, matriztfxidf)
+	calculaDistanciaEuclidiana(matrizDistanciaEuclidiana, matriztfxidf)
 			
 	# Ordena a similaridade de todos os comentarios com o titulo+descricao
 	rankingSimilaridadeCossenoTituloDescricao = ordenaRanking (matrizSimilaridadeCosseno[0])
 	removeTituloDescricaoRanking(rankingSimilaridadeCossenoTituloDescricao)
-	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricao, "rankingSimCosseno_original", nomeArquivo)
+	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricao, comentarios, "rankingSimCosseno_original", nomeArquivo)
 	
 	# Ordena a distancia euclidiana de todos os comentarios com o titulo+descricao
 	rankingDistanciaEuclidianaTituloDescricao = ordenaRanking (matrizDistanciaEuclidiana[0])
 	removeTituloDescricaoRanking(rankingDistanciaEuclidianaTituloDescricao)
-	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricao, "rankingEuclidiana_original", nomeArquivo)
+	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricao, comentarios, "rankingEuclidiana_original", nomeArquivo)
 	
 	# "\n#################################### MATRIZ TRANSFORMADA ###########################################\n"
 	
@@ -105,18 +105,18 @@ def main():
 	matrizDistanciaEuclidianaNMF = inicializaMatriz(matrizReduzidaNMF)	
 	
 	# Calculo a similaridade de cosseno e a distancia euclidiana na matriz reduzida
-	calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, matrizReduzidaNMF, matrizReduzidaNMF)
-	calculaDistanciaEuclidiana(matrizDistanciaEuclidianaNMF, matrizReduzidaNMF, matrizReduzidaNMF)
+	calculaSimilaridadeCosseno(matrizSimilaridadeCossenoNMF, matrizReduzidaNMF)
+	calculaDistanciaEuclidiana(matrizDistanciaEuclidianaNMF, matrizReduzidaNMF)
 
 	# Ordena a similaridade dos comentários com o título e a descrição
 	rankingSimilaridadeCossenoTituloDescricaoNMF = ordenaRanking (matrizSimilaridadeCossenoNMF[0])
 	removeTituloDescricaoRanking(rankingSimilaridadeCossenoTituloDescricaoNMF)
-	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricaoNMF, "rankingSimCosseno_transformada", nomeArquivo)
+	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricaoNMF, comentarios, "rankingSimCosseno_transformada", nomeArquivo)
 
 	# Ordena distancia euclidiana dos comentários com o título e a descrição
 	rankingDistanciaEuclidianaTituloDescricaoNMF = ordenaRanking (matrizDistanciaEuclidianaNMF[0])	
 	removeTituloDescricaoRanking(rankingDistanciaEuclidianaTituloDescricaoNMF)
-	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricaoNMF, "rankingEuclidiana_transformada", nomeArquivo)
+	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricaoNMF, comentarios, "rankingEuclidiana_transformada", nomeArquivo)
 	
 	# "\n######################################### RESULTADO ################################################\n"
 	

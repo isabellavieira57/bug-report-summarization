@@ -1,0 +1,20 @@
+akoprow commented @igorminar, thanks for the answer . what i 'm trying to do is quite simple : i have a list of elements that i display horizontally . elements are absolute positioned with a left property computed based on their $index. their ordering sometimes changes in which case i 'd like to animate them moving to appropriate positions . this fiddle should make it clear : http ://jsfiddle.net/koper/suzr5. it 's a pretty good abstraction of what i 'm trying to do , except i 'd like to animate the blocks changing their positions (which is not happening in the fiddle ). i 'm guessing i could just $watch the array on the scope , and animate the elements in the listener . however , it feels "wrong" to circumvent the animation framework in this way . given mine and @cfchase's use -cases it kinda sounds like there are two kinds of moves one may be interested in : relative (ordering within the array changes ) and absolute (index changes ). btw . i 'd be happy to try to work it out and submit a pull request if you guys are interested in that and if we achieve a consensus on how to address that .
+
+schmod commented agreed that the current behavior makes very little sense . among other things , one would expect that ng -move could be used to animate a list being shuffled . however , because ng -move is not necessarily get applied when an elements ' $index changes , this is not possible . here 's a plunkr that illustrates the problem : http ://plnkr.co/edit/oavwl83hyncxag5r424v?p=preview note that swapping the first and last elements of an ng -repeat triggers ng -move on every element except for the first one (which is being moved to the bottom of the list ).
+
+trickpattyfh20 commented does anyone have an example of a recommended workaround in the mean time ? maybe adding a class to all the siblings of the target element and then animating that class , then removing the class ?
+
+mattatbt commented has there been any further progress on this issue ? i have the same use case as @cfchase and would be interested in applying move animations to $index changes
+
+toobstar commented +1
+
+toobstar commented +1
+
+ossdeveloper commented waiting for the solution ...
+
+matsko commented i see what you mean . you 're expecting a move to be triggered when add to beginning and add to end are called . right now it is only triggering it when you apply a sort right ?
+
+matsko commented @igorminar @akoprow we definitely need to have some kind of animation even if the element stays in place and the dom tree jumps up or down a bit . but using move for the animation wouldn 't really be a move animation since nothing is getting moved around . any bright ideas ?
+
+akoprow commented @matsko: looks like there 's some general interest in this feature :)
+

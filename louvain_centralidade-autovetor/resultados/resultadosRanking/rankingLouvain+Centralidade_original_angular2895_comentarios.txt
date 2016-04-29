@@ -1,0 +1,21 @@
+23
+['spaceribs', 'commented', 'if', 'the', 'purpose', 'of', 'a', 'directive', 'is', 'to', 'modularize', 'functionality', ',', 'we', "'ve", 'been', 'given', 'the', 'native', 'ability', 'to', 'generate', 'a', 'templateurl', 'based', 'on', 'a', 'function', 'which', 'receives', 'only', 'undigested', 'element', 'attributes', '.', 'it', 'may', 'be', 'difficult', 'to', 'change', 'the', 'functionality', 'over', 'to', 'allow', 'access', 'to', 'the', 'scope', ',', 'but', 'it', 'certainly', 'makes', 'more', 'sense', 'than', 'to', '"stop', 'there', '".']
+
+22
+['vict', '-shevchenko', 'commented', 'ng', '-switch', 'from', '8', 'elements', 'looks', 'crazy', '.', 'keeping', 'track', 'of', 'behavior', 'is', 'my', 'problem', 'actually', '.', 'you', 'guys', 'already', 'did', 'support', 'for', 'function', 'in', 'templateurl', ',', 'so', 'it', 'already', 'gives', 'some', 'space', 'for', 'dynamically', 'change', 'it', '.', 'with', 'possibility', 'to', 'access', 'real', 'values', 'from', 'parent', 'scope', 'it', 'will', 'be', 'even', 'be', 'more', 'powerful', '.', 'that', 'is', 'why', 'i', '`d', 'like', 'to', '+1', 'for', 'this', 'feature', 'request', '.']
+
+13
+['caitp', 'commented', '@vict-shevchenko', 'the', 'template', 'function', 'is', 'run', 'before', 'scope', 'is', 'ever', 'created', ',', '(so', 'isolate', 'scope', 'propreties', 'would', 'never', 'work', ')', '---', 'it', 'would', 'only', 'work', 'properly', 'with', 'the', 'parent', 'scope', '.', 'i', 'think', 'people', 'generally', 'want', 'this', 'behaviour', 'with', 'isolate', 'scope', 'properties']
+
+32
+['spaceribs', 'commented', '@btford', 'yeah', ',', 'i', 'was', 'planning', 'on', 'it', ',', 'i', "'ll", 'submit', 'something', 'tonight', 'after', 'work', '.']
+
+27
+['localpcguy', 'commented', 'i', "'m", 'not', 'exactly', 'sure', 'why', 'dynamic', 'templates', 'are', 'such', 'a', 'bad', 'idea', '.', 'if', 'there', 'is', 'a', 'directive', 'that', 'has', 'the', 'same', 'logic', 'but', 'presents', 'in', 'different', 'ways', 'visually', ',', 'why', 'would', 'you', 'want', 'to', 'duplicate', 'that', 'logic', 'into', 'multiple', 'directives', '?', 'i', 'don', "'t", 'like', 'having', 'to', 'duplicate', 'logic', 'or', 'to', 'have', 'to', 'use', 'control', 'mechanisms', 'in', 'my', 'html', 'templates', 'except', 'where', 'it', 'really', 'is', 'necessary', '.', 'can', 'you', 'unpack', 'why', 'this', 'is', 'such', 'a', 'bad', 'idea', 'and', 'hurts', 'modularity', 'please', '?']
+
+12
+['vict', '-shevchenko', 'commented', '+1', 'will', 'be', 'super', 'usable', 'to', 'have', 'compiled', 'parameters', 'in', 'tempalteurl', 'function', '.', 'thanks', '.']
+
+31
+['btford', 'commented', 'there', 'is', 'nothing', 'in', 'the', 'directive', 'docs', 'about', 'it', 'would', 'you', 'like', 'to', 'submit', 'a', 'pr', '?']
+

@@ -1,0 +1,20 @@
+mdo commented added in 2 .0.1-wip.
+
+samsamm777 commented submitted a pr for this . #2875
+
+ryanscottlewis commented -1 to all you "plus-one"s out there . the fact that the hover effect is present by default alerts good web designers on how to easily set their own hover effect by overriding the default . all bootstrap needs is a small spot in the docs describing how to customize /remove the hover effect . i also want to suggest this as the default hover effect : .table tbody tr :hover td , .table tbody tr :hover th { #translucent > .background(black, 0 .05); }
+
+cleentfaar commented did i just got githubbed ? because those are some good points you are raising :) especially the last one , i certainly agree that what separates a good developer from a copy /paste-freak, is the ability to customize the framework and be able to change it effortlessly to achieve the wanted result . i was going to write a whole answer about your question with twitter making themes now , but alas , that is just opening another can of worms . for what it 's worth , i agree and you can 't expect every little thing to be optional ; a start has to be made somewhere . maybe this is more an issue of what i expect from bootstrap , namely a good starting point for common used elements in my website . it 's just difficult to deal with that now the installation instructions would change : old instructions : include bootstrap override colors / paddings etc that i don 't like done new instructions include bootstrap remove the hover effect from tables override colors / paddings etc that i don 't like done the fact that i need to do more then 'making it look the way i want ', makes me feel that i 'm not getting a bootstrap . i get bootstrap with extra things enabled already . again , i think we would agree on this when digging deeper , it suffices to say that this is my personal opinion and there is always something new for me to learn , this may not be an exception .
+
+cleentfaar commented +madisona that doesn 't remove the effect , only makes it behave as if it wasn 't there (i.e. transparent ). and as a side note , i was stunned by the appearant disregard of continuing bootstrap 's (re)usability, not the fact that they do something for only one person . i don 't see a problem with the latter if the request is reasonable . it 's the implementation of the issue i find lacking . oh and about constructive requests , i must be a real degenerate but if i read the comments above (dating back more then 2 months ago ), nothing will get faster with nice fluffy questions either i do agree about the negativity i used to show my frustration ; removed
+
+nragaz commented this sort of sucks if you want to use the table styles but hover on each individual cell or not hover at all while using custom cell /row backgrounds . it 's impossible to override the hover effect on the row . could this be moved into a separate mixin , e .g. table -row-hover?
+
+kin -hong commented i agree with @nragaz. don 't understand why this is not a separate mixin or controllable , now i cannot have tables without hovering
+
+djazzmusic commented i would like an option to remove the hover too !
+
+nragaz commented ugh - i 'm going to disable notifications for this very shortly . the maintainers show no interest in reopening this issue . my feeling is that bootstrap includes lots of things you have to change to make a site your own , so this is just another one of those . the problem with this particular effect is that it 's very difficult to override without replacing the whole bootstrap /tables.less with your own file . however , que sera sera .
+
+windock commented maybe we need to open another issue with feature request to remove hover effect ? developers seem to be willing to implement features .
+

@@ -356,12 +356,18 @@ def resultadosMAPGeral ():
 #-----------------------------------------------------------------------------#
 #					 		 												  #
 #-----------------------------------------------------------------------------#
-def salvaDadosArquivoTXT (dados, nomeArquivo, nomeRelatorioBug):
+def salvaDadosArquivoTXT (dados, comentarios, nomeArquivo, nomeRelatorioBug):
 	
 	#print "NOME RELATORIO BUG ", nomeRelatorioBug
 	
 	arquivo = open("resultados/resultadosRanking/" + nomeArquivo + "_" + nomeRelatorioBug + ".txt", 'w')
 	
 	for i in range(len(dados)):
+		#if ( dados[i][0] != 0 ):
 		arquivo.write(str(dados[i][0])+"\n")
+
+	arquivo = open("resultados/resultadosRanking/" + nomeArquivo + "_" + nomeRelatorioBug + "_comentarios.txt", 'w')
+
+	for i in range(len(dados)):
+		arquivo.write(str(dados[i][0]) + "\n" + str(comentarios[dados[i][0]])+"\n\n")
 	

@@ -36,6 +36,7 @@ def main():
 	# "\n#################################### PRE-PROCESSAMENTO ###########################################\n"
 	
 	retorno = leArquivo()			# leitura arquivo retorna comentarios, nome arquivo, oraculo
+	eventos = leArquivoEventos(retorno[1])
 
 	# Comentarios
 	comentarios = retorno[0]
@@ -100,8 +101,8 @@ def main():
 	matrizPageRank = inicializaMatriz(matrizSimilaridadeCosseno)		
 	matrizPageRankNMF = inicializaMatriz(matrizSimilaridadeCossenoNMF)
 			
-	calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno)
-	calculaPesoMatrizPageRank(matrizPageRankNMF, matrizSimilaridadeCossenoNMF)
+	calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno, eventos)
+	calculaPesoMatrizPageRank(matrizPageRankNMF, matrizSimilaridadeCossenoNMF, eventos)
 				
 	aumentaEsparcidadeMatriz (matrizPageRank)
 	aumentaEsparcidadeMatriz (matrizPageRankNMF)
@@ -114,7 +115,7 @@ def main():
 	
 	#os.remove("grafo.txt")
 	#os.remove("grafoNMF.txt")
-		
+
 	# Acho os clusters na rede
 	resultLouvain = louvain(rede)
 	resultLouvainNMF = louvain(redeNMF)
@@ -133,9 +134,30 @@ def main():
 	
 	removeTituloDescricaoRanking(rankingComunidade)
 	removeTituloDescricaoRanking(rankingComunidadeNMF)
+
+	for i in range(len(rankingComunidade)):
+		rankingComunidade[i][0] = rankingComunidade[i][0] + 1
+
+	for i in range(len(rankingComunidadeNMF)):
+		rankingComunidadeNMF[i][0] = rankingComunidadeNMF[i][0] + 1
 	
-	salvaDadosArquivoTXT (rankingComunidade, "rankingLouvain+Centralidade_original", nomeArquivo)
-	salvaDadosArquivoTXT (rankingComunidadeNMF, "rankingLouvain+Centralidade_transformada", nomeArquivo)
+	salvaDadosArquivoTXT (rankingComunidade, comentarios, "rankingLouvain+Centralidade_original", nomeArquivo)
+	salvaDadosArquivoTXT (rankingComunidadeNMF, comentarios, "rankingLouvain+Centralidade_transformada", nomeArquivo)
+
+	arquivo = open("resultados/resultadosRanking/sumario_Louvain" + nomeArquivo + ".txt", 'w')
+	sep = " "
+
+	tamanho = len(rankingComunidadeNMF)
+
+	if ( tamanho > 10 ):
+		tamanho = 10
+
+	for i in range(tamanho):
+		comentario =  sep.join(comentarios[rankingComunidadeNMF[i][0]])    
+		arquivo.write(comentario)
+		arquivo.write ("\n\n")
+
+	arquivo.close()
 	
 	# "\n######################################### RESULTADO ################################################\n"
 	

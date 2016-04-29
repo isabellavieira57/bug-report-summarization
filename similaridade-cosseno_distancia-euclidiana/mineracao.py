@@ -30,13 +30,13 @@ def getTokensDistintos (comentarios):
 	return listaTokensDistintos
 
 #-----------------------------------------------------------------------#
-# Conta quantas vezes o token aparece no documento						#
+# Conta quantas vezes o token aparece no comentario						#
 #-----------------------------------------------------------------------#
-def frequenciaToken (token, comentariosPreProcessado):
+def frequenciaToken (token, comentarioPreProcessado):
 
 	contador = 0
 
-	for comentario in comentariosPreProcessado:
+	for comentario in comentarioPreProcessado:
 		contador = contador + comentario.count(token)
 
 	return contador
@@ -64,10 +64,10 @@ def tfxidf(comentariosPreProcessado, listaTokensDistintos, matriztfxidf):
 		for j in range(len(listaTokensDistintos)):
 			# numero de comentarios que tem o token
 			totalComentariosTemToken = contaTokenDocumento(listaTokensDistintos[j], comentariosPreProcessado)		
-			# quantas vezes o token aparece no documento
-			frequenciaTokenDocumento = frequenciaToken(listaTokensDistintos[j],comentariosPreProcessado[i]) 		
+			# quantas vezes o token aparece no comentario
+			frequenciaTokenComentario = frequenciaToken(listaTokensDistintos[j],comentariosPreProcessado[i]) 		
 			# calculo tfxidf	
-			resultadoTFXIDF = (frequenciaTokenDocumento * (np.log(numeroComentarios/totalComentariosTemToken)))
+			resultadoTFXIDF = (frequenciaTokenComentario * (np.log(numeroComentarios/totalComentariosTemToken)))
 			#matriztfxidf[i][j] = { 'token' : listaTokensDistintos[j], 'freq' : resultadoTFXIDF }
 			matriztfxidf[i][j] = resultadoTFXIDF
 	
@@ -75,7 +75,7 @@ def tfxidf(comentariosPreProcessado, listaTokensDistintos, matriztfxidf):
 # spatial.distance.cosine calcula a distância e não a similaridade.     # 
 # Para avaliar a similaridade, deve-se subtrair 1.                      #
 #-----------------------------------------------------------------------#
-def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, comentariosPreProcessado, matriztfxidf):
+def calculaSimilaridadeCosseno (matrizSimilaridadeCosseno, matriztfxidf):
 
 	for i in range(len(matriztfxidf)):
 		for j in range(len(matriztfxidf)):
@@ -98,10 +98,10 @@ def salvaMatrizSimilaridadeCossenoEsparsa (matriz, nomeArquivo):
 #-----------------------------------------------------------------------------#
 # 																			  #
 #-----------------------------------------------------------------------------#
-def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, comentariosPreProcessado, matriztfxidf):
+def calculaDistanciaEuclidiana	(matrizDistanciaEuclidiana, matriztfxidf):
 
-	for i in range(len(comentariosPreProcessado)):
-		for j in range(len(comentariosPreProcessado)):
+	for i in range(len(matriztfxidf)):
+		for j in range(len(matriztfxidf)):
 			distanciaEuclidiana = spatial.distance.euclidean(matriztfxidf[i], matriztfxidf[j])
 			matrizDistanciaEuclidiana[i][j] = distanciaEuclidiana
 	

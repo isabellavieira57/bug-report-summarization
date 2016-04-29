@@ -1,0 +1,20 @@
+chrisantaki commented @markelog removing the recursion added 82 bytes , and didn 't seem to increase performance . perhaps my implementation could be improved . http ://jsperf.com/jquery-off-with-callback/13 chrisantaki @1f73674
+
+chrisantaki commented fixed version of test shows off by ns performing 5x faster . http ://jsperf.com/jquery-off-with-callback/10
+
+chrisantaki commented sounds good - nice catch @gibson042
+
+chrisantaki commented nope , will give it a try
+
+chrisantaki commented thanks for the heads up @dmethvin
+
+chrisantaki commented agreed @dmethvin! i 'm ready to move on . the namespace based removal isn 't in bad shape , like we 'd originally suspected .
+
+chrisantaki commented if we 'd like to pay 42 bytes , we can speed up off by ns by ~20% by caching some regex for the recursion . http ://jsperf.com/jquery-off-with-callback/11 a new parameter , regex , was added to the remove method https ://github.com/chrisantaki/jquery/compare/namespace-regex?expand=1
+
+markelog commented that 's 168 samples of the test loop , in events perf that amount should much lower . this means only one test execution is measured correctly , others aren 't, in other words , it 's still shows the problem just don 't give you precise numbers . common mistake , i should have checked it out more thoroughly . @jdalton, @mathiasbynens am i right here ?
+
+chrisantaki commented just an update , we might have a memory leak due to the recursion . http ://jsperf.com/namespaced-event-removal . digging more into it ...
+
+chrisantaki commented if we get fancy , off by ns can speed up 18 % for just 7 bytes http ://jsperf.com/jquery-off-with-callback/12 instead of a new regex parameter , we just ask mappedtypes if it 's down to moonlight as a cache bearer . which it agrees to , of course . https ://github.com/chrisantaki/jquery/compare/namespace-mappedtypes?expand=1
+

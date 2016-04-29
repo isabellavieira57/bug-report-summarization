@@ -1,0 +1,9 @@
+15
+['mzgol', 'commented', 'note', 'that', 'the', 'jit', 'is', 'per', '-function,', 'not', 'per', 'incorrectly', 'treated', 'object', '.', 'the', 'following', 'code', ':', 'var', 'getlength', '=', 'function', '(array)', '{', 'return', 'array', '.length;', '};', 'var', 'getlength1', '=', 'function', '(array)', '{', 'return', 'array', '.length;', '};', 'var', 'o', '=', '{5:', "'test'};", '//', 'jit', 'getlength', 'with', 'only', 'arrays', 'for', '(var', 'i', '=', '0', ';', 'i', '<', '1000', ';', 'i', '++)', 'getlength', '([]);', 'alert', '(getlength(o)', '+', "',", "'", '+', 'getlength1', '(o));', 'will', 'alert', '6', ',', 'undefined', '.']
+
+16
+['timmywil', 'commented', 'per', 'the', 'meeting', 'today', ',', 'we', "'ll", 'be', 'doing', 'a', 'hot', '-fix', 'patch', 'release', 'for', 'this', '.']
+
+17
+['timmywil', 'commented', 'that', 'is', ',', 'if', 'perf', 'is', 'not', 'an', 'issue', '.']
+

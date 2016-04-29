@@ -130,6 +130,3 @@ Agreed @dmethvin! I'm ready to move on. The namespace based removal isn't in bad
 markelog commented
 Best patch is the one in which you don't change anything.
 Thank you Chris.
-
-ChrisAntaki commented
-+1
