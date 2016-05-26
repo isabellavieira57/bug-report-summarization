@@ -1,0 +1,77 @@
+Changes to offset break jQuery UI
+
+arschmitz commented on May 13 1617479 contains several breaking changes for jQuery UI The first is the switch to return undefined for hidden or disconnected elements which has broken all of our interactions tests. The second is to allow offest to throw getBoundingRect not a function when offset is called on the window. While i agree this is probably not a valid use to begin with this may break a lot of other code expecting undefined
+
+timmywil commented on May 13 For the first case, I think undefined is more accurate. Retrieving offset on a disconnected element doesn't make much sense when you think about it. For the second, I'd be in support of failing silently and returning undefined.
+
+dmethvin commented on May 13 The nice thing about returning undefined is that a naive caller will be expecting an object and die in their own code, which will be easier to debug. We don't document that it returns anything but an object and I'm okay with that since the unhandled cases are mentioned in the docs.
+
+gibson042 commented on May 13 Are the failures all from stuff like $( element || window ).offset()? Because if so, just use $( element ).offset() instead—the method will return undefined if its context collection is empty. As part of the larger story, though, these are the kinds of things that I expect to see: failures from mild API misuse that are easy for consumers to fix. If we're not serious about valid vs. invalid input for our code, then I want to know now, because we'll just end up backing out every other change.
+
+timmywil commented on May 13 If we're not serious about valid vs. invalid input for our code, then I want to know now, because we'll just end up backing out every other change. In this case, returning undefined is still one way to handle invalid input. Not everything needs to throw an error, right?
+
+arschmitz commented on May 13 @gibson042 yes it is from things like that and i do agree its easy to fix we will fix it regardless of the outcome. However the problem is this can be pretty buried in code and hard to track down.
+
+arschmitz commented on May 13 Also you return undefined on disconnected or hidden nodes why would you throw on window but return undefined in those cases returning undefined in any "invalid" case would seem better.
+
+gibson042 commented on May 13 In this case, returning undefined is still one way to handle invalid input. Not everything needs to throw an error, right? I don't want to "handle" invalid input. We're not creating errors, we're exposing them by assuming that the input is valid. Why check for conditions that we tell consumers to avoid creating? Or in other words, how can input be invalid if we explicitly check for it?
+
+timmywil commented on May 13 how can input be invalid if we explicitly check for it? I see your point.
+
+timmywil commented on May 13 you return undefined on disconnected or hidden nodes why would you throw on window Well, looking at it from the other side, they are slightly different. Disconnected elements still have getBoundingClientRect(), while window does not. So, the current behavior reflects native in that way.
+
+gibson042 commented on May 13 That's a good point, @arschmitz. I guess I consider any element to be valid input, but the output is literally undefined if they have no layout boxes.
+
+arschmitz commented on May 13 Another side of this is when you release 3.0 if ui.1.12 is not out yet current stable jQuery will not work with any version of UI. I'm not sure if you really care about that or not though.
+
+dmethvin commented on May 13 On the bright side, returning undefined makes the error happen on the caller's side if they're not expecting it. If this was some minor plugin or rare user mistake I'd say let's leave it as-is, but breaking all current and past UI is gonna make a mess.
+
+scottgonzalez commented on May 13 Are the failures all from stuff like $( element || window ).offset()? Because if so, just use $( element ).offset() instead—the method will return undefined if its context collection is empty. The code @arschmitz showed was simplified. In reality, what happens is we are determining which element to operate on, and the default element is the window. Later on, we get the offset of the element, and that's where we're getting the error. We already have guards against windows in other parts of the code, so adding another one is fine.
+
+gibson042 commented on May 13 Also, the nature of the implementation is such that if no-layout elements were ignored as truly invalid input, then the output would be indistinguishable from valid input (since gBCR returns { top: 0, left: 0 }, which coincides with elements located at the origin).
+
+arschmitz commented on May 13 @scottgonzalez yeah like i said i think we should fix this regardless of if core backs out the change or not
+
+timmywil commented on May 13 @gibson042 I'd just like to point out that I do not disagree with you on how invalid input should be handled. The problem is figuring out how much we can change right now without causing too much of a ruckus. So, I wouldn't interpret any change here as a policy change to be applied throughout the codebase. @arschmitz Is this the only breaking change you've noticed so far in regards to how well previous versions of UI work with jQuery 3.0?
+
+arschmitz commented on May 13 @timmywil yes i think this is the only breaking change within the actual code at this point. @scottgonzalez are you aware of any others? I think a couple had come up but got backed out.
+
+gibson042 commented on May 13 Sorry if I came across too strong here, but I was thinking of precisely those other changes that got reverted. The feedback from jQuery UI is valuable, and in some cases I can see us expanding our domain of valid input to support broader use... maybe this is one of them. But I wouldn't consider it unreasonable for UI <=1.12 UI to break on Core 3.0 without Migrate. That's the very purpose of Migrate, and in my opinion it allows us the flexibility to move forward while preserving temporary backwards compatibility. I just don't want to see us stuck because a particularly important and still healthy downstream consumer happens to currently misuse some functionality.
+
+arschmitz commented on May 13 @gibson042 so are you saying migrate will fix this because at least right now it does not?
+
+scottgonzalez commented on May 13 But I wouldn't consider it unreasonable for UI <=1.12 UI to break on Core 3.0 without Migrate. Agreed. We can handle this in UI regardless. We can also push out 1.11.5 with support for Core 3.0. We have a history of going back and doing unexpected releases to get support for new versions of core since it eases the upgrade path for users.
+
+gibson042 commented on May 13 @arschmitz: jquery/jquery-migrate#108
+
+markelog commented on May 14 I'd say if this caused so much problems with UI, it has to cause a lot of problems in the user-land. I would go through the safest way possible - in the blog post, explicitly mention incorrect use of this API, document it (yeah, sounds weird), put warnings into migrate and do this only in next major. Technically speaking, @gibson042 is absolutely right, but practically, this way is too dangerous for my taste.
+
+arschmitz commented on May 14 Just for the record this is breaking things on mobile as well though not nearly to the extent of #2300
+
+timmywil commented on May 15 @arschmitz Would mobile's breakages from #2300 be addressed by #2303 as it stands?
+
+timmywil commented on May 18 Behavior for invalid input is undefined. Since getting offset on a window is not defined behavior, it may throw an error or it may not. We're going to let migrate take over on this one. If it turns out that this causes too much of an uproar in user code, we can address that after beta release.
+
+arschmitz commented on May 18 I think letting migrate handle this seems like a good way to go. I agree calling on window does not make sense. @timmywil i believe #2300 is addressed for us by #2303 but @gabrielschulhof would know better since he debugged that issue and submitted the patch.
+
+gabrielschulhof commented on May 18 @arschmitz @timmywil I'll test my PR flat-out against mobile.
+
+gabrielschulhof commented on May 18 @arschmitz @timmywil Actually, with my fix, 7 more assertions fail :)
+
+arschmitz commented on May 18 @timmywil so most of this issue discussion has been about the change to $( window ).offset() because i thought the changes in the first part of my opening comment about returning undefined on hidden or detached elements was in tests only. However i was wrong and i think this has more potential to break things in userland then the change for how window is handled. This comes up in ui and mobile quite a bit it turns out. Both jQuery UI and Mobile allow widgets to be instantiated on a default element in a detached state via $.ui[widgetname]() and also just in general allow instantiating widgets on detached elements for improved performance among other reasons. There are also many many situations where a widget or other plugin of some sort may be instantiated or called inside of a hidden container. This is a major issue for plugin authors that cant ever reasonably know if they may be inside a hidden container ( think popups panels etc ) or in jQuery Mobile everything is hidden when the page is initialized. This all means where as in the past you could call offset() on any element with out any worry you now need to always check the return value before using it. So it will make a lot of code go from var left = $( elem ).offset().left to var offset = $( elem ).offset(); var left = offset ? offset.left || 0; Who knows it would not surprise me if you start seeing things where offset is used a lot, doing something like the below to just not have to worry about it. $.fn.safeOffset = function() { return this.offset() || { top: 0, left: 0 }; }; Because with this change it essentially makes it ( as a plugin author ) never safe to use offset with out first checking its return value, unless it is in direct response to a user action, that essentially cant happen on hidden or detached elements. for example dragging and mouse interaction type stuff ( this is a case for many of the cases of offset in ui )
+
+gabrielschulhof commented on May 19 The fact that .offset() used as a setter also crashes is bad because the only way to avoid the crash when calling the setter is to find out first whether the element is disconnected/hidden: if ( this.element.offset() ) { this.element.offset( { left: desiredLeftCoordinate, top: desiredTopCoordinate } ); } This code is hugely bad when the element is not disconnected, because querying and setting coordinates in close succession causes reflows.
+
+Well, either the above or try { this.element.offset( { left: desiredLeftCoordinate, top: desredTopCoordinate } ); } catch( anError ) { } This won't thrash the DOM, but I dunno about the try{} block ...
+
+arschmitz commented on May 19 @gabrielschulhof correct me if i'm wrong but that wont really work if you call on a collection, and one or more but not all elements are either hidden or disconnected. It will terminate as soon as it hits the first hidden or disconnected element and not continue on the rest of the collection?
+
+gabrielschulhof commented on May 19 True! So, you need to do .each(), and try inside the callback.
+
+markelog commented on May 19 @timmywil it seems we need to discuss this further?
+
+timmywil commented on May 19 @arschmitz @gabrielschulhof That's a good point. Checking if an element is disconnected before setting does seem too expensive. Would you be comfortable with continuing to allow $(window).offset() to throw, but returning zeros for disconnected elements? While it doesn't necessarily make sense to get offset on disconnected elements, the behavior would actually be more in line with native gBCR.
+
+gibson042 commented on May 19 @gabrielschulhof This code is hugely bad when the element is not disconnected, because querying and setting coordinates in close succession causes reflows. That's already an inherent part of the offset setter: https://github.com/jquery/jquery/blob/0d11c1182f2012cd6eb06ce1e3fa5a495af9bee3/src/offset.js#L35 @arschmitz Who knows it would not surprise me if you start seeing things where offset is used a lot, doing something like the below to just not have to worry about it. $.fn.safeOffset = function() { return this.offset() || { top: 0, left: 0 }; }; $el.offset() || { top: 0, left: 0 } (explicitly providing default data for later code, just like the old behavior) is entirely appropriate and expected in library/plugin code. In fact, it's what we (very) briefly had in the setter between 1617479 and 0d11c11. if you call on a collection, and one or more but not all elements are either hidden or disconnected. It will terminate as soon as it hits the first hidden or disconnected element and not continue on the rest of the collection? This, on the other hand, strikes me as a problem, and may be sufficient reason to back out 0d11c11. @arschmitz, @gabrielschulhof: how often do you simultaneously set the offset of more than one element?
+
+arschmitz commented on May 19 Would you be comfortable with continuing to allow $(window).offset() to throw, but returning zeros for disconnected elements? Yes this would be what i would recommend the window change should be rare and is very very simple to fix, so as long as its handled by migrate i see no issue. The issues with offset on hidden elements specifically seems like a much bigger problem and honestly will make offset a PITA to use. How often do you simultaneously set the offset of more than one element? Im not aware of any case in either library where this is done ( i can only think of one case where i did this ever ) it was just the first thing i thought of looking at the code because the offset documentation says "Set the current coordinates of every element in the set of matched elements, relative to the document." specifically mentioning collections being supported. the behavior would actually be more in line with native gBCR This seems like a valid point to me.

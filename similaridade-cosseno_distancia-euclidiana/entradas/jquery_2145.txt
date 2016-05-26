@@ -1,0 +1,79 @@
+$.each fails intermittently on iOS due to Safari bug
+
+osolo commented on Mar 14 There is a timing bug in iOS8 that causes mobile Safari to incorrectly report a 'length' on objects that don't have one. To the best of my knowledge, this happens on iOS8+, possibly only on 64-bit systems. The bug is triggered for objects that have only numeric properties. For example: foo = { 1: 'a', 2: 'b', 3: 'c' } In this case, if you query foo.length then mobile Safari will sometimes return 4 (the highest property + 1). This causes functions like $.each() to treat objects such as foo above as arrays instead of objects, and when it tries to iterate them as such it fails since there is no foo[0]. The problem can be fixed in the function isArrayLike(). Instead of just checking for typeof length === "number" you also need to check for obj.hasOwnProperty('length') The latter check is immune to the iOS bug. I realize this is a fix just for one browser, but it's a browser with a very large user base. You can see more background and some repro steps at the following Stack Overflow discussion: http://stackoverflow.com/questions/28155841/misterious-failure-of-jquery-each-and-underscore-each-on-ios
+
+mzgol commented on Mar 14 Thanks for the report! This is really weird and due to being a timing issue it seems impossible to write a test for it. :( Did you report it to Apple? And/or to https://bugs.webkit.org/? We'd like an issue we'd be able to link to. I agree we should work around it.
+
+osolo commented on Mar 14 @mzgol I agree that writing a test case would be impossible. I didn't report the issue to Apple. I think it would carry more weight coming from the jQuery team, but if you point me to the right direction I'd be happy to file with them myself.
+
+mzgol commented on Mar 14 The description you provided seems detailed enough. You could report a bug at https://bugs.webkit.org/, mention it affects jQuery & link to this issue.
+
+osolo commented on Mar 17 Link to WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=142792
+
+Owner dmethvin commented on Mar 18 Wow. I guess this must be rare enough that it doesn't occur that often? Plain object, only numeric indices, etc. There's a patch in jashkenas/underscore#2094 that says it tries to work around this. We could do something similar but it seems like we're in the same situation as we were with the December release. Is it worth doing another minor-point release for this?
+
+Owner dmethvin commented on Mar 18 Wow. I guess this must be rare enough that it doesn't occur that often? Plain object, only numeric indices, etc. There's a patch in jashkenas/underscore#2094 that says it tries to work around this. We could do something similar but it seems like we're in the same situation as we were with the December release. Is it worth doing another minor-point release for this?
+
+mzgol commented on Mar 18 I'd like to get a response to this WebKit bug first to know what we're dealing with. @BenjaminPoulain, could you have a look?
+
+BenjaminPoulain commented on Mar 18 Yep. This looks like a bug in one of the two optimizers. The problem likely only occurs after the code has been executed a few thousand times. First, I'll try to make a test case to reproduce.
+
+mzgol commented on Mar 20 Is it worth doing another minor-point release for this? It might be... We could ask people affected to comment here. This seems like a bug that manifests mainly in large apps where it will be hard to debug. If Apple is going to fix it & backport a fix to the 8.x line we could punt on this but we won't know before the release (judging by past events) so IMO we should proceed assuming there won't be any backport here.
+
+osolo commented on Mar 20 I suggest this go out in the next point release regardless of what Apple does. 8.x will have a lot of market share for a while to come and this bug is VERY nasty to diagnose. It took me weeks to unearth the core problem. jQuery is in a great position to spare people the anguish.
+
+mzgol commented on Mar 20 8.x will have a lot of market share for a while to come Yes, I meant that if Apple backported this fix to iOS 8.3 & Safari 8.0.5 then we shouldn't release a patch; before most people would have noticed the bug would be fixed. If the fix will get only to iOS 9/Safari 9 then we still need a patch since we'll be supporting iOS 8/Safari 8 for a while. I'd still want to hear from more affected people but I tend to agree this is something that will need a patch release. :/
+
+mzgol commented on Mar 20 BTW: according to jashkenas/underscore#2094 (comment): I don't think the bug is reproable in the iOS simulator which is what Sauce uses. we won't be able to write a meaningful test for it since we run the test in simulators as well. :/ Unless someone is going to run the suite manually on iOS 8 from time to time (the number of people being able to do it will drastically decrease with the release of iOS 9).
+
+BenjaminPoulain commented on Mar 20 I have had a hell of a time reproducing this. I cannot even tell if the bug exists in WebKit trunk or not. Any attempt at instrumenting the JIT makes the bug disappear due to the changes of timing. Has anyone found a reliable way to reproduce this bug? I have been using the test case of http://stackoverflow.com/questions/28155841/misterious-failure-of-jquery-each-and-underscore-each-on-ios but it is very fragile.
+
+mzgol commented on Mar 20 Has anyone found a reliable way to reproduce this bug? The test case from jashkenas/underscore#2081 (comment) triggers the bug for me on an iPhone 5s with iOS 8.2 very reliably. I don't see the bug in the iOS 8.2 simulator. For posterity: var getLength = function(array) { return array.length; }; // JIT getLength with only arrays for (var i = 0; i < 1000; i++) getLength([]); alert(getLength({5: 'test'})); // => alerts 6
+
+mzgol commented on Mar 23 Note that the JIT is per-function, not per incorrectly treated object. The following code: var getLength = function(array) { return array.length; }; var getLength1 = function(array) { return array.length; }; var o = {5: 'test'}; // JIT getLength with only arrays for (var i = 0; i < 1000; i++) getLength([]); alert(getLength(o) + ', ' + getLength1(o)); will alert 6, undefined.
+
+timmywil commented on Mar 23 Per the meeting today, we'll be doing a hot-fix patch release for this.
+
+timmywil commented on Mar 23 That is, if perf is not an issue.
+
+dmethvin commented on Mar 24 Seems like a good idea.
+
+Collaborator mzgol commented on Mar 25 @timmywil I let myself to create the milestone for the new patch releases & changed this one from 3.0.0 to the new one. We can always change back to 3.0.0 if we discover an issue with possible patches.
+
+timmywil commented on Mar 25 @mzgol Sounds good. Thanks!
+
+21paradox commented on Mar 26 +1 for the same issue. Looking forward jquery could cover this.
+
+BenjaminPoulain commented on Mar 26 I am swamped with other tasks at the moment, I have not had the chance to take a second look. As far as I can tell, the bug still exists. It is good you have a release addressing this.
+
+BenjaminPoulain commented on Mar 27 Michael had a look and fixed the bug: https://bugs.webkit.org/show_bug.cgi?id=142792
+
+dmethvin commented on Mar 27 Awesome, and what a bug it was! http://trac.webkit.org/changeset/182058 I guess we don't have any idea of when it will be merged into the latest Safari or whether it will be back-ported, so that means a new release is still on.
+
+jdalton commented on Apr 1 Actually I spoke too soon. It seems lodash users were mistaken in reporting the issue as resolved.
+
+jdalton commented on Apr 1 Did some digging and it looks like a solution as simple as storing var LENGTH = 'length' then object[LENGTH] is doable as a workaround. It seems to avoid uglifyjs transformations. See jridgewell/underscore@f580242.
+
+jdalton commented on Apr 1 After some discussion they decided to go with a tweak on the approach and remove concerns of minifiers from the equation by using a helper var getLength = property('length') which produces a function like: function(object) { return object == null ? undefined : object[prop]; } where prop is 'length'.
+
+mzgol commented on Apr 15 FYI: this has not been fixed in iOS 8.3.
+
+yamau6809 commented on Apr 29 In Chrome Version 42.0.2311.90 (64-bit),I am getting the following error: TypeError: Cannot use 'in' operator to search for 'length' in at isArraylike (jquery.js:539) at Function.jQuery.extend.map (jquery.js:461) at _fnFilterCreateSearch (jquery.dataTables.js:2996) at _fnFilter (jquery.dataTables.js:2932) at _fnFilterComplete (jquery.dataTables.js:2834) at _fnReDraw (jquery.dataTables.js:2086) at _fnInitialise (jquery.dataTables.js:3276) at HTMLTableElement.<anonymous> (jquery.dataTables.js:6510) at Function.jQuery.extend.each (jquery.js:374) at jQuery.fn.jQuery.each (jquery.js:139) Do I need to do something to avoid this?
+
+mzgol commented on Apr 29 @yamau6809 This is a bug in DataTables code, please report an issue to them. Also, see #2242 for a previous report of this issue.
+
+yamau6809 commented on Apr 29 @mzgol I will report an issue to them. Also I will do more research before asking question next time. Thanks,
+
+DataTables commented on Apr 29 The fix has been committed to DataTables now and its nightly version is up to date with the change. Apologies for the error.
+
+nokuno commented on May 23 Hi, I came across with this bug while writing iOS app using UIWebView with jQuery 2.1.4 (minified) hosted here. http://code.jquery.com/jquery-2.1.4.min.js Is there available fixed version of jQuery?
+
+mzgol commented on May 23 @nokuno This bug is fixed in jQuery 2.1.4. Maybe you experience a different issue?
+
+nokuno commented on May 23 @mzgol You are right, the issue is not this one. Thank you!
+
+bitboxx commented on Jul 30 The fix for this bug causes error in Chrome, IE and Firefox. Tested with Chrome 44, 46; IE 11; and Firefox 38. Calling the function using an empty string as argument will reproduce the error. Note that this function was not called directly from a script, but from triggering a custom event on an element using element.trigger('eventName'). function isArraylike( obj ) { // Support: iOS 8.2 (not reproducible in simulator) // `in` check used to prevent JIT error (gh-2145) // hasOwn isn't used here due to false negatives // regarding Nodelist length in IE var length = "length" in obj && obj.length, type = jQuery.type( obj ); if ( type === "function" || jQuery.isWindow( obj ) ) { return false; } if ( obj.nodeType === 1 && length ) { return true; } return type === "array" || length === 0 || typeof length === "number" && length > 0 && ( length - 1 ) in obj; } isArraylike('');
+
+dmethvin commented on Jul 30 Can you open a separate ticket on the jQuery repo showing how this can happen when using the public API?
+
+bitboxx commented on Jul 30 Ignore my previous comment. After further investigation of the problem I found the cause of the problem. It was caused by improper public API use. In previous jQuery versions... $.each('', function () {}); will fail silently. jQuery 2.1.4 will show that error.

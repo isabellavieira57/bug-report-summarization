@@ -1,0 +1,16 @@
+spaceribs commented @jimmywarting yes you could do something like this , but that requires 2 compiles when only one should be needed . a directive should be self contained , not requiring other core directives to be used alongside it . technically you could do the same thing by setting the templateurl to '/views/loader.html' with : <div ng -include="'/views/'+model.type+'-type.html'"></div> but that now requires 2 ajax calls and 2 child scopes when you only really needed one . being able to grab a template type from the scope and apply it to the templateurl dynamically is a long sought after feature that directives could benefit from , but i believe it 's a "chicken before the egg " issue looking at the code myself , and would require a major revamp in the order of operations for compiling a directive .
+
+spaceribs commented @btford yeah , i was planning on it , i 'll submit something tonight after work .
+
+spaceribs commented ... so , this isn 't a good feature because templateurl : function (element, attr ){ return "/template.html"; } should be completely divorced from it 's parent or isolated scope ?
+
+filiptc commented +1 to this feature request . not being able to access scope from templateurl function nor getting scope -preprocessed attributes forces workaround use of link and manual $http loading of templates .
+
+vict -shevchenko commented it seems that i want the same ... that tattrs .prop in templateurl function are compiled with its parent scope . so tattrs .prop(templateurl func ) == iattr .prop(link func ); but now tattrs .prop is "{{prop}}" and iattrs .prop is "propertynamefromparentscope". is not this issue about it ?
+
+vict -shevchenko commented ok , can you then point me to a proper solution of the issue ? my need is in dynamically change templateurl based on parent scope parameters , that i can pass to a directive attributes . me situation is next , there is a directive that based on 'id' and 'type' (8 different types ) displays some data . for each 'type' there is a different template , but same controller can be used . my desire is to eliminate copy -pasting like using 8 ng -includes or similar . so i think directive that can dynamically load proper html based on 'type' is a good idea . my current solution is link : function (scope, ielement , iattrs ) { var templateurl = 'views/' + iattrs .type + '.html'; $http.get(templateurl, {cache: $templatecache}).success(function(tplcontent){ ielement .append($compile(tplcontent)(scope)); }); } is it also terrible by its nature ? what approach you recommend to follow in such cases ? thanks .
+
+poshest commented i have just converted some code that was being called by nginclude into a directive for modularity reasons . my nginclude had a suffix which instructs the server to send the template in the correct language . i would really like to add that parameter to the templateurl so the correct language template is loaded . this http ://stackoverflow.com/a/23999356 doesn 't work and this http ://stackoverflow.com/a/21835866 is hacky . @caitp would love to understand what you think is the 'angular' way for my use case . dynamic templateurl just seems like a no brainer to me .
+
+jimmywarting commented dosen 't nginclude works for you ? perhaps something like this example
+

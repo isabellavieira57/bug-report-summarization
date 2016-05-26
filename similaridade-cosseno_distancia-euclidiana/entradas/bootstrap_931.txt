@@ -1,0 +1,71 @@
+aria, accessiblity, and other coolness
+
+fat commented on Jan 8, 2012 would be awesome to write a plugin which you could drop in to easily extend all other plugins with accessibility support etc.
+
+pokonski commented on Jan 8, 2012 I'm willing to try. What should that involve except for aria and keyboard navigation? I presume manipulating auto complete etc?
+
+fat commented on Jan 9, 2012 That would be awesome - i think accessibility just needs to be taken into account, I was planning on asking @BenWard for some advice next week.
+
+alanontheweb commented on Feb 1, 2012 Hi I was just wondering if any progress is being made towards this. Accessibility is a big thing at universities and I would love to be able to use all of Bootstrap's js and have it be Section 508 compliant. It would really be the ultimate solution. Thanks for all your amazing work thus far!
+
+fjordaan commented on Feb 8, 2012 Please see the work that jQuery UI is doing on accessibility: http://groups.google.com/group/jquery-a11y/topics E.g. here are accessible implementations by Hans Hillen of most of the principal widgets: http://hanshillen.github.com/jqtest/ with details of what changes were made to the original widgets. I would love to see the same improvements and commitment to accessibility in Bootstrap.
+
+ragulka commented on Feb 17, 2012 +1
+
+t1mmen commented on Mar 8, 2012 +1
+
+jedsundwall commented on Mar 13, 2012 I'm considering rallying some folks within the government to work on this. Has anyone done an audit of Bootstrap to identify all of the accessibility issues, or at least the most pressing ones? That would help us get this effort off the ground.
+
+alanontheweb commented on Mar 13, 2012 I noticed that some of the JS doesn't have a good fallback for when JS is disabled. Aside from keyboard navigation, ARIA roles, and tab-index=0 focusable stuff, it would be good if the code was done in a progressive enhancement approach, so that the content like the responsive show/hide nav is still viewable with JS off.
+
+vlazzle commented on Mar 13, 2012 +1 for accessibility
+
+ewlarson commented on Mar 13, 2012 +1
+
+edenmarie commented on Mar 21, 2012 +1 for js fallback
+
+webhipster commented on Apr 5, 2012 Looking at Dojo Toolkit's accessibility implementation for many widgets could help. In all honesty, I'd like to see a port of Bootstrap to Dojo. Dojo slays!!
+
+ndkhoiits commented on Apr 11, 2012 +1 for accessibility. Ideally, all UI Components in bootstrap should be accessible without Javascript enabled by browser. For example, a button group with data-toggle is 'button-radios', if user accesses with text browser (lynx for example), it should display a list of radio box rather than buttons. And several components should be reviewed. I like the way Hans Hillen has done for JQuery UI at http://hanshillen.github.com/jqtest/
+
+andreatarr commented on Apr 27, 2012 We are looking at using bootstrap in Joomla for the new release. However if we are going to do that it will need to be accessible since we have no intention of taking a step backwards in accessibility. We'd love to work with others to make this happen.
+
+jedsundwall commented on Apr 27, 2012 @andreatarr I'm considering running a challenge (possibly seeing if we can partner with some govt agencies and get it on http://challenge.gov/) later this year to create an accessible version of Bootstrap – or just take @fat's approach and write a plugin to make Bootstrap accessible. Would Joomla be willing to work with us on that?
+
+andreatarr commented on Apr 27, 2012 @jedsundwall Yes, I think we'd be interested in helping with that. When are you thinking of having the challenge? Ideally, we would be merging this in for our beta by the end of July though we'd have until September to get fixes in. The accessibility issue and lack of RTL support are two things we need feel comfortable that we can solve before we can give the final go ahead.
+
+webhipster commented on Apr 27, 2012 Does converting to dojo first make the most sense?
+
+andreatarr commented on Apr 27, 2012 Probably not for us. We already have MooTools and there's been a lot of demand for us to ship with jQuery since most of the extension developers and site builders use that. I think we'd be strung up by our thumbs if we added another developers js framework instead of simple, wildly popular one.
+
+webhipster commented on Apr 27, 2012 Makes sense. Good luck.
+
+trumbitta commented on May 4, 2012 Hello, I am one of the main contributors of Entando. We're using the great MooTools, but also on our way to replace it with the more popular jQuery, and just starting to mess around with Bootstrap for one of the future releases of Entando. Accessibility, both in frontend and in the administration area, is very important for us. Thus, I will be very glad to try and lend a hand if this effort really will start. A final note: speaking for and offering myself, not the entire team (but I will ask them to join somehow, for sure).
+
+tomhuze commented on May 8, 2012 +1 for accessibility and js fallbacks
+
+rbrochot commented on May 14, 2012 another +1 for accessibility and js fallbacks :)
+
+webhipster commented on May 14, 2012 I feel js fallbacks should be kept out of this thread and be a separate issue.
+
+alienlebarge commented on 15 May 2012 It is certain that "bootstrap" has some lacks for accessibility. One of the first thing to do is to have a correct HTML code. I have allready identify some problems about it #2326 . I work for a government and accessibility is a key element for us. Improved accessibility could be a project for the next release. What do you think?
+
+fat commented on May 18, 2012 I think the approach of having one big "ticket" for accessibility was probably one of my worst. I'm going to open up new tickets for each interactive js component. Also, you can follow along with the accessibility work I've already started in the accessibility branch. Any help would be ammazzzing.... testing, implementation, or simply just schooling me on the matter.
+
+deborahgu commented on May 21, 2012 I would be happy to test (and educate about specific accessibility issues, if you want), and as I get more comfortable with bootstrap I'd also be happy to help with the limitation.
+
+underbluewaters commented on Jul 9, 2012 Might make sense to add some links here to related accessibility projects. I found this ticket while searching for and finding Issue #684.
+
+evictor commented on Apr 1, 2013 +1
+
+JulianHH commented on Apr 4, 2013 Any news on accessibility support (at least for upcoming 3.0) ? Anyway.. +1 on this whole issue!
+
+gagarine commented on Apr 16, 2013 accessibility should not be a "optional" plugin.. it needs to be integrated.
+
+TurboKia commented on May 17, 2013 Are there any updates on this? I work for Washington State, USA and accessibility is a big deal these days.
+
+mgifford commented on Nov 11, 2013 What would be even better than awesome (going back to the first comment) is if accessibility support was just built in by default. As @gagarine says, accessibility should not be optional. Maybe you can opt out for ultra performance, but it should be the norm for the vast majority of folks using this framework.
+
+gagarine commented on Nov 18, 2013 Lot of things was improved in 3.0 take a look at this merged pull request #9137 For my point of view we can close this general issue in favor of smaller one.
+
+juthilo commented on Nov 18, 2013 @gagarine The issue is in fact already closed for that reason.

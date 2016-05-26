@@ -1,0 +1,96 @@
+12
+['mdo', 'commented', '@apfelbox', 'yup', ',', 'that', "'s", 'the', 'idea', ',', 'if', 'we', 'go', 'with', 'the', 'option', 'to', 'prefix', '.']
+
+7
+['zdroid', 'commented', '@mdo', 'sorry', 'if', 'i', 'sound', 'aggressive', '.', 'i', 'just', 'want', 'to', 'point', 'that', 'prefixing', 'isn', "'t", 'needed', '.', 'if', 'someone', 'just', 'have', 'bootstrap', 'as', 'customized', 'small', 'lib', '(s)he', 'can', 'replace', 'names', 'of', 'all', 'classes', 'with', '-bs-', 'prefix', '(all', 'modern', 'editors', 'have', 'the', 'multi', '-replace', 'feature', ').', '@surbma', 'just', 'dowload', 'wanted', 'css', 'and', 'then', 'prefix', 'class', 'names', '.']
+
+9
+['zdroid', 'commented', 'hmm', '.', 'than', 'make', 'bs', 'mini', '.', 'remove', 'all', 'big', 'things', ',', 'just', 'keep', 'the', 'most', '-needed', 'ones', 'and', 'prefix', 'classes', ',', 'like', 'in', 'pure', '.', 'i', 'don', "'t", 'have', 'any', 'other', 'idea', '.']
+
+15
+['teamrubberandy', 'commented', '+1', 'to', 'optional', 'prefix', '.', 'retrofitting', 'bootstrap', 'to', 'an', 'existing', 'app', 'is', 'quite', 'different', 'to', 'starting', 'from', 'scratch', 'with', 'it', '(have', 'done', 'both', ').', 'optional', 'prefix', 'allows', 'selective', 'migration', 'to', 'bootstrap', 'without', 'blocking', 'releases', 'for', 'weeks', '/months', 'of', 'qa', 'and', 'fixes', 'on', 'the', 'skin', '.', 'prefix', 'is', 'also', 'defensive', 'against', 'other', 'libraries', '(or', 'user', '-embedded', 'stuff', ')', 'that', 'might', 'be', 'badly', 'behaved', 'about', 'class', 'names', '.', 'currently', 'considering', 'a', 'compilation', 'step', 'that', 'mangles', 'prefixes', 'on', 'via', 'python', 'or', 'such', '.', 'probably', 'horribly', 'ugly', ':)']
+
+18
+['arturadib', 'commented', 'just', 'wanted', 'to', 'add', 'an', 'argument', 'for', 'namespacing', 'i', 'haven', "'t", 'seen', 'yet', '-', 'in', 'addition', 'to', 'collision', 'issues', ',', 'the', 'lack', 'of', 'class', 'prefixes', 'makes', 'it', 'incredibly', 'hard', 'to', 'pluck', 'bootstrap', 'out', 'of', 'one', "'s", 'code', 'base', ',', 'so', 'you', "'re", 'essentially', 'committed', 'to', 'bootstrap', 'for', 'life', '.', 'with', 'prefixes', 'you', 'could', 'do', 'a', 'global', 'search', 'and', 'identify', 'exactly', 'what', 'html', 'files', '/elements', 'made', 'use', 'of', 'it', ',', 'and', 'make', 'changes', 'accordingly', '.']
+
+4
+['zdroid', 'commented', 'this', 'isn', "'t", 'needed', '.', 'reason', '-', 'bootstrap', 'is', 'made', 'to', 'be', 'main', 'css', 'framework', 'for', 'web', 'apps', '.', 'bootstrap', 'isn', "'t", 'small', 'library', ',', 'it', "'s", 'complete', 'framework', '.', 'prefixing', 'classes', 'is', 'stupid', 'and', 'non', '-semantic.']
+
+5
+['surbma', 'commented', '@zdroid', 'i', 'understand', 'your', 'point', 'of', 'view', '.', 'however', 'bootstrap', 'can', 'be', 'used', 'as', 'a', 'small', 'library', 'to', 'extend', 'an', 'existing', 'theme', "'s", 'style', '.', 'that', "'s", 'exactly', 'how', 'i', 'use', 'bootstrap', '.', 'so', 'prefixing', 'is', 'not', 'stupid', ',', 'it', 'can', 'be', 'very', '-very', 'useful', 'in', 'some', 'cases', '.', 'i', 'also', 'understand', ',', 'that', 'mainly', 'it', 'is', 'used', 'as', 'a', 'complete', 'framework', '.', 'i', 'can', 'see', 'a', 'solution', ',', 'if', 'there', 'will', 'be', 'an', 'option', 'on', 'the', 'customize', 'page', 'for', 'prefixing', 'all', 'classes', '.', 'it', 'could', 'be', 'a', 'checkbox', 'if', 'i', 'want', 'to', 'have', 'all', 'the', 'styles', 'with', 'prefix', 'or', 'without', '.', 'of', 'course', ',', 'the', 'default', 'setting', 'will', 'be', 'without', 'any', 'prefix', '.', 'in', 'this', 'case', 'bootstrap', 'can', 'be', 'used', 'for', 'all', 'manner', '.', 'do', 'you', 'agree', ',', 'that', 'it', 'will', 'let', 'other', 'developers', 'to', 'use', 'bootstrap', 'on', 'more', 'projects', '?', 'it', 'is', 'just', 'a', 'small', 'feature', 'and', 'can', 'help', 'thousands', 'of', 'developers', '.']
+
+17
+['silviu', '-burcea', 'commented', 'are', 'there', 'any', 'reasons', '?']
+
+6
+['mdo', 'commented', '@zdroid', 'it', "'s", 'not', 'stupid', ',', 'and', 'it', "'s", 'not', 'non', '-semantic.', 'keep', 'your', 'demeaning', 'opinions', 'to', 'yourself', 'when', 'you', 'comment', 'here', 'this', 'isn', "'t", 'the', 'place', 'for', 'it', 'and', 'i', 'won', "'t", 'stand', 'for', 'it']
+
+23
+['fagnermartinsbrack', 'commented', 'i', 'don', "'t", 'want', 'to', 'create', 'too', 'much', 'noise', 'for', 'something', 'not', 'related', 'to', 'this', 'project', ',', 'but', 'the', 'tool', 'does', 'not', 'solve', 'the', 'issue', 'as', 'it', 'stands', '.']
+
+30
+['pparavicini', 'commented', '+1', 'for', 'prefixing', '.', 'i', 'am', 'trying', 'to', 'learn', 'bootstrap', 'for', 'quick', 'prototyping', ',', 'but', 'most', 'of', 'the', 'projects', 'in', 'which', 'i', 'work', 'are', 'highly', 'custom', 'look', '&feels', 'where', 'our', 'css', 'gurus', 'want', 'to', 'use', 'their', 'own', 'stylesheet', '.', 'it', 'would', 'increase', 'adoption', 'of', 'bootstrap', 'if', 'one', 'could', 'use', 'it', 'selectively', 'without', 'risking', 'collisions', 'with', 'other', 'stylesheet', 'naming', 'conventions', '.', 'that', 'said', ',', 'thanks', 'for', 'the', 'framework', ',', 'it', 'is', 'certainly', 'quite', 'useful', '.']
+
+25
+['zdroid', 'commented', 'i', 'found', 'a', 'good', 'solution', '.', 'class', 'selectors', 'should', 'be', ':', '.@{bs-prefix}selector', '{', '...', '}', 'and', 'add', '@bs-prefix', 'variable', 'to', 'variables', '.less.', 'default', 'content', 'should', 'be', 'blank', '.', 'prefix', 'version', 'should', 'have', 'bs', '-', 'as', 'prefix', '.', '@mdo', 'am', 'i', 'right', '?']
+
+24
+['arturadib', 'commented', '@germainguglielmetti', 'lots', 'of', 'potential', ',', 'but', 'i', 'agree', 'with', '@fagnermartinsbrack', '\x93', 'as', 'it', 'stands', 'it', 'doesn', "'t", 'solve', 'the', 'problem', '.', 'we', 'need', 'a', 'prefix', 'in', 'the', 'name', ',', 'without', 'incurring', 'side', '-effects', '(i.e.', 'additional', 'selector', 'levels', ').']
+
+14
+['silviu', '-burcea', 'commented', 'i', 'am', 'also', 'using', 'tb', 'in', 'some', 'parts', 'of', 'my', 'pages', 'and', 'i', 'really', 'hope', 'that', 'css', 'scope', 'will', 'make', 'it', 'into', 'master', '.', 'if', 'someone', 'doesn', "'t", 'really', 'need', 'it', ',', 'css', 'scope', 'can', 'be', 'an', 'empty', 'string', 'and', 'the', 'problem', 'is', 'solved', '.', 'i', 'don', "'t", 'think', 'it', "'s", 'so', 'much', 'work', 'to', 'do', 'and', 'the', 'overhead', 'should', 'be', '0', '.']
+
+28
+['zdroid', 'commented', '@apfelbox', 'i', 'know', ',', 'i', "'m", 'justing', 'pointing', 'to', 'less', 'version', '.']
+
+8
+['mdo', 'commented', '@zdroid', 'what', 'would', 'you', 'find', 'and', 'replace', 'a', '.?', 'i', 'don', "'t", 'think', 'that', "'s", 'a', 'very', 'feasible', 'solution', '.', 'finding', 'and', 'replacing', 'across', 'an', 'entire', 'directory', 'isn', "'t", 'doable', 'without', 'someone', 'to', 'easily', 'modify', '.']
+
+1
+['sarmenhb', 'commented', 'when', 'i', 'add', 'the', 'bootstrap', 'stylesheet', 'into', 'my', 'application', ',', 'the', 'bootstrap', 'overrides', 'all', 'other', 'tags', 'i', 'had', 'defined', 'in', 'other', 'stylesheets', '.', 'it', 'would', 'be', 'nice', 'for', 'the', 'bootstrap', 'to', 'have', 'a', 'name', 'prefix', 'to', 'all', 'defined', 'tags', 'that', 'way', 'naming', 'collisions', 'dont', 'occur', '.']
+
+3
+['surbma', 'commented', 'i', 'also', '+1', 'for', 'prefixing', 'all', 'classes', '.', 'it', 'can', 'be', 'done', 'with', 'bootstrap', '3', '.0.', 'please', '!']
+
+26
+['germaing', 'commented', '@arturadib', 'i', "'ve", 'updated', 'the', 'prototype', 'so', 'that', 'the', 'prefix', 'can', 'be', 'user', '-defined', '(dash,', 'space', ',', 'nothing', '...)', 'does', 'it', 'help', '?']
+
+27
+['apfelbox', 'commented', '@zdroid', 'that', 'was', 'already', 'suggested', '4', 'months', 'ago', ',', 'but', 'yes', '.']
+
+29
+['donaldpipowitch', 'commented', 'even', 'if', 'you', 'use', 'bootstrap', 'as', 'the', 'only', 'framework', 'in', 'your', 'project', ',', 'prefixing', 'would', 'make', 'upgrading', 'a', 'lot', 'easier', '.', 'it', 'is', 'just', 'useful', 'to', 'see', 'how', 'and', 'where', 'you', 'used', 'bootstrap', 'in', 'your', 'project', 'and', 'prefixing', 'makes', 'it', 'easier', 'to', 'find', 'the', 'right', 'places', '.']
+
+11
+['apfelbox', 'commented', 'well', ',', 'you', 'could', 'use', 'a', 'variable', 'for', 'that', '.', '.#{prefix}modal', 'etc', 'and', 'just', 'set', '$prefix:', '""', 'by', 'default', '(i', 'only', 'use', 'sass', ',', 'so', 'i', 'am', 'not', 'sure', 'about', 'the', 'correct', 'less', 'syntax', ').', 'would', 'involve', 'a', 'one', '-time', 'manual', 'editing', 'of', 'all', 'class', 'names', ',', 'though', '.']
+
+10
+['mdo', 'commented', 'how', 'does', 'a', 'new', 'library', 'solve', 'the', 'problem', 'of', 'conflicting', 'namespaces', ',', '@zdroid?', 'besides', ',', 'the', 'prefix', 'thing', 'is', 'something', 'that', 'could', 'be', 'optional', 'i', 'imagine', 'we', 'set', 'it', 'to', 'nothing', 'by', 'default', ',', 'but', 'folks', 'could', 'customize', 'it', '.']
+
+32
+['tyomo4ka', 'commented', '+1', 'for', 'class', 'prefixes', 'this', 'feature', 'is', 'important', 'for', '3d', 'party', 'js', 'applications', '!']
+
+16
+['mdo', 'commented', 'not', 'going', 'to', 'happen', 'folks', ',', 'sorry', '.']
+
+19
+['surbma', 'commented', '@arturadib', 'thank', 'you', 'for', 'your', 'point', 'of', 'view', '!', 'you', 'are', 'absolutely', 'right', '.', 'i', 'just', 'want', 'to', 'add', ',', 'if', 'somebody', 'makes', 'a', 'complete', 'webdesign', 'based', 'on', 'bootstrap', ',', 'that', 'is', 'fine', 'without', 'any', 'prefixes', ',', 'since', 'the', 'theme', 'is', '100', '%', 'bootstrap', '.', 'prefixing', 'makes', 'sense', 'when', 'you', 'want', 'to', 'use', 'just', 'part', 'of', 'it', 'to', 'extend', 'a', 'theme', '.', 'i', "'m", 'working', 'with', 'wordpress', 'and', 'i', 'have', 'made', 'a', 'twitter', 'bootstrap', 'plugin', 'just', 'for', 'the', 'special', 'effects', ':', 'tabs', ',', 'collapse', ',', 'modal', ',', 'buttons', ',', 'etc', '.', 'so', 'for', 'me', ',', 'prefix', 'would', 'be', 'very', 'useful', 'not', 'to', 'conflict', 'with', 'themes', ',', 'as', 'this', 'plugin', 'not', 'made', 'for', 'one', 'special', 'theme', ',', 'but', 'for', 'many', 'wordpress', 'themes', '.', 'it', 'is', 'essential', 'for', 'me', '.', 'i', 'just', 'don', "'t", 'understand', 'if', 'a', 'solution', 'would', 'be', 'beneficial', 'for', 'a', 'lot', 'of', 'developers', 'and', 'this', 'solution', 'will', 'not', 'have', 'any', 'negative', 'effect', 'for', 'those', 'who', 'doesn', "'t", 'need', 'it', ',', 'than', 'why', 'one', 'not', 'would', 'make', 'it', 'possible', '?', 'it', 'could', 'be', 'a', 'simple', 'checkbox', 'on', 'the', 'customize', 'page', 'if', 'we', 'want', 'to', 'have', 'prefix', 'or', 'not', '.', 'of', 'course', ',', 'the', 'default', 'setting', 'would', 'be', 'without', 'prefix', '.', 'it', "'s", 'that', 'simple', '.', 'everybody', 'will', 'be', 'happy', '!', ':)']
+
+31
+['elacdude', 'commented', 'i', 'also', 'just', 'registered', 'so', 'i', 'can', 'post', 'that', 'i', 'would', 'like', 'prefixing', 'support', 'too', '.', 'i', 'think', 'it', 'is', 'extremely', 'immature', 'for', 'mdo', 'to', 'not', 'consider', 'it', '.', 'i', 'think', 'he', 'just', 'wants', 'people', 'to', 'be', 'forced', 'into', 'using', 'bootstrap', 'for', 'everything', 'and', 'he', 'doesn', "'t", 'want', 'it', 'any', 'other', 'way', '.', 'it', "'s", 'as', 'if', 'he', 'is', 'taking', 'offense', 'to', 'people', 'using', 'some', 'other', 'style', 'of', 'coding', '.', 'sounds', 'pretty', 'immature', 'to', 'me', '...', 'my', 'website', 'template', 'was', 'not', 'made', 'with', 'bootstrap', '.', 'but', 'i', 'downloaded', 'a', 'plugin', 'that', 'uses', 'it', 'and', 'it', 'broke', 'my', 'template', 'because', 'of', 'name', 'collisions', '.', 'i', 'have', 'been', 'pulling', 'my', 'hair', 'out', 'for', 'the', 'past', '4', 'hours', 'trying', 'to', 'fix', 'it', '.', 'i', 'just', 'found', 'this', 'thread', 'about', 'prefixes', 'and', 'www', '.css-prefix.com', 'may', 'help', '.', 'i', "'ll", 'try', 'that', '.']
+
+20
+['germaing', 'commented', 'if', 'anyone', 'is', 'still', 'interested', ',', 'i', "'ve", 'made', 'it', 'an', 'online', 'service', '.', 'simply', 'enter', 'a', 'prefix', 'and', 'paste', 'your', 'stylesheet', ',', 'insta', '-get', 'the', 'prefixed', 'version', '.', 'try', 'it', 'here', ':', 'http', '://www.css-prefix.com/', 'feedbacks', 'are', 'welcome', '.']
+
+22
+['germaing', 'commented', 'it', "'s", '.aaa', '.test{}', 'on', 'purpose', ',', 'but', 'i', 'could', 'easily', 'remove', 'the', 'extra', 'white', 'space', 'and', 'let', 'the', 'user', 'type', 'it', '(or', 'type', 'a', 'dash', 'as', 'per', 'your', 'suggestion', ').', 'i', "'ll", 'post', 'as', 'soon', 'as', 'ready', '!']
+
+21
+['fagnermartinsbrack', 'commented', '@germainguglielmetti', 'i', 'suppose', '.aaa', 'as', 'prefix', 'and', '.test{}', 'should', 'result', 'into', '.aaa-test{}', 'or', 'something', 'like', 'that', ',', 'otherwise', 'you', 'are', 'increasing', 'specificity', 'with', 'no', 'reason', '.', 'currently', 'it', 'results', 'into', '.aaa', '.test{}.']
+
+13
+['zdroid', 'commented', 'good', 'idea', '.']
+
+2
+['mdo', 'commented', 'definitely', 'won', "'t", 'be', 'doing', 'that', '.', '2', '.0', 'provides', 'better', 'defaults', 'and', 'namespaces', 'a', 'few', 'other', 'key', 'elements', 'with', 'base', 'classes', ',', 'but', 'that', "'s", 'it', '.']
+

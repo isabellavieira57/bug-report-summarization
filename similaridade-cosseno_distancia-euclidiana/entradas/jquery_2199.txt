@@ -1,0 +1,41 @@
+jQuery Class Operations on SVG DOM Attributes
+
+artemist commented on Apr 11 First of all, jQuery is hugely helpful and the whole community thanks to you all. It's SO helpful, in fact, that spaces that it lacks end up being a huge pain for developers. Working with jQuery and detecting SVG hasClass, addClass, or any of the like on groups, path, or any other attributes is a huge pain. With the growing community and support for SVG, are there any plans in jQuery's roadmap to improve this workflow? Thanks again.
+
+SaraSoueidan commented on Apr 11 I second this request.
+
+rwaldron commented on Apr 11 Thanks for the report. More SVG support has long been listed on the Won't Fix document, along with links to relevant discussions that elaborate on that position.
+
+artemist commented on Apr 11 It's a little disappointing that this is the position taken, as SVG is gaining widespread interest and use, and though it isn't the HTML DOM, SVG attributes are still accessible in the DOM via vanilla js. Most of the tickets shown here are from 2+ years ago.
+
+sergzbx commented on Apr 12 2 years later it might be time to reconsider this @jeresig. Thanks.
+
+dmethvin commented on Apr 12 What exactly would you like to see added? Have you looked at libraries like Raphael that are designed to support SVG? Keep in mind that SVG is not HTML, despite the fact that they look similar when represented as strings.
+
+artemist commented on Apr 12 Detecting hasClass, or adding/removing classes would be a hugely helpful UX interaction boon. Yes, I know Raphael and Snap.svg. But let's say you're using a different animation library. To then add Snap just to look for classes or add performant click events (particularly if you're already loading jQuery) feels painful if not redundant. I realize this request might be too large and out of scope, and yes, SVG isn't HTML, but if there's a possibility jQuery could add this feature, it's worth a discussion. Everyday usage of SVG on the web is fast-growing. Adding this kind of support has the potential for a large payoff for the community.
+
+dmethvin commented on Apr 13 The title of this request ("better SVG support") is still super vague, it would be pretty hard to make a pull request against. When you say "too large and out of scope" it sounds like you are asking for SVG DOM to be supported on all jQuery methods. Or are you just asking for class operations?
+
+artemist commented on Apr 14 Better SVG support overall would be outstanding but, when I say that it might be too large and out of scope, I'm anticipating that that could be too heavy for jQuery to support. So yes, thanks for clarifying, specifically I am asking to add class operations for SVG attributes. That, in and of itself would be a huge UX boon and change the way we could handle interaction and SVG moving forward.
+
+gibson042 commented on Apr 14 I can get on board with class manipulation, and in fact recently updated Sizzle to guarantee shorthand class selection: jquery/sizzle@a7cd096 As others here have said, the ecosystem was different when SVG got added to the wontfix list.
+
+ramsaylanier commented on Apr 14 +1 for class manipulation of svg elements
+
+dmethvin commented on Apr 14 If you just want class names and we can draw the line there I agree with @gibson042 and have fewer concerns. Well we have two ways to do that AFAIK. One is to switch from the className property to the class attribute. There's a patchwelcome feature ticket for that approach, with the idea that we'd switch all docs to use that approach to avoid forked code paths. Another is to support the classList API, which would have to be implemented in parallel with the existing code since several of our currently supported browsers such as Android 2.3 still do not implement it. There is a PR from @caitp at #1511 which I declined to land specifically because of the concern about SVG scope creep. If someone asks for further SVG support under the "Hey you fixed that so you support SVG, you should fix this" guilt trip you're gonna back us up, right? :smile_cat: E.g. trac-15156, trac-14517, trac-13754, trac-13231, trac-12667 and much much more.
+
+caitp commented on Apr 14 I think there was a valid concern about performance with ClassList, and buggy implementations, too. The attribute approach should be a lot simpler and faster
+
+artemist commented on Apr 14 OK, it sounds like the best way to do this then is to switch from className to class attribute. A cursory look tells me that most of the references to this are in the attributes/classes.js file- would that be correct? I'll try not to let SVG support snowball all at once into a huge problem for you guys :)
+
+mzgol commented on Apr 15 @dmethvin classList is not supported for SVG nodes in IE so the only way to make it work is to use the attribute. I'm +1 on that. Full SVG support might bloat jQuery a lot but 90% of the times I hear from people why sth doesn't work in jQuery on SVGs it's about classes (attributes already sort-of work, right?) so I think it'd be nice to support this one thing. I was planning to do the patch myself, I just haven't found time yet.
+
+markelog commented on Apr 15 Off topic: if we no longer decline patches for SVG elements, perhaps, we should remove it from "Won't fix" list, otherwise we say one thing but do the opposite. On topic: -1, just like in case of the shadow DOM, support of the SVG will decrease the performance increase the size and complicate the code. If user operates on SVG elements through JS, sooner then later their would need more then CSS-classes - use of special libs is more appropriate way to do this IMHO.
+
+caitp commented on Apr 15 On topic: -1, just like in case of the shadow DOM, support of the SVG will decrease the performance increase the size and complicate the code @markelog we've found that this is actually not the case. Using the className IDL attribute, or the setAttribute/getAttribute methods, are identical work for a VM to do. In fact, the className property merely reflects the attribute (although the reflection works differently for SVG). --- Or as this is noted non-normatively in the HTML spec, "The className and classList IDL attributes, defined in the DOM specification, reflect the class content attribute.". Now, people might ask for "please use createElementNS() depending on context" or something, which could incur performance/complexity costs, but the class API issue is pretty easy to fix, just a series of 1 line changes to swap className for get/setAttribute (and adding SVG cases for the class API tests).
+
+rwaldron commented on Apr 15 Off topic: if we no longer decline patches for SVG elements, perhaps, we should remove it from "Won't fix" list, otherwise we say one thing but do the opposite. But it appears that SVG is limited to class support. On topic: -1, just like in case of the shadow DOM, support of the SVG will decrease the performance increase the size and complicate the code. If user operates on SVG elements through JS, sooner then later their would need more then CSS-classes - use of special libs is more appropriate way to do this IMHO. I'm with you 100%
+
+artemist commented on Apr 15 Please see @caitp's comment above. Class operations are a large part of UX interaction- if people need a lot more than that, then yes, they should indeed be using snap or gsap. This enhancement seems within scope and easy to define boundaries for.
+
+timmywil commented on Apr 15 The change is simple enough that we probably won't hurt performance, size, or simplicity. I've wanted this myself in the past. My concern is that users will want SVG supported across the board and that is not going to happen (so I'd just as soon leave SVG on the wontfix list). jQuery will remain a HTML DOM library and leave the hard parts of working with SVG elements to libraries that focus on that. That said, the ability to work with classes in SVG is a minor utility that could provide disproportional benefits to users that don't need anything but class manipulation, which I would imagine happens pretty often.

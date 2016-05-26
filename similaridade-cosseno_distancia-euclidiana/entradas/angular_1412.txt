@@ -1,0 +1,67 @@
+input not showing invalid model values
+
+nawlbergs commented on Sep 24, 2012 http://jsfiddle.net/nalberg/ERutt/ (i think that link died... and i think this was the same fiddle. http://jsfiddle.net/nalberg/XccGJ/) Im not sure if this is working as intended.... but Im having issues with data coming from our database and using ng-pattern. Some data doesn't fit into the patterns we would like to use... But instead of showing the incorrectly formatted data... its just plain invisible... which makes it look like there is no data there at all. I think it should always show the value.. even if it is invalid... so the user can change their values.. then save it to the new valid format. Or... at least... provide a way to get the value into the inputs so its view-able.
+
+kozlowski-opensource commented on Sep 24, 2012 Hi! There was a discussion about this on the mailing list: https://groups.google.com/d/topic/angular/8Fk-Ya6Juzo/discussion It is kind of corner case but I do agree that this is not intuitive. I would expect the data to be displayed and the input / form marked as invalid.
+
+mhevery commented on Nov 27, 2012 This is a question for @vojtajina, but I think the reason is that when the the conversion is not possible it is better to have undefined, since we literally don't know what it is. Imagine that you are entering longitude/latitude, while you are doing the entering the model is unknown, until you enter all of the coordinates. It makes no sense to have a position randomly assigned by partial parsing. Similarly, when the model is expecting an email, and you have not finished typing, then, you don't have an email, and so it would be wrong to have non-email in the model. I think the other possibility is to have the last valid value in the model rather then undefined.
+
+petebacondarwin commented on Dec 12, 2012 Having played around with Angular forms for some time now, I am not convinced that the model that is bound to the input controls should "really" be the truth. There are use cases where you have inputs that are not entirely valid but are good enough to be kept. A simple example would be writing an email. Imagine I am writing an email to some one. I write down their email address but it is not quite correct - in fact it is not a valid email address at all. I decide to save a draft copy and come back to the address issue later. Right now, an AngularJS form would not allow us to save the "incorrect" email address in the draft email since the email is not valid. I believe that what we ought to do is decouple "$parsers and $formatters" from "$validators". The idea being that the former can make changes to the values as they pass between the model and the view, while the latter can set whether we consider the value valid or not. The model will still be updated even if the view is invalid but the ngModelController will know it is not valid. We also have to do this anyway if our validator is asynchronous, since we have to return "some" value while we wait for the asynchronous validation to occur. One thing that we are doing in our apps any way, is to store a copy of the "original" model so that we can "reset" the form. This is a very nice pattern and allows us to also do neat things, like disable the save button if what is in the form is no different to what was there originally - this is subtly different to being $pristine, since the user could change something and then back again with the form no longer $pristine. @mhevery What do you think?
+
+mforce commented on May 7, 2013 Hi Guys any updates on this, this issue is kind of driving me nuts? I have another simple use case that is affected by this. Let's say one wants a simple way to display the character count of a textbox bound to a model field, if I want to use {{model.length}} the length property doesn't work since the model is invalid and doesn't have a value. Is there a way to make this feature of the model optional?
+
+lastnico commented on Jun 14, 2013 I do agree with @pkozlowski-opensource (at #1412 (comment)), I would expect such behavior too. How the user could fix a mistake from the model in the form (like a field not matching its pattern) if he cannot even see what was the previous invalid (non-matching) value (think particularly about patterns added afterwards, while there are already existing data). And after all, the values should be copied at least once at initialization time from model to input, because, once in inputs, they are going to be checked and will be copied back to model only once they will match the requirement (here: match their related ng-pattern).
+
+btford commented on Aug 23, 2013 As part of our effort to clean out old issues, this issue is being automatically closed since it has been inactivite for over two months. Please try the newest versions of Angular (1.0.8 and 1.2.0-rc.1), and if the issue persists, comment below so we can discuss it. Thanks!
+
+jlmakes commented on Sep 7, 2013 I was creating a character counter (eg. ng-bind="50 - ngModel.length"), with ng-maxlength="50" on the related input—however, the character counter displays nothing after it exceeds 50 characters, instead of a negative value. Has anyone found a way around this behavior? I'm using Angular 1.2.0-rc.2.
+
+lastnico commented on Sep 20, 2013 The {issue,implementation choice} is still here, so I guess we should leave this issue open ;)
+
+pkozlowski-opensource commented on Sep 22, 2013 @btford I'm for reopening this one. The current behavior is super-confusing. I know that the fix is far from simple and it would be a breaking change but this is one of those things that people keep bumping into over and over again.
+
+ruedamanuel commented on Oct 20, 2013 Has anyone come up with a workaround for this issue? I'm setting up a show/hide function for a password input field but the model won't persist if it doesn't pass validation first.
+
+evangalen commented on Oct 31, 2013 @ruedamanuel check out my blog post about this very issue (and 2 other related irregularities in AngularJS) that also contains a workaround (and a Plunker demonstrating it): http://blog.jdriven.com/2013/09/how-angularjs-directives-renders-model-value-and-parses-user-input/
+
+ruedamanuel commented on Nov 3, 2013 @evangalen , thanks, that was very useful.
+
+Narretz commented on Nov 22, 2013 @evangalen very slick solution. implementation question, do your directives simply enhance the core input directives (run after), since they are defined in another module, or is there more to it?
+
+evangalen commented on Nov 29, 2013 @Narretz my workaround (for this particular issue) enhances the formatting of all elements. In AngularJS it's allowed (and valid) to create multiple directives on the same element (or attribute). To fix this particular issue I register an additional 'input' directive that prepends (using "unshift") another format function the ndModelController#$formatters array. And since the $formatters array will be iterated from back to forward, the prepended function can intervene to return a string typed $modelValue instead of undefined. However, my workaround is not a perfect solution in all cases. For instance what if you would have a date picker directive that uses an ISO date notation as its $modelValue. And what if this directive is configured to disallow dates in the past. In that case an invalid $modelValue of '2001-12-31' (due to being a date in the past) would lead to '2001-12-31' being shown (using the fix) instead of a more more descriptive localized date representation (i.e. 31-dec-2001). Instead to best solution for this particular issue is to: modify the AngularJS code base to no longer (exactly) use the same function in the $parsers as well as $formatters array; instead of returning undefined in case of an invalid value, a formatter should still try to return a sensible representation. For instance if case of an ISO date '2001-12-31' (being invalid, since it lies in the past) the formatter could still return '31-dec-2001', however in case of a really incorrect date like 'ABCD-12-31' it would probably be best to just return undefined. finally the documentation could be modified to describe in more detail how a formatter function should be correctly implemented.
+
+scottywakefield commented on Dec 2, 2013 @evangalen - that has done the job for me. I want to show invalid phone numbers so that they can be fixed, whilst still enforcing client side validation.
+
+aleksz commented on Apr 10, 2014 Second issue that drives me crazy in Angular validation this week.
+
+digitalicarus commented on Apr 29, 2014 Another option is to keep a separate copy of what you want to retain in the input and set that as the value. You can use whichever one you choose in your submit handler. This works well for me and I get the unaltered copy and the validated copy in scope, as well as all the interesting classes on the element from validation
+
+ItsLeeOwen commented on Jul 7, 2014 Is the 1.3.x beta branch now intentionally setting ngModel $modelValues to undefined when invalid?
+
+Narretz commented on Jul 7, 2014 @ItsLeeOwen Yes, in some cases, but the intention was not to break this use case even further, it was a side effect. The form stuff is currently under heavy scrutiny, so expect changes to that in the future.
+
+Collaborator Narretz commented on Jul 7, 2014 @ItsLeeOwen Do you have a specific example where this happends?
+
+ItsLeeOwen commented on Jul 7, 2014 @Narretz Ok, thanks I'll keep my eyes on the direction. I think I prefer $modelValue not being set to undefined when invalid. Example: http://codepen.io/ItsLeeOwen/pen/BcjDI
+
+Narretz commented on Jul 7, 2014 @ItsLeeOwen I can't guarantee that this property will be available in future releases, but you can use $$invalidModelValue for the time being. (it's a 'private' property, so it's always subject to change)
+
+andrezero commented on Jul 9, 2014 Hey all. We needed a solution that worked in both directions, from model to view and from view to model, allowing invalid values to flow regardless of validity. Inspired by @evangalen we came up with this brute-force solution that we currently use a few places where the built-in behaviour was totally breaking other features: a high priority directive push a parser that ignores the fact some other parser failed and just returns original viewValue unshift a formatter that ignores the fact some other formatter failed and just returns original modelValue Working example here: http://plnkr.co/edit/m1V8kiFWBfC4KbVEdpkb?p=preview It totally bypasses formatters/parsers when invalid, but probably good enough to use in most cases, like maxlength or pattern. Look forward to see angular team decouple parsers/formatters from validators. It looks like an easy task but most definitely a breaking change.
+
+xml commented on Jul 9, 2014 Does anybody have any good references on forthcoming changes to form validation? Is it going to remain part of the parser/formatter pipeline? Will failure of one validation parser still prevent getting results on other validations?
+
+Narretz commented on Jul 9, 2014 The whole form processing / validation looks easy, but it's astonishingly complex. At the moment, some validators live a new $validators collection, which is not a pipeline, so all validators in it are called and applied. However, a few validators are still in $parsers / $formatters, for various reasons. I expect that this will be sorted out before 1.3 is released, which should also have support for writing models to scope even if invalid.
+
+xml commented on Jul 11, 2014 That sounds awesome. Yes, the whole validation thing is remarkably complex,and what's amazing is how transparent and automagical most of it is. If more hands are needed to work on the revisions, I'm interested, but feel like I may be late to the party
+
+ilovett commented on Aug 8, 2014 I found the modelValue being set to undefined after $setValidity('x', false) to be quite annoying and unexpected
+
+scottmas commented on Sep 3, 2014 One way to deal with this (currently) is to declare a companion directive which requires the ngModel controller and then decorates it to override this undesired default behavior: //get ngModel controller in your directive definition. var orig = ngModel.$$writeModelToScope; ngModel.$$writeModelToScope = function(){ ngModel.$modelValue = ngModel.$viewValue; orig.apply(this, arguments); };
+
+metamatt commented on Sep 11, 2014 Given the ng-model-options="{ allowInvalid: true }" fix that went in for #8290 (in 1.3.0-rc.1, 3c538c1), is there anything left for this issue? (Wasn't #8290 essentially a dupe of this, albeit a little more focused since it had 22 months less baggage to deal with...)
+
+Narretz commented on Sep 11, 2014 Yep, it's all good now! 9314719 restored the behvaior of not setting the model to undefined when you set the validity with $setValidity, so this is also resolved. I'm not a big fan of this, but hey.
+
+kalyan542 commented on Jan 27 @andrezero:Thanks for providing the example.
+
+georgebatalinski commented on May 13 Thank you guys for the contributions and looking at this, there is some awesome answers here - I posted a small post - to explain my approach https://medium.com/@gbatalinski/save-3-days-of-your-dev-life-date-picker-multi-field-validation-angular-js-validators-f5712a5add4f

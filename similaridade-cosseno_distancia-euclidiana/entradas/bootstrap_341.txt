@@ -1,0 +1,83 @@
+Add autocomplete
+
+nahuelange commented on Sep 29, 2011 It would be great if Bootstrap supported "autocomplete" like for a search field.
+
+batuhan commented on Sep 29, 2011 This would be awesome.
+
+drewda commented on Sep 29, 2011 That's really pushing the boundaries of thinking of Bootstrap as a set of presets for page styling. Such a wide variety of autocomplete scripts are already available[1]. It'd be great for Bootstrap to provide increasing amounts of styling for others' widgets, but to build up an entire widget set within Bootstrap? Hey, if it's feature-complete and as stylish as the rest of Bootstrap, I'd use it--but I don't know if anyone wants to actually develop it. [1] Some of my favorites, off the top of my head: http://documentcloud.github.com/visualsearch/ http://jqueryui.com/demos/autocomplete/ https://github.com/laktek/jQuery-Smart-Auto-Complete
+
+batuhan commented on Sep 29, 2011 @drewda is right. I still think some CSS for the job would be awesome though.
+
+nahuelange commented on Sep 29, 2011 I'm not talking about javascript part, just about styling/positionning the elements in the right place.
+
+drewda commented on Sep 29, 2011 @nahuelange, that sounds good. The best option is probably to pick a jQuery autocomplete plugin and do styles for that particular one, as in the TableSorter.js example: http://twitter.github.com/bootstrap/#tables Or another more speculative option that's come up in previous discussions here is to focus on jQuery UI and in effect build a theme that would apply Bootstrap styling to all those widget
+
+fat commented on Oct 3, 2011 Yeah, mark and i have talked about this a few times. I'll tag it as a future feature
+
+santiquiss commented on Oct 20, 2011 I think the idea behind these requests is to stop having to use jquery ui :P
+
+fat commented on Oct 20, 2011 this is what we have planned for 2.0: http://cl.ly/B7Mf
+
+dlo commented on Nov 1, 2011 Has someone already started on this?
+
+fat commented on Nov 1, 2011 Haven't started - gotta get 1.4 out first :)
+
+dlo commented on Nov 1, 2011 I'm about to implement this for a client--any design guidelines? Or are you going to do this internally @ Twitter?
+
+fat commented on Nov 1, 2011 I'd be interested in seeing what you came up with. My approach has been minimal options, offload as much to css as possible (don't set styles in js), keep it lightweight, less is more.
+
+bezmenov commented on Dec 2, 2011 My favorite is https://github.com/jstayton/jquery-marcopolo
+
+OttoAllmendinger commented on Dec 7, 2011 I've yet to find a jquery plugin that Does autocomplete Provides a dropdown menu Looks good Wraps an existing <select> tag FlexBox comes close, but it would be fantastic if bootstrap provided something in that direction.
+
+OttoAllmendinger commented on Dec 7, 2011 I've yet to find a jquery plugin that Does autocomplete Provides a dropdown menu Looks good Wraps an existing <select> tag FlexBox comes close, but it would be fantastic if bootstrap provided something in that direction.
+
+etaque commented on Dec 16, 2011 FYI, http://harvesthq.github.com/chosen/ integrates well with bootstrap styles, and match @OttoAllmendinger requirements.
+
+OttoAllmendinger commented on Dec 16, 2011 @etaque thanks a lot, that is precisely what I was looking for.
+
+pokonski commented on Dec 16, 2011 @etaque, now that's pretty! Is there a point in reimplementing his? Maybe just create matching styles for Chosen? If so, I'm up for it ;)
+
+j-hernandez commented on Dec 16, 2011 Chosen + Bootstrap + A little Aristo = Sexy Autocompletes. Bonus points for Chosen + Isotope autocomplete filtering+sorting.
+
+michaelmior commented on Dec 21, 2011 Chosen doesn't seem to support fetching items via AJAX which is one of the great things about jQuery UI autocomplete. Although it looks like someone else may have already tackled this problem.
+
+@powder96 powder96 commented on Dec 25, 2011 It would be better to create matching styles, but it is not really necessary. Chosen's default style differs from Bootstrap's just a little bit. I have combined Bootstrap and Chosen on this page http://driversworld.us/app/adddrivers/ , and as you can see, it looks OK.
+
+santuxus commented on Dec 29, 2011 I needed styles for autocomplete too. As long as it's not implemented in bootstrap, I think that JQuery autocomplete is a quite nice solution: http://jqueryui.com/demos/autocomplete/. JQuery UI has it's own stylesheets (https://github.com/jquery/jquery-ui/tree/master/themes/base) and in case of autocomplete combined with bootstrap css it doesn't look bad. All jquery css element classes start with prefix 'ui-', so there are no conflicts.
+
+pokonski commented on Dec 29, 2011 jQuery UI is very bloated and complicated compared to Bootstrap. Also it's too invasive to change the default styles. For example jQuery UI tabs force certain styles like rounded corners, by adding classes from JS. And there's butload of those :(
+
+michaelmior commented on Dec 30, 2011 @pokonski It would be possible to write a theme for jQuery UI which mirrors Bootstrap. But I agree that's it's really bloated anyway and using both jQuery UI and Bootstrap is overkill.
+
+michaelmior commented on Dec 30, 2011 @pokonski It would be possible to write a theme for jQuery UI which mirrors Bootstrap. But I agree that's it's really bloated anyway and using both jQuery UI and Bootstrap is overkill.
+
+santuxus commented on Jan 5, 2012 @michaelmior - thank you for the link!
+
+mdo commented on Jan 8, 2012 Very happy to say work has started on this for Bootstrap 2.0 and the early version is now in 2.0-wip. We'll finish it off for launch as soon as possible.
+
+dyve commented on Jan 24, 2012 Nice! As autocomplete author (https://github.com/dyve/jquery-autocomplete) I'm looking forward to see where this leads. Also, KUDOS to Chosen, if you don't need remote data that is pretty awesome. I'm gonna use it!
+
+chrido commented on Jan 24, 2012 haven't tried it myself, but there is also a chosen which could be used with remote data, http://github.com/meltingice/ajax-chosen
+
+jakeasmith commented on Jan 30, 2012 Is there a specific reason that this doesn't support remote data? If not, I'd love to submit a patch for it.
+
+michaelmior commented on Jan 30, 2012 Instead of explicitly storing remote data, it's probably easier and more flexible to allow the source to be specified as a callback which returns the results to use given the currently entered text. Then you can implement remote data or anything else you want on top.
+
+marcopotento commented on Feb 3, 2012 +1 for being able to specify a source callback
+
+austegard commented on Feb 10, 2012 I found this thread specifically when looking to see if anyone had implemented a remote source for this... Is that, or using a callback, in the works anywhere?
+
+ouranos commented on Feb 15, 2012 @austegard: I've made some modifications to the html generated by marcopolo to add boostrap styles. Still work in progress but it looks nice so far: https://github.com/ouranos/jquery-marcopolo/tree/bootstrap
+
+dyve commented on Feb 15, 2012 See #1983 and #1336
+
+austegard commented on Feb 15, 2012 @ouranos - it does look good. We're trying out marcopolo now...
+
+garmoncheg commented on Mar 13, 2012 thanks guys for outstanding comments...!!! helped me out to understand the topic
+
+jxs commented on Jun 7, 2012 great suggestions on this thread, agree with comment above mine, tnhx ! and +1 for autocomplete on twitter bootstrap
+
+osouthgate commented on Jun 28, 2013 Great little auto complete select box http://ivaynberg.github.com/select2/
+
+railsforcharity commented on Sep 3, 2012 +1.

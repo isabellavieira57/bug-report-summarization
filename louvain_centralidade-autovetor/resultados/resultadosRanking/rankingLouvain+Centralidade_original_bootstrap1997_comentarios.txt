@@ -1,0 +1,12 @@
+14
+['geuis', 'commented', 'is', 'this', 'issue', 'still', 'active', '?', 'i', 'thought', 'the', 'data', 'source', 'issue', 'would', 'have', 'been', 'addressed', 'by', 'now', 'and', 'my', 'little', 'hack', 'made', 'obsolete', '.']
+
+6
+['rubic0n', 'commented', 'wow', '..', 'i', 'wasted', '5', 'hours', 'of', 'my', 'life', 'before', 'i', 'found', 'this', 'post', '..', 'thanks', '@geuis', 'for', 'your', 'solution', '..']
+
+9
+['satgi', 'commented', 'thank', 'you', 'so', 'much', ",i've", 'spent', 'almost', '2', 'to', '3', 'hours', 'working', 'on', 'this', 'problem', '.']
+
+10
+['paulbarbu', 'commented', 'thank', 'you', '!']
+

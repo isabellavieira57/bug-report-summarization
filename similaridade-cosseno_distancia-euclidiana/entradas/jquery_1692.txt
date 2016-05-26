@@ -1,0 +1,67 @@
+Improve performance removal of events with namespaces
+
+markelog commented on Oct 9, 2014 http://jsperf.com/jquery-off-with-callback/2 found by @doochik. This probably happens because of the recursion, it's still fast though, in absolute numbers that is, but i wonder if could do better? I'm thinking if we could do something, it should not hurt the byte size, otherwise it too much of the edge case to do something drastic.
+
+markelog commented on Oct 9, 2014 @ChrisAntaki do you want take this on in?
+
+ChrisAntaki commented on Oct 9, 2014 For sure @markelog
+
+dmethvin commented on Oct 9, 2014 @markelog and I discussed on IRC, if it's small to fix this I'm good with it. Note that changes to the undocumented non-public data structures need some advance notice now because Firefox dev tools gropes into them to find the real handlers. :cry: So I wouldn't want those to be reorganized.
+
+ChrisAntaki commented on Oct 9, 2014 Thanks for the heads up @dmethvin
+
+ChrisAntaki commented on Oct 18, 2014 Just an update, we might have a memory leak due to the recursion. http://jsperf.com/namespaced-event-removal . Digging more into it...
+
+ChrisAntaki commented on Oct 19, 2014 Good news, the test itself was causing the memory leak.
+
+ChrisAntaki commented on Oct 19, 2014 Fixed version of test shows Off by ns performing 5x faster. http://jsperf.com/jquery-off-with-callback/10
+
+ChrisAntaki commented on Oct 19, 2014 If we'd like to pay 42 bytes, we can speed up Off by ns by ~20% by caching some regex for the recursion. http://jsperf.com/jquery-off-with-callback/11 A new parameter, regex, was added to the remove method https://github.com/ChrisAntaki/jquery/compare/namespace-regex?expand=1
+
+ChrisAntaki commented on Oct 19, 2014 If we get fancy, Off by ns can speed up 18% for just 7 bytes http://jsperf.com/jquery-off-with-callback/12 Instead of a new regex parameter, we just ask mappedTypes if it's down to moonlight as a cache bearer. Which it agrees to, of course. https://github.com/ChrisAntaki/jquery/compare/namespace-mappedTypes?expand=1
+
+ChrisAntaki commented on Oct 19, 2014 Summary Original jsperf test had a memory leak When fixed, Off by ns increased performance 5x+ Beyond that, two ways to increase performance ~18% were found Steps forward I'd recommend going with the namespace-regex branch, if either, since it increases the clarity of the code by introducing a new variable name regex. The downside of this branch is the 42 byte cost when minified & gzipped. The namespace-mappedTypes branch only costs 7 bytes, and is pretty clever, but I fear it's less readable. Both branches improve Off by ns performance by around 19%. Not sure if I'm sold on merging either of the changes. Though working on both was fun, especially the namespace-mappedTypes branch.
+
+markelog commented on Oct 21, 2014 @ChrisAntaki did you consider removing recursion entirely?
+
+ChrisAntaki commented on Oct 21, 2014 Nope, will give it a try
+
+ChrisAntaki commented on Nov 7, 2014 @markelog Removing the recursion added 82 bytes, and didn't seem to increase performance. Perhaps my implementation could be improved. http://jsperf.com/jquery-off-with-callback/13 ChrisAntaki@1f73674
+
+markelog commented on Nov 7, 2014 Wow, that's unsettling, will check it out more closely.
+
+markelog commented on Nov 7, 2014 Thank you Chris, 20% is good result.
+
+gibson042 commented on Nov 7, 2014 I believe http://jsperf.com/jquery-off-with-callback/13 is misconfigured... according to jsPerf FAQ and referenced Benchmark.js documentation, setup and teardown run outside the test loop—i.e., only once for each test to cover the many code invocations of the test (the latter link is particularly illuminating on this point). So what's actually being tested in every case are the various .off signatures against an element with no matching handlers, since the first code invocation of each test would have pulled them out from underneath all subsequent attempts.
+
+ChrisAntaki commented on Nov 7, 2014 @gibson042 That might mean the original test was misconfigured too
+
+ChrisAntaki commented on Nov 7, 2014 @gibson042 I'm seeing the setup & teardown run 168 times with two test cases. I'm pretty sure each test gets many test loops. :) http://jsperf.com/setup-and-teardown-run-many-times
+
+markelog commented on Nov 7, 2014 That's 168 samples of the test loop, in events perf that amount should much lower. This means only one test execution is measured correctly, others aren't, in other words, it's still shows the problem just don't give you precise numbers. Common mistake, i should have checked it out more thoroughly. @jdalton, @mathiasbynens am i right here?
+
+jdalton commented on Nov 7, 2014 The way jsperf works is this: <setup> <start clock> while (<count>--) { <test> } <stop clock> <teardown> So the setup is run before the clocked test loop is ran. If you're doing something like removing elements then you'll want to ensure the test has the right number of elements to remove. The setup and tear down have access to the loop count via this.count so you can use that to create the number of events or elements or whatever that will then be removed. This can drag the overall responsiveness of the harness and tests down if there is a heavy setup so experimentation will be needed to see if its a good fit for this test.
+
+markelog commented on Nov 7, 2014 @jdalton btw, is that possible for you to weaken the spam filter? I was in the middle of creating correct test but was blocked by spam filter, this problem raise couple times for us, like - #1668 (comment)
+
+jdalton commented on Nov 7, 2014 is that possible for you to weaken the spam filter The pain is real. We're looking into moving to GitHub authentication but could use help with a PR.
+
+markelog commented on Nov 7, 2014 The pain is real. Will try to help out, if get some free time. Back to business: http://jsperf.com/1415388149101, @ChrisAntaki could you redo your tests?
+
+ChrisAntaki commented on Nov 7, 2014 Sure @markelog - should we move the setup and teardown into the test cases, so they run every loop?
+
+markelog commented on Nov 7, 2014 Check out link in my previous comment, you could do the same.
+
+ChrisAntaki commented on Nov 7, 2014 Sounds good - nice catch @gibson042
+
+ChrisAntaki commented on Nov 9, 2014 Units are in ops/sec. Values for $elem.off('click') & $elem1.off('.namespace'). Perhaps a jsPerf checklist could be of benefit for future discussions. Memory leaks should be prevented by use of a teardown method. Any setup or teardown that must be done once per test loop must use this.count to help target specific iterations.
+
+markelog commented on Nov 10, 2014 So at least in Chrome, it looks like removing event with namespace is faster then removing individual event?
+
+ChrisAntaki commented on Nov 10, 2014 Yes, that surprised me too. Should we make more tests to verify?
+
+dmethvin commented on Nov 11, 2014 I really like the thorough analysis, wish all PRs had this! How does the regex version end up being +42? It doesn't look that big. If it really adds that much those benchmarks aren't making a strong case for a change.
+
+ChrisAntaki commented on Nov 11, 2014 Agreed @dmethvin! I'm ready to move on. The namespace based removal isn't in bad shape, like we'd originally suspected.
+
+markelog commented on Nov 11, 2014 Best patch is the one in which you don't change anything. Thank you Chris.

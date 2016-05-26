@@ -1,0 +1,9 @@
+33
+['chandermi', 'commented', 'i', 'want', 'to', 'render', 'directive', 'on', 'drag', 'of', 'a', 'control', 'but', 'it', 'is', 'not', 'working', 'it', 'just', 'adding', 'the', 'tag', 'but', 'not', 'replacing', 'html', '.is', 'there', 'any', 'solution', 'for', 'this', '?']
+
+24
+['wuxiaoying', 'commented', '@eprouver', 'hmm', 'that', "'s", 'an', 'interesting', 'solution', ';', 'thanks', 'for', 'sharing', '!', 'however', ',', 'isn', "'t", 'that', 'also', 'a', 'hack', '?', 'it', "'s", 'basically', 'setting', 'an', 'attribute', 'to', 'an', 'interpolated', 'value', ',', 'observing', 'the', 'interpolation', ',', 'and', 'assuming', 'that', 'since', 'that', 'value', 'was', 'interpolated', ',', 'the', 'value', 'inside', 'the', 'div', 'is', 'also', 'interpolated', '.']
+
+3
+['hevery', 'commented', 'i', 'think', 'you', 'are', 'looking', 'for', 'this', ':', 'http', '://docs-next.angularjs.org/api/angular.module.ng.$rootscope.scope#$evalasync']
+

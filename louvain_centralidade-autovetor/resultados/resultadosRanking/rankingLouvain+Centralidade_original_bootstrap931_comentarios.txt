@@ -1,0 +1,12 @@
+35
+['juthilo', 'commented', '@gagarine', 'the', 'issue', 'is', 'in', 'fact', 'already', 'closed', 'for', 'that', 'reason', '.']
+
+32
+['turbokia', 'commented', 'are', 'there', 'any', 'updates', 'on', 'this', '?', 'i', 'work', 'for', 'washington', 'state', ',', 'usa', 'and', 'accessibility', 'is', 'a', 'big', 'deal', 'these', 'days', '.']
+
+30
+['julianhh', 'commented', 'any', 'news', 'on', 'accessibility', 'support', '(at', 'least', 'for', 'upcoming', '3', '.0)', '?', 'anyway', '..', '+1', 'on', 'this', 'whole', 'issue', '!']
+
+23
+['rbrochot', 'commented', 'another', '+1', 'for', 'accessibility', 'and', 'js', 'fallbacks', ':)']
+

@@ -1,0 +1,61 @@
+ng:animate does not generate move animation on ng:repeat.
+
+akoprow commented on Nov 27, 2013 The following example illustrates what I mean: http://jsbin.com/OgAloNi/2/edit. It displays a list of entries together with buttons to add a new entry at the beginning or end and to sort the list of entries. Adding new entries at the beginning or end make other elements move, but no move animations are triggered (only sorting triggers them). Is that expected behavior? I would be surprised. This issue bites me because I would like to display a list of elements from left to right and then nicely animate repositioning elements to appropriate places when the list changes. For that it would be convenient if elements whose index changed triggered 'move' animation; on a related note it would be great if $index and related variables would be updated prior to triggering animations, so that one could rely on their updated values.
+
+matsko commented on Nov 27, 2013 I see what you mean. You're expecting a move to be triggered when add to beginning and add to end are called. Right now it is only triggering it when you apply a sort right?
+
+akoprow commented on Nov 27, 2013 Yes, correct (and, unless I'm missing something, I consider that a bug). Additionally, it'd be great if animation callbacks where invoked after $index variables were updates (that's more a feature request; I can open a separate issue if you like?).
+
+cfchase commented on Dec 20, 2013 I'm having problems with this, but it sounds like my problem is the exact opposite. While moving an object from one position to the next, I'd want to animate that single element to show the user what just moved. Lighting up every item that shifted by 1 would obscure the change. It works when moving the element up (ie from position 7 to 3) but when moving the element down (ie from 3 to 7), the element itself is not animated, but the ones that shifted up did not. All in all, I'd expect the move of a single item to act like it was deleted (ng-leave), and then inserted (ng-enter). I didn't see the animations in there when I clicked on your jsbin, but here's a plunker to demonstrate my scenario. http://plnkr.co/edit/4yRkLWbsU57YxrYOrWUQ?p=preview
+
+IgorMinar commented on Dec 21, 2013 in the case @akoprow described, no "move" operation actually happens in the dom because the new node is added before the existing nodes and the "move" operations happens only in the browser's render tree. this qualifies for the typical DOM move operation and it can't be animated as such. I think that in this case it would be good to understand what kind of animation/effect are you trying to achieve and based on that we can suggest or implement a solution.
+
+akoprow commented on Dec 22, 2013 @IgorMinar, thanks for the answer. What I'm trying to do is quite simple: I have a list of elements that I display horizontally. Elements are absolute positioned with a left property computed based on their $index. Their ordering sometimes changes in which case I'd like to animate them moving to appropriate positions. This fiddle should make it clear: http://jsfiddle.net/koper/SUzR5. It's a pretty good abstraction of what I'm trying to do, except I'd like to animate the blocks changing their positions (which is not happening in the fiddle). I'm guessing I could just $watch the array on the scope, and animate the elements in the listener. However, it feels "wrong" to circumvent the animation framework in this way. Given mine and @cfchase's use-cases it kinda sounds like there are two kinds of moves one may be interested in: relative (ordering within the array changes) and absolute (index changes). Btw. I'd be happy to try to work it out and submit a pull request if you guys are interested in that and if we achieve a consensus on how to address that.
+
+matsko commented on Jan 13, 2014 @IgorMinar @akoprow we definitely need to have some kind of animation even if the element stays in place and the DOM tree jumps up or down a bit. But using move for the animation wouldn't really be a move animation since nothing is getting moved around. Any bright ideas?
+
+akoprow commented on Jan 18, 2014 @matsko I'm not sure if I have a good suggestion as I don't think I even have a good grasp of the definition of what constitutes a move in the current implementation. One obvious approach would be to have some sort of a flag indicating whether it's an "index-based" or "regular" move. In any case I agree that it would be good to have some sort of event triggered whenever item's index changes.
+
+tomsdev commented on Feb 2, 2014 I agree with @akoprow, the current move event is not what I expected it to be. I expected it to be raised when the $index of an element inside ng-repeat changed. In terms of animation, it'd very useful. Keeping both "index-based" and "regular" move could be nice but the naming may have to be changed.
+
+swarajban commented on Feb 5, 2014 Second @akoprow, I am trying to do something similar and wish that the ng-move classes would be added/removed when the $index of the element changes
+
+akoprow commented on Feb 5, 2014 @matsko: Looks like there's some general interest in this feature :)
+
+vompy commented on Feb 5, 2014 Running into the same issues, it would be great if this feature could be supported. For now I'm going to write my own ng-move classes.
+
+mattspaulding commented on Apr 15, 2014 I agree. This is how I expect the animation to work.
+
+matsko commented on Apr 15, 2014 Maybe if we move enter and move to happen after the rAF then we can "emulate" a move event even though the element may not be moving around in the DOM tree.
+
+schmod commented on May 19, 2014 Agreed that the current behavior makes very little sense. Among other things, one would expect that ng-move could be used to animate a list being shuffled. However, because ng-move is not necessarily get applied when an elements' $index changes, this is not possible. Here's a plunkr that illustrates the problem: http://plnkr.co/edit/OavWl83hyNcXAG5R424V?p=preview Note that swapping the first and last elements of an ng-repeat triggers ng-move on every element except for the first one (which is being moved to the bottom of the list).schmod commented on May 19, 2014 Agreed that the current behavior makes very little sense. Among other things, one would expect that ng-move could be used to animate a list being shuffled. However, because ng-move is not necessarily get applied when an elements' $index changes, this is not possible. Here's a plunkr that illustrates the problem: http://plnkr.co/edit/OavWl83hyNcXAG5R424V?p=preview Note that swapping the first and last elements of an ng-repeat triggers ng-move on every element except for the first one (which is being moved to the bottom of the list).
+
+MattAtBT commented on Jul 18, 2014 Has there been any further progress on this issue? I have the same use case as @cfchase and would be interested in applying move animations to $index changes
+
+bfil commented on Jan 5 +1
+
+pangwa commented on Mar 17 +1
+
+chadamski commented on May 14 +1
+
+SylTi commented on Jun 29 +1
+
+matsko commented on Jun 29 I will have a look at this during this week to see how we can emulate a move animation on elements that got shifted down.
+
+OSSDeveloper commented on Jul 1 Waiting for the solution...
+
+dwanderton commented on Jul 5 +1
+
+trickpattyFH20 commented on Jul 7 does anyone have an example of a recommended workaround in the mean time? maybe adding a class to all the siblings of the target element and then animating that class, then removing the class?
+
+toobstar commented on Jul 13 +1
+
+sokolandia commented on Jul 14 +1
+
+olegwn commented on Aug 17 +1
+
+mjduijn commented on Aug 29 +1
+
+jascination commented on Sep 10 Been two years, from what I can see there still isn't a good workaround for this...
+
+monsterxxx commented on Oct 18 +1

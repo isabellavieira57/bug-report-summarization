@@ -1,0 +1,18 @@
+bitboxx commented the fix for this bug causes error in chrome , ie and firefox . tested with chrome 44 , 46 ; ie 11 ; and firefox 38 . calling the function using an empty string as argument will reproduce the error . note that this function was not called directly from a script , but from triggering a custom event on an element using element .trigger('eventname'). function isarraylike ( obj ) { // support : ios 8 .2 (not reproducible in simulator ) // `in` check used to prevent jit error (gh-2145) // hasown isn 't used here due to false negatives // regarding nodelist length in ie var length = "length" in obj && obj .length, type = jquery .type( obj ); if ( type === "function" || jquery .iswindow( obj ) ) { return false ; } if ( obj .nodetype === 1 && length ) { return true ; } return type === "array" || length === 0 || typeof length === "number" && length > 0 && ( length - 1 ) in obj ; } isarraylike ('');
+
+mzgol commented btw : according to jashkenas /underscore#2094 (comment): i don 't think the bug is reproable in the ios simulator which is what sauce uses . we won 't be able to write a meaningful test for it since we run the test in simulators as well . :/ unless someone is going to run the suite manually on ios 8 from time to time (the number of people being able to do it will drastically decrease with the release of ios 9 ).
+
+osolo commented i suggest this go out in the next point release regardless of what apple does . 8 .x will have a lot of market share for a while to come and this bug is very nasty to diagnose . it took me weeks to unearth the core problem . jquery is in a great position to spare people the anguish .
+
+dmethvin commented wow . i guess this must be rare enough that it doesn 't occur that often ? plain object , only numeric indices , etc . there 's a patch in jashkenas /underscore#2094 that says it tries to work around this . we could do something similar but it seems like we 're in the same situation as we were with the december release . is it worth doing another minor -point release for this ?
+
+yamau6809 commented @mzgol i will report an issue to them . also i will do more research before asking question next time . thanks ,
+
+yamau6809 commented in chrome version 42 .0.2311.90 (64-bit),i am getting the following error : typeerror : cannot use 'in' operator to search for 'length' in at isarraylike (jquery.js:539) at function .jquery.extend.map (jquery.js:461) at _fnfiltercreatesearch (jquery.datatables.js:2996) at _fnfilter (jquery.datatables.js:2932) at _fnfiltercomplete (jquery.datatables.js:2834) at _fnredraw (jquery.datatables.js:2086) at _fninitialise (jquery.datatables.js:3276) at htmltableelement .<anonymous> (jquery.datatables.js:6510) at function .jquery.extend.each (jquery.js:374) at jquery .fn.jquery.each (jquery.js:139) do i need to do something to avoid this ?
+
+timmywil commented per the meeting today , we 'll be doing a hot -fix patch release for this .
+
+dmethvin commented seems like a good idea .
+
+datatables commented the fix has been committed to datatables now and its nightly version is up to date with the change . apologies for the error .
+

@@ -1,0 +1,89 @@
+More states for form validation
+
+mhevery commented on Oct 6, 2011 After reading this: http://www.alistapart.com/articles/inline-validation-in-web-forms/ In order to implement on blur, there needs to be more states to forms then just pristine and dirty. The gold standard should be to validate all the time, but updating the UI only when user navigates away from the widget.
+
+ProLoser commented on Sep 6, 2012 People have been struggling with premature validation, where the form inputs are marked as invalid before the user even touches the form. I recommended that they use .ng-dirty.ng-invalid but the problem is this does not change when the user submits. It appears there are no class changes to the form when a submit of the form is attempted (regardless of fail or pass). I have created a demo that shows a simple fix for this: http://plnkr.co/edit/172Vlv?p=preview and caters to both scenarios (premature validation and skipping validation altogether) from a visual perspective. tl;dr Remove the ng-pristine class and add some sort of ng-submitted class when the form is submitted. I'd prefer to have this on the actual form/ng-form directive rather than a third party directive.
+
+mullr commented on Sep 24, 2012 I've been struggling with this as well; ng-pristine / NgModelController.$pristine, as implemented, isn't especially useful. The user needs at least some chance to enter information correctly before being scolded. A state which is set once the user has interacted with, but then left, the control would be appropriate. (i.e. blur has been fired)
+
+wlingke commented on Dec 6, 2013 I agree with the above. $dirty is too aggressive - users shouldn't be shown an error UI state until after they've blurred out of the element.
+
+MisterK commented on Dec 23, 2013 +1
+
+nicoabie commented on Dec 27, 2013 A useful state would be $attemped. Its use case being when the user tries to submit without filling in and required fields should be highlighted.
+
+caitp commented on Dec 27, 2013 can't you already use the dirty state for that?
+
+matsko commented on Dec 27, 2013 Not sure how this issue came up again, but... We've already planned this out and the solution is to have a few extra states: inputOrForm.$submitted (if the submit event was run even if the form is invalid). input.$visited or input.$blurred or input.$touched (not the same as $pristine since you need to enter data to make $pristine change). The forms themselves are pretty good, but there needs to be more control over when messages are displayed. These flags should fill that hole.
+
+nicoabie commented on Dec 28, 2013 Not actually @caitp, i'm addressing the case when a user sees a Form and instantly presses the submit button having no interaction with any of its components. There, the way I see it, it would desirable to point out which fields are required for example. That's why an $attempted state would be very adequate. @matsko what you are calling $submitted is very close to what I'm thinking of. The difference resides in two aspects. 1) attempted adjective seems more suitable than submitted, because it may not be due to failed validations. 2) I thought of $attempted just for Forms, don't know how it would fit in Inputs. Thanks to both of you for your replies, regards.
+
+caitp commented on Dec 28, 2013 In that particular case, it still sounds like something which could be accomplished with ng-submit + $pristine, since the FormController's $pristine should be true if all of its controls are pristine, or even just iterating over all of the forms controls. It might be possible to make implementing this more elegant, but it should already be quite possible (of course, this requires the submit event to happen, but I guess you could bind a click event to the submit button also to make whatever changes happen that need to happen) Note, I'm not saying we shouldn't try to make this nicer, I'm just saying you might be able to solve your problem adequately already
+
+nicoabie commented on Dec 28, 2013 You are right @caitp, it is possible to achieve the way you described. I actually used this directive http://code.realcrowd.com/on-the-bleeding-edge-advanced-angularjs-form-validation/ but it seems to me this should be angular's the concept of $attempted.
+
+jeffbcross commented on Jan 10, 2014 Here is @matsko's design doc for improving forms: https://docs.google.com/a/google.com/document/d/192dCUnoIBQ7-vurvPeS9BElGdxfk0Ddcof2KzDDi1Mc/edit
+
+ProLoser commented on Jan 10, 2014 @jeffbcross @matsko So honestly, the @angular-ui team tried to tackle simplifying form validation a few different times with ui-input: https://github.com/angular-ui/ui-input angular-ui/angular-ui-OLDREPO#189 https://groups.google.com/forum/?fromgroups=#!topic/angular-ui/cQN26-5nuGU angular-ui/angular-ui-OLDREPO#191 http://plnkr.co/edit/3zMsNnpNfOFwExSqLj2I?p=preview The gist was that you would create a template snippet which would switch between all the different input types, automatically generating labels, surrounding html (<div class="form-group"> etc), error messages, and so forth. The idea was that you would generally declare a template either app-wide or form-wide, etc. which would contain all the above scenarios (and have a dictionary of validation messages keyed by validation rule name). This way you define your validation messages for the FORM instead of each input. We wanted to have it handle things like automatically generating the name and id and for (for labels) properties based on the ng-model. Example: <script type="text/ng-template" id="vert-form"> <div class="form-group" ng-class="{error:$input.error}"> <ng-switch on="$input.type"> <textarea ng-switch-when="textarea" name="{{$input.name}}"></textarea> ... </ng-switch> <div class="help" ng-repeat="(errorName, error) in $input.$errors" ng-switch="errorName"> <span ng-switch-when="required">The {{$input.name}} field cannot be left empty</span> ... </div> </div> </script> <form name="vert-form"> <!-- or <div ng-form="vert-form"> --> <ui-input type="textarea" ng-model="data.item" required max-length="3" /> <!-- or <ui-input template="vert-form" ...> to override/specify on a field-by-field basis --> </form> The type property was used to select which chunk of the template you were leveraging, the ng-model was expanded into id's, names, and for-properties (all namespaced by the <form> or ng-form). The $input was a scope utility to access things such as formName.inputName.$error but also transclusion and properties of the <ui-input> and finally interpolated properties to make things easier like a $input.id or $input.name which could of course be explicitly overwritten on the ui-input tag. The Problem: The big issue we ran into however was that we wanted to transclude to a few different places in the resultant template, AND we weren't able to use {{}} on the name property and get it to work. Using repeaters on form inputs also proved difficult when trying to generate names or ids since <input id="input[{{$index}}]" name="input[{{$index}}]"> doesn't work.
+
+matsko commented on Jan 12, 2014 @ProLoser let's figure out the naming system first so that all the new features can actually be possible.
+
+troch commented on Jan 19, 2014 #5888 I've send a PR for adding a $dirtyAfter state for controls, which could greatly improve the decision to display or not inline validation messages. For example, an inline validation message can be shown using the condition "myForm.myField.$dirty || myForm.myField.$dirtyAfter". I also think a form level "attempted" state would be a great idea, and it would work well along $dirtyAfter by using the following condition for showing/hiding inline validation messages "myForm.$attempted || myForm.myField.$dirty || myForm.myField.$dirtyAfter"
+
+pawelszymanski commented on Jan 22, 2014 I love the approach to not let user type letters in field that is expected to be digits only etc. This, combined with visual and/or audio feedback (don't forget the disabled people) saved me a lot of time on typing validations. How about ng-accept and ng-reject? Like <input ng-accept='/\d/'> also enhanced by characters sets constants, like <input ng-accept='navigation, digits'>
+
+gh-naylor commented on Mar 3, 2014 Any idea on when input.$blurred and others are coming?
+
+Owner matsko commented on Mar 3, 2014 We're almost done releasing the AngularDart forms. For this release, we're prototyping some of the new features including submit flags, touched/untouched (blurred), subforms, resetting and possibly multi-error message controls. Once this is all said and done this will be ported over to the JS side.
+
+kumaraswins commented on Apr 2, 2014 hi, when $blurred is coming up in angularjs??? i'm waiting..
+
+daviesgeek commented on Apr 15, 2014 @matsko Any updates on when that will get ported over to the JS side?
+
+2ix commented on Apr 27, 2014 @daviesgeek I would guess Angular 2.0
+
+daviesgeek commented on Apr 30, 2014 @2ix okay
+
+guzart commented on May 28, 2014 touched (blurred) is simple to implement https://gist.github.com/guzart/e4ecea64f509f9d5062d
+
+matsko commented on May 28, 2014 @guzart sorry I've been very busy refactoring the validators for ngModel. Could you put together a Pull Request for that and then I can review it? Remember to include the docs + tests.
+
+guzart commented on May 29, 2014 @matsko I'll take a stab at it this weekend
+
+matsko commented on May 29, 2014 Excellent. Remember that $touched is true when a value is blurred and when the form has been submitted. Therefore $submitted for the FormController may also need to be created.
+
+nicoabie commented on May 29, 2014 @guzart @matsko, I've a pending pull request with an $attempted status. I didn't used the word $submitted cause the submision can be prevented due to validations. @IgorMinar asked for another name instead of $attempted, I believe he doesn't like the idea of $submitted. Check #5574
+
+guzart commented on Jun 2, 2014 @matsko I would've thought that $touched being true would be independent of the form being submitted. What's the thought behind this? Personally I prefer $touched and $submitted separated, since I prefer to show the error messages after the user has left the field because I think it's unlikely they will come back to fix any error. If I need them to work together using a logical AND is simple enough to do, verbose... but simple.
+
+matsko commented on Aug 6, 2014 @coli that can be done using ngModelOptions.
+
+coli commented on Aug 6, 2014 @matsko Thanks, learned something new today.
+
+mdsauer commented on Sep 11, 2014 Should a call to setPristine on NgModelController also set the controller to untouched? In RC1 it does not. So a reset function that calls setPristine and empties the model clears a form but validation error messages (required errors) still appear.
+
+Narretz commented on Sep 11, 2014 @mdsauer the required error on empty inputs is always set, even if the form hasn't been touched yet. When a user leaves (blurs) the input, the ng-touched class is added to it and $touched is set to true. You can use this in your error display logic - only display when error is set and touched is true. When you reset the form, call $setUntouched on it.
+
+mdsauer commented on Sep 12, 2014 Thanks @Narretz . My initial thought was to call a $setUntouched method but I do not see that method on the form in 1.3 RC1. Is it being added?
+
+Narretz commented on Sep 12, 2014 Oh, true. It's only available on the ngModelController. We should probably add it.
+
+marmotz commented on Sep 28, 2014 For now, $touched is set to true on blur event. If user click on input then click elsewhere, $touched was set to true while there is no change. Why not set $touched to true only if the value has been changed ? var ngModelDirective = function() { // ... snip... post: function(scope, element, attr, ctrls) { // ... snip... var lastValue = element.val(); element.on('blur', function(ev) { if (lastValue === element.val()) return; lastValue = element.val(); if (modelCtrl.$touched) return; scope.$apply(function() { modelCtrl.$setTouched(); }); }); } };
+
+gkalpak commented on Sep 28, 2014 @marmotz: Isn't that what $dirty is (sort of) for ?
+
+marmotz commented on Sep 28, 2014 Yes, you're right. But it seems strange to indicate that a field has been "touched" when it has not been changed, just focus and blur events. No? At the beggining of this issue, someone said that show errors while user type is a bad thing. If I click by mistake on input (focus) then elsewhere (blur), $touched is set to true. If I use $touched state, I immediately shows an error message. This is bad. If I use $touched and $dirty state, I do not display an error. Good. BUT, the next time I'm updating this input, the error message appears immediately because $touched has already been set to true and $dirty will be on true, too. You see what I mean?
+
+Narretz commented on Sep 28, 2014 $touched was specifically implemented for the case that a user tabs through a form and leaves inputs invalid. It happens far more often that you blur an input and leave it invalid, then accidentially clicking an input, then blurring it. You can further control your error display behavior with the form field's $viewValue. Except for required errors, you could only display errors when the user has input something.
+
+marmotz commented on Sep 28, 2014 Ok, so i don't understand the use case. On the other hand, display an error while you just begin to type an email "Invalid email !!!" is a bad practice. So, ok, it seems that $touched is not the information I need, but I think this information is missing: "This field has been changed and the user has just left it, so now, do what you want as validation or displaying messages or anything else"
+
+shahata commented on Sep 29, 2014 It sounds like the condition you need is `$touched && $dirty`
+
+gkalpak commented on Sep 29, 2014 @shahata: This won't work for the particular scenario @marmotz described: When the user clicks on the element, clicks away then clicks again and edits. It will be $touched and $dirty while editing (and not after blurring), because the field was $touched already. Nonetheless, it is a very far-fetched and "corner-case-y" scenario and adding states to identify every possible weird user interraction with form-controls would create a mess with very small benefit (imo). In any case, it is trivial to create a directive that sets the controls state to $untouched on blur if the input is not $dirty (and even automatically attach it to all <input> elements without changing your HTML). (Demo fiddle)
+
+marmotz commented on Sep 29, 2014 @gkalpak thanks for the demo but I already did my own directive like yours :) In fact, i think it's not a "corner-case-y" scenario. I try to have a good user experience with form and message. The current system ($dirty, $touched, etc..) does not provide the ability to display an error message only at the end (blur, submit) Demo: http://jsfiddle.net/marmotz/orcsjyLs/2/ try to type an invalid email and blur the input: you've got an error message. go back to input and clear it: "required message" appear while you are typing. now type a good email: "invalid email message" appear while you are typing a valid email. It's a "corner-case-y" scenario ?
+
+gkalpak commented on Sep 29, 2014 @marmotz: There a probably a dozen different use-cases that different people might want to support. Adding 2 properties ($xyz, $unxyz) and 2 methods ($setXyz(), $setUnxyz()) to the NgModelController for each such case will create a messy API (not to mention how internally all those properties would need to be managed, propagated etc). The current properties provide support for enough use-cases "out of the box" and adding extra behaviour is super easy with Angular, so I don't see a reason to one extra pair of properties and methods for detecting a user's focusing a field, blurring a field then focusing again. Hm...reading your comments again seems like you are not suggesting a new property, but a change in when the $touched property gets set. So it's a matter of what scenario comes up more frequently: Tab through the form and leave inputs invalid or focus-blur-focus. My intuition is that (as @Narretz said) the current implementation will be more useful most of the time.
+
+IgorMinar commented on Sep 30, 2014 I'm going to close this issue since I believe that we added the states that we initially wanted to add. If there are any left over issues please open new issues. thanks!

@@ -1,0 +1,20 @@
+elacdude commented i also just registered so i can post that i would like prefixing support too . i think it is extremely immature for mdo to not consider it . i think he just wants people to be forced into using bootstrap for everything and he doesn 't want it any other way . it 's as if he is taking offense to people using some other style of coding . sounds pretty immature to me ... my website template was not made with bootstrap . but i downloaded a plugin that uses it and it broke my template because of name collisions . i have been pulling my hair out for the past 4 hours trying to fix it . i just found this thread about prefixes and www .css-prefix.com may help . i 'll try that .
+
+silviu -burcea commented i am also using tb in some parts of my pages and i really hope that css scope will make it into master . if someone doesn 't really need it , css scope can be an empty string and the problem is solved . i don 't think it 's so much work to do and the overhead should be 0 .
+
+germaing commented if anyone is still interested , i 've made it an online service . simply enter a prefix and paste your stylesheet , insta -get the prefixed version . try it here : http ://www.css-prefix.com/ feedbacks are welcome .
+
+arturadib commented @germainguglielmetti lots of potential , but i agree with @fagnermartinsbrack “ as it stands it doesn 't solve the problem . we need a prefix in the name , without incurring side -effects (i.e. additional selector levels ).
+
+mdo commented how does a new library solve the problem of conflicting namespaces , @zdroid? besides , the prefix thing is something that could be optional i imagine we set it to nothing by default , but folks could customize it .
+
+apfelbox commented well , you could use a variable for that . .#{prefix}modal etc and just set $prefix: "" by default (i only use sass , so i am not sure about the correct less syntax ). would involve a one -time manual editing of all class names , though .
+
+surbma commented @zdroid i understand your point of view . however bootstrap can be used as a small library to extend an existing theme 's style . that 's exactly how i use bootstrap . so prefixing is not stupid , it can be very -very useful in some cases . i also understand , that mainly it is used as a complete framework . i can see a solution , if there will be an option on the customize page for prefixing all classes . it could be a checkbox if i want to have all the styles with prefix or without . of course , the default setting will be without any prefix . in this case bootstrap can be used for all manner . do you agree , that it will let other developers to use bootstrap on more projects ? it is just a small feature and can help thousands of developers .
+
+surbma commented i also +1 for prefixing all classes . it can be done with bootstrap 3 .0. please !
+
+mdo commented @zdroid what would you find and replace a .? i don 't think that 's a very feasible solution . finding and replacing across an entire directory isn 't doable without someone to easily modify .
+
+zdroid commented @mdo sorry if i sound aggressive . i just want to point that prefixing isn 't needed . if someone just have bootstrap as customized small lib (s)he can replace names of all classes with -bs- prefix (all modern editors have the multi -replace feature ). @surbma just dowload wanted css and then prefix class names .
+

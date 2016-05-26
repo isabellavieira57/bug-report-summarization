@@ -1,0 +1,12 @@
+24
+['cvrebert', 'commented', '@pwkad', 'the', 'typeahead', 'from', 'bootstrap', 'v2', 'was', 'removed', '.', 'for', 'help', 'using', 'the', 'suggested', 'replacement', ',', 'twitter', "'s", 'typeahead', ',', 'ask', 'on', 'that', 'project', "'s", 'github', '.']
+
+26
+['jeanlyn', 'commented', 'thanks', '!', 'it', "'s", 'work', '!']
+
+2
+['geuis', 'commented', 'i', 'ran', 'into', 'the', 'same', 'issues', 'and', 'finally', 'figured', 'a', 'solution', '.', 'when', 'you', 'are', 'passing', 'the', 'object', 'into', 'typeahead', '(),', 'nothing', 'is', 'changed', 'if', 'you', 'don', "'t", 'also', 'pass', 'in', 'duplicates', 'of', 'all', 'the', 'other', 'properties', 'and', 'functions', 'that', 'are', 'expected', '.', 'luckily', 'there', "'s", 'a', 'better', 'way', '.', 'access', 'the', 'typeahead', 'input', "'s", 'data', 'attribute', 'and', 'modify', 'the', 'source', 'array', 'directly', '.', 'e', '.g:', 'var', 'autocomplete', '=', "$('input').typeahead();", 'autocomplete', ".data('typeahead').source", '=', 'newsource', ';', '//where', 'newsource', 'is', 'your', 'own', 'array', 'i', 'just', 'finished', 'writing', 'some', 'code', 'that', 'will', 'let', 'me', 'use', 'remote', 'data', 'querying', 'on', 'the', 'typeahead', 'module', '.', 'https', '://gist.github.com/1848558', 'one', 'issue', 'i', 'found', 'is', 'that', 'due', 'to', 'how', 'typeahead', 'is', 'written', ',', 'after', 'you', 'modify', 'the', 'source', 'array', 'the', 'results', 'don', "'t", 'get', 'picked', 'up', 'till', 'the', 'next', 'keystroke', '.', 'in', 'the', 'gist', 'above', ',', 'i', 'got', 'around', 'this', 'by', 'setting', 'the', 'source', 'to', '[]', 'before', 'doing', 'my', 'xhr', 'request', ',', 'setting', 'it', 'in', 'the', 'callback', 'function', 'with', 'the', 'results', ',', 'then', 'triggering', 'a', 'keyup', 'event', 'on', 'the', 'input', 'element', 'again', '.', 'typeahead', 'does', 'technically', 'trigger', '2x', ',', 'but', 'since', 'the', 'initial', 'source', 'array', 'is', '0', 'length', 'it', 'doesn', "'t", 'do', 'any', 'lookups', '.', 'i', 'also', 'had', 'to', 'add', 'an', 'active', 'status', 'that', 'prevents', 'an', 'endless', 'loop', 'of', 'xhr', 'requests', 'due', 'to', 'the', '2x', 'keyup', 'events', '.']
+
+21
+['cvrebert', 'commented', '@zda', 'the', 'typeahead', 'widget', 'referenced', 'in', 'this', 'issue', 'is', 'bootstrap', 'v2', "'s", 'own', 'old', 'typeahead', '(bootstrap-typeahead.js),', 'not', 'twitter', "'s", 'typeahead', '.js.']
+

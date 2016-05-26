@@ -1,0 +1,36 @@
+33
+['cleentfaar', 'commented', 'did', 'i', 'just', 'got', 'githubbed', '?', 'because', 'those', 'are', 'some', 'good', 'points', 'you', 'are', 'raising', ':)', 'especially', 'the', 'last', 'one', ',', 'i', 'certainly', 'agree', 'that', 'what', 'separates', 'a', 'good', 'developer', 'from', 'a', 'copy', '/paste-freak,', 'is', 'the', 'ability', 'to', 'customize', 'the', 'framework', 'and', 'be', 'able', 'to', 'change', 'it', 'effortlessly', 'to', 'achieve', 'the', 'wanted', 'result', '.', 'i', 'was', 'going', 'to', 'write', 'a', 'whole', 'answer', 'about', 'your', 'question', 'with', 'twitter', 'making', 'themes', 'now', ',', 'but', 'alas', ',', 'that', 'is', 'just', 'opening', 'another', 'can', 'of', 'worms', '.', 'for', 'what', 'it', "'s", 'worth', ',', 'i', 'agree', 'and', 'you', 'can', "'t", 'expect', 'every', 'little', 'thing', 'to', 'be', 'optional', ';', 'a', 'start', 'has', 'to', 'be', 'made', 'somewhere', '.', 'maybe', 'this', 'is', 'more', 'an', 'issue', 'of', 'what', 'i', 'expect', 'from', 'bootstrap', ',', 'namely', 'a', 'good', 'starting', 'point', 'for', 'common', 'used', 'elements', 'in', 'my', 'website', '.', 'it', "'s", 'just', 'difficult', 'to', 'deal', 'with', 'that', 'now', 'the', 'installation', 'instructions', 'would', 'change', ':', 'old', 'instructions', ':', 'include', 'bootstrap', 'override', 'colors', '/', 'paddings', 'etc', 'that', 'i', 'don', "'t", 'like', 'done', 'new', 'instructions', 'include', 'bootstrap', 'remove', 'the', 'hover', 'effect', 'from', 'tables', 'override', 'colors', '/', 'paddings', 'etc', 'that', 'i', 'don', "'t", 'like', 'done', 'the', 'fact', 'that', 'i', 'need', 'to', 'do', 'more', 'then', "'making", 'it', 'look', 'the', 'way', 'i', 'want', "',", 'makes', 'me', 'feel', 'that', 'i', "'m", 'not', 'getting', 'a', 'bootstrap', '.', 'i', 'get', 'bootstrap', 'with', 'extra', 'things', 'enabled', 'already', '.', 'again', ',', 'i', 'think', 'we', 'would', 'agree', 'on', 'this', 'when', 'digging', 'deeper', ',', 'it', 'suffices', 'to', 'say', 'that', 'this', 'is', 'my', 'personal', 'opinion', 'and', 'there', 'is', 'always', 'something', 'new', 'for', 'me', 'to', 'learn', ',', 'this', 'may', 'not', 'be', 'an', 'exception', '.']
+
+28
+['ryanscottlewis', 'commented', '-1', 'to', 'all', 'you', '"plus-one"s', 'out', 'there', '.', 'the', 'fact', 'that', 'the', 'hover', 'effect', 'is', 'present', 'by', 'default', 'alerts', 'good', 'web', 'designers', 'on', 'how', 'to', 'easily', 'set', 'their', 'own', 'hover', 'effect', 'by', 'overriding', 'the', 'default', '.', 'all', 'bootstrap', 'needs', 'is', 'a', 'small', 'spot', 'in', 'the', 'docs', 'describing', 'how', 'to', 'customize', '/remove', 'the', 'hover', 'effect', '.', 'i', 'also', 'want', 'to', 'suggest', 'this', 'as', 'the', 'default', 'hover', 'effect', ':', '.table', 'tbody', 'tr', ':hover', 'td', ',', '.table', 'tbody', 'tr', ':hover', 'th', '{', '#translucent', '>', '.background(black,', '0', '.05);', '}']
+
+24
+['calumbrodie', 'commented', '+1', '@nragaz']
+
+14
+['samsamm777', 'commented', '+1']
+
+38
+['trisweb', 'commented', '+1', '@nragaz']
+
+25
+['windock', 'commented', '+1']
+
+3
+['mdo', 'commented', 'added', 'in', '2', '.0.1-wip.']
+
+8
+['madisona', 'commented', '+1', '@nragaz']
+
+22
+['nicholaspufal', 'commented', '+1', '@nragaz']
+
+9
+['alvioshki', 'commented', '+1', '@nragaz']
+
+7
+['mattjmorrison', 'commented', '+1', '@nragaz']
+
+15
+['samsamm777', 'commented', 'submitted', 'a', 'pr', 'for', 'this', '.', '#2875']
+

@@ -1,0 +1,39 @@
+8
+['chrisantaki', 'commented', 'fixed', 'version', 'of', 'test', 'shows', 'off', 'by', 'ns', 'performing', '5x', 'faster', '.', 'http', '://jsperf.com/jquery-off-with-callback/10']
+
+6
+['chrisantaki', 'commented', 'just', 'an', 'update', ',', 'we', 'might', 'have', 'a', 'memory', 'leak', 'due', 'to', 'the', 'recursion', '.', 'http', '://jsperf.com/namespaced-event-removal', '.', 'digging', 'more', 'into', 'it', '...']
+
+24
+['markelog', 'commented', 'the', 'pain', 'is', 'real', '.', 'will', 'try', 'to', 'help', 'out', ',', 'if', 'get', 'some', 'free', 'time', '.', 'back', 'to', 'business', ':', 'http', '://jsperf.com/1415388149101,', '@chrisantaki', 'could', 'you', 'redo', 'your', 'tests', '?']
+
+19
+['chrisantaki', 'commented', '@gibson042', 'i', "'m", 'seeing', 'the', 'setup', '&', 'teardown', 'run', '168', 'times', 'with', 'two', 'test', 'cases', '.', 'i', "'m", 'pretty', 'sure', 'each', 'test', 'gets', 'many', 'test', 'loops', '.', ':)', 'http', '://jsperf.com/setup-and-teardown-run-many-times']
+
+20
+['markelog', 'commented', 'that', "'s", '168', 'samples', 'of', 'the', 'test', 'loop', ',', 'in', 'events', 'perf', 'that', 'amount', 'should', 'much', 'lower', '.', 'this', 'means', 'only', 'one', 'test', 'execution', 'is', 'measured', 'correctly', ',', 'others', 'aren', "'t,", 'in', 'other', 'words', ',', 'it', "'s", 'still', 'shows', 'the', 'problem', 'just', 'don', "'t", 'give', 'you', 'precise', 'numbers', '.', 'common', 'mistake', ',', 'i', 'should', 'have', 'checked', 'it', 'out', 'more', 'thoroughly', '.', '@jdalton,', '@mathiasbynens', 'am', 'i', 'right', 'here', '?']
+
+28
+['chrisantaki', 'commented', 'perhaps', 'a', 'jsperf', 'checklist', 'could', 'be', 'of', 'benefit', 'for', 'future', 'discussions', '.', 'memory', 'leaks', 'should', 'be', 'prevented', 'by', 'use', 'of', 'a', 'teardown', 'method', '.', 'any', 'setup', 'or', 'teardown', 'that', 'must', 'be', 'done', 'once', 'per', 'test', 'loop', 'must', 'use', 'this', '.count', 'to', 'help', 'target', 'specific', 'iterations', '.']
+
+17
+['gibson042', 'commented', 'i', 'believe', 'http', '://jsperf.com/jquery-off-with-callback/13', 'is', 'misconfigured', '...', 'according', 'to', 'jsperf', 'faq', 'and', 'referenced', 'benchmark', '.js', 'documentation', ',', 'setup', 'and', 'teardown', 'run', 'outside', 'the', 'test', 'loop', 'i', '.e.,', 'only', 'once', 'for', 'each', 'test', 'to', 'cover', 'the', 'many', 'code', 'invocations', 'of', 'the', 'test', '(the', 'latter', 'link', 'is', 'particularly', 'illuminating', 'on', 'this', 'point', ').', 'so', 'what', "'s", 'actually', 'being', 'tested', 'in', 'every', 'case', 'are', 'the', 'various', '.off', 'signatures', 'against', 'an', 'element', 'with', 'no', 'matching', 'handlers', ',', 'since', 'the', 'first', 'code', 'invocation', 'of', 'each', 'test', 'would', 'have', 'pulled', 'them', 'out', 'from', 'underneath', 'all', 'subsequent', 'attempts', '.']
+
+11
+['chrisantaki', 'commented', 'summary', 'original', 'jsperf', 'test', 'had', 'a', 'memory', 'leak', 'when', 'fixed', ',', 'off', 'by', 'ns', 'increased', 'performance', '5x', '+', 'beyond', 'that', ',', 'two', 'ways', 'to', 'increase', 'performance', '~18%', 'were', 'found', 'steps', 'forward', 'i', "'d", 'recommend', 'going', 'with', 'the', 'namespace', '-regex', 'branch', ',', 'if', 'either', ',', 'since', 'it', 'increases', 'the', 'clarity', 'of', 'the', 'code', 'by', 'introducing', 'a', 'new', 'variable', 'name', 'regex', '.', 'the', 'downside', 'of', 'this', 'branch', 'is', 'the', '42', 'byte', 'cost', 'when', 'minified', '&', 'gzipped', '.', 'the', 'namespace', '-mappedtypes', 'branch', 'only', 'costs', '7', 'bytes', ',', 'and', 'is', 'pretty', 'clever', ',', 'but', 'i', 'fear', 'it', "'s", 'less', 'readable', '.', 'both', 'branches', 'improve', 'off', 'by', 'ns', 'performance', 'by', 'around', '19', '%.', 'not', 'sure', 'if', 'i', "'m", 'sold', 'on', 'merging', 'either', 'of', 'the', 'changes', '.', 'though', 'working', 'on', 'both', 'was', 'fun', ',', 'especially', 'the', 'namespace', '-mappedtypes', 'branch', '.']
+
+26
+['markelog', 'commented', 'check', 'out', 'link', 'in', 'my', 'previous', 'comment', ',', 'you', 'could', 'do', 'the', 'same', '.']
+
+21
+['jdalton', 'commented', 'the', 'way', 'jsperf', 'works', 'is', 'this', ':', '<setup>', '<start', 'clock', '>', 'while', '(<count>--)', '{', '<test>', '}', '<stop', 'clock', '>', '<teardown>', 'so', 'the', 'setup', 'is', 'run', 'before', 'the', 'clocked', 'test', 'loop', 'is', 'ran', '.', 'if', 'you', "'re", 'doing', 'something', 'like', 'removing', 'elements', 'then', 'you', "'ll", 'want', 'to', 'ensure', 'the', 'test', 'has', 'the', 'right', 'number', 'of', 'elements', 'to', 'remove', '.', 'the', 'setup', 'and', 'tear', 'down', 'have', 'access', 'to', 'the', 'loop', 'count', 'via', 'this', '.count', 'so', 'you', 'can', 'use', 'that', 'to', 'create', 'the', 'number', 'of', 'events', 'or', 'elements', 'or', 'whatever', 'that', 'will', 'then', 'be', 'removed', '.', 'this', 'can', 'drag', 'the', 'overall', 'responsiveness', 'of', 'the', 'harness', 'and', 'tests', 'down', 'if', 'there', 'is', 'a', 'heavy', 'setup', 'so', 'experimentation', 'will', 'be', 'needed', 'to', 'see', 'if', 'its', 'a', 'good', 'fit', 'for', 'this', 'test', '.']
+
+32
+['chrisantaki', 'commented', 'agreed', '@dmethvin!', 'i', "'m", 'ready', 'to', 'move', 'on', '.', 'the', 'namespace', 'based', 'removal', 'isn', "'t", 'in', 'bad', 'shape', ',', 'like', 'we', "'d", 'originally', 'suspected', '.']
+
+25
+['chrisantaki', 'commented', 'sure', '@markelog', '-', 'should', 'we', 'move', 'the', 'setup', 'and', 'teardown', 'into', 'the', 'test', 'cases', ',', 'so', 'they', 'run', 'every', 'loop', '?']
+
+29
+['markelog', 'commented', 'so', 'at', 'least', 'in', 'chrome', ',', 'it', 'looks', 'like', 'removing', 'event', 'with', 'namespace', 'is', 'faster', 'then', 'removing', 'individual', 'event', '?']
+

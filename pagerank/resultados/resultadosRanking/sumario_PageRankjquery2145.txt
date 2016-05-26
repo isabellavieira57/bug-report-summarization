@@ -1,0 +1,20 @@
+osolo commented i suggest this go out in the next point release regardless of what apple does . 8 .x will have a lot of market share for a while to come and this bug is very nasty to diagnose . it took me weeks to unearth the core problem . jquery is in a great position to spare people the anguish .
+
+dmethvin commented wow . i guess this must be rare enough that it doesn 't occur that often ? plain object , only numeric indices , etc . there 's a patch in jashkenas /underscore#2094 that says it tries to work around this . we could do something similar but it seems like we 're in the same situation as we were with the december release . is it worth doing another minor -point release for this ?
+
+mzgol commented is it worth doing another minor -point release for this ? it might be ... we could ask people affected to comment here . this seems like a bug that manifests mainly in large apps where it will be hard to debug . if apple is going to fix it & backport a fix to the 8 .x line we could punt on this but we won 't know before the release (judging by past events ) so imo we should proceed assuming there won 't be any backport here .
+
+osolo commented @mzgol i agree that writing a test case would be impossible . i didn 't report the issue to apple . i think it would carry more weight coming from the jquery team , but if you point me to the right direction i 'd be happy to file with them myself .
+
+benjaminpoulain commented i have had a hell of a time reproducing this . i cannot even tell if the bug exists in webkit trunk or not . any attempt at instrumenting the jit makes the bug disappear due to the changes of timing . has anyone found a reliable way to reproduce this bug ? i have been using the test case of http ://stackoverflow.com/questions/28155841/misterious-failure-of-jquery-each-and-underscore-each-on-ios but it is very fragile
+
+mzgol commented has anyone found a reliable way to reproduce this bug ? the test case from jashkenas /underscore#2081 (comment) triggers the bug for me on an iphone 5s with ios 8 .2 very reliably . i don 't see the bug in the ios 8 .2 simulator . for posterity : var getlength = function (array) { return array .length; }; // jit getlength with only arrays for (var i = 0 ; i < 1000 ; i ++) getlength ([]); alert (getlength({5: 'test'})); // => alerts 6
+
+timmywil commented per the meeting today , we 'll be doing a hot -fix patch release for this .
+
+timmywil commented that is , if perf is not an issue .
+
+mzgol commented i 'd like to get a response to this webkit bug first to know what we 're dealing with . @benjaminpoulain, could you have a look ?
+
+mzgol commented the description you provided seems detailed enough . you could report a bug at https ://bugs.webkit.org/, mention it affects jquery & link to this issue .
+

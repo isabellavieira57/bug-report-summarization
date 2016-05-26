@@ -1,0 +1,20 @@
+wuxiaoying commented @eprouver hmm that 's an interesting solution ; thanks for sharing ! however , isn 't that also a hack ? it 's basically setting an attribute to an interpolated value , observing the interpolation , and assuming that since that value was interpolated , the value inside the div is also interpolated .
+
+hevery commented i think you are looking for this : http ://docs-next.angularjs.org/api/angular.module.ng.$rootscope.scope#$evalasync
+
+chandermi commented i want to render directive on drag of a control but it is not working it just adding the tag but not replacing html .is there any solution for this ?
+
+paramburu commented i 'm also having problems to detect when the ngview has ended rendering . the task need to get the ngview "container"s height but when the event $viewcontentloaded triggers , height is still 0 . what should i do ? i 'll appreciate a little help .
+
+wuxiaoying commented here 's a use case : i have a directive that draws a canvas on top of div elements . the canvas needs to know the div positions in order to draw the right diagram . this means that it has to update when the div finishes rendering (the div 's size depends on text that the directive also sets ) so that it knows its top , left , height , and width properties . i 've used the timeout hack to get it to render after but its still not reliable .
+
+mhevery commented if you enqueue from controller then it will be before , but if you enqueue from directive then it will be after . the issue is that most frameworks have a string template which then gets rendered into a string which then gets innerhtml . in such a world it is very clear where the beggining and end of render is . with angular that is not the case . since angular has concept of directives , a directive may unroll a loop , which can the instantiate a controller , which can than modify the model which then causes more dom updates . this makes it hard to have clear line in a send as to where the dom update begins and ends . so in order for us to help you , what is the specific problem which you are trying to solve ? if you just want to apply special animations to do , then those animations need to be triggered from within directives , in which case the $asynceval is exactly what you want as the current dom update has become stable .
+
+kstep commented have you tried using $timeout() to schedule your code execution in $viewcontentloaded event handler ? or evalasync ()?
+
+kaidanov commented is there some kind of feature that listens to the whole page dynamically rendered and the whole scopes are digested ? i have a dunamically built page with ng -repeats inside each other with multiple templates on one view ..how should i catch the rendered and scope is ready event ? used $browser notifywhennooutstandingrequests event but work only first time on loading the page .second time ,it doesn 't fill the context of my scope .
+
+kstep commented quick example : we load some partial with <ng:view/>, then this partial is rendered (e.g. a lot of ng :repeat's and other ng :bind stuff is evaluated ), and as the result of this (potentially long ) process dom becomes stable (i guess after the end of digest cycle ), so it 's safe to apply some special effects to it , like drag -n-drop handling , fading in /out, custom event handlers binding , applying some jquery plugins effects like masonry , lazyload (to load images in a lazy fashion ), or run facebook handlers (it's a real problem for us , as facebook xfbml parser requires already existing fb :* dom nodes , which is difficult to guarantee with asynchronous dom rendering ). for now we use $browser.defer() here and there , but it 's a very bad thing , we 'd prefer more robust and correct way to do it .
+
+eprouver commented i think i have the same problem . when using a directive that contains another directive (ng-repeat) the higher level doesn 't seem to wait until the entire dom is created , and the async eval is evaluated before all of the dom is present . could you suggest a good time to bind jquery events ? in the example i 'm using jquery ui draggable . http ://jsfiddle.net/eprouver/wpzze/4/
+
