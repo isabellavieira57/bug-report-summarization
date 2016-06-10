@@ -95,7 +95,7 @@ def main():
 	salvaDadosArquivoTXT (rankingSimilaridadeCossenoTituloDescricao, "rankingSimCosseno_original", nomeArquivo)
 	
 	# Ordena a distancia euclidiana de todos os comentarios com o titulo+descricao
-	rankingDistanciaEuclidianaTituloDescricao = ordenaRankingDistanciaEuclidiana (matrizDistanciaEuclidiana[0])
+	rankingDistanciaEuclidianaTituloDescricao = ordenaRanking (matrizDistanciaEuclidiana[0])
 	normalizaRanking(rankingDistanciaEuclidianaTituloDescricao)
 	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricao, "rankingEuclidiana_original", nomeArquivo)
 
@@ -127,7 +127,7 @@ def main():
 	arquivo.close()"""
 		
 	# Ordena distancia euclidiana dos comentários com o título e a descrição
-	rankingDistanciaEuclidianaTituloDescricaoNMF = ordenaRankingDistanciaEuclidiana (matrizDistanciaEuclidianaNMF[0])	
+	rankingDistanciaEuclidianaTituloDescricaoNMF = ordenaRanking (matrizDistanciaEuclidianaNMF[0])	
 	normalizaRanking(rankingDistanciaEuclidianaTituloDescricaoNMF)
 	salvaDadosArquivoTXT (rankingDistanciaEuclidianaTituloDescricaoNMF, "rankingEuclidiana_transformada", nomeArquivo)
 	
