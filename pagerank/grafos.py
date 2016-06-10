@@ -173,7 +173,27 @@ def ordenaRanking (resultadoParaOrdenar):
 	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
 	
 	return ranking
+	
+#-----------------------------------------------------------------------------#
+# Retorna a ordenacao dos autovalores										  #
+# Estrutura: [indice_comentario, autovalor_daquele_comentario]				  #
+#-----------------------------------------------------------------------------#
+def ordenaRankingDistanciaEuclidiana (resultadoParaOrdenar):
+	
+	listaIntermediaria = []
+	matriz = []
+	
+	for i in range(len(resultadoParaOrdenar)):
+		listaIntermediaria.append(i)
+		listaIntermediaria.append(resultadoParaOrdenar[i])
+		matriz.append(listaIntermediaria)
+		listaIntermediaria = []
 
+	# ordena pelas similaridades em ordem descrescente
+	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=False) 
+	
+	return ranking
+	
 #-----------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------#
 def removeTituloDescricaoRanking(ranking):

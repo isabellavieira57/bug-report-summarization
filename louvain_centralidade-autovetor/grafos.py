@@ -35,7 +35,7 @@ def louvain (rede):
 def centralidade_autovetor (rede):
 
 	centrality_eigenvector = rede.evcent(directed=False, scale=True, weights=rede.es["weight"], return_eigenvalue=False)
-
+	
 	return centrality_eigenvector
 	
 #-----------------------------------------------------------------------------#
@@ -61,7 +61,7 @@ def rankingIntraComunidade (clusterPossuiDescricao, centrality_eigenvector, resu
 # Verifica se cluster possui a descrição									  #
 #-----------------------------------------------------------------------------#
 def verificaClusterPossuiDescricao (resultLouvain):
-
+	
 	for i in range(len(resultLouvain)):			# percorre cada comunidade
 			if 0 in resultLouvain[i]:
 				return i
@@ -101,6 +101,7 @@ def aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno):
 	values = []
 	for i in range(len(matrizSimilaridadeCosseno)):
 		for j in range(len(matrizSimilaridadeCosseno[i])):
+			if ( j != i ):
 				values.append(matrizSimilaridadeCosseno[i][j])
 
 	mean = np.mean(values)
@@ -172,7 +173,27 @@ def ordenaRanking (resultadoParaOrdenar):
 	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
 	
 	return ranking
+	
+#-----------------------------------------------------------------------------#
+# Retorna a ordenacao dos autovalores										  #
+# Estrutura: [indice_comentario, autovalor_daquele_comentario]				  #
+#-----------------------------------------------------------------------------#
+def ordenaRankingDistanciaEuclidiana (resultadoParaOrdenar):
+	
+	listaIntermediaria = []
+	matriz = []
+	
+	for i in range(len(resultadoParaOrdenar)):
+		listaIntermediaria.append(i)
+		listaIntermediaria.append(resultadoParaOrdenar[i])
+		matriz.append(listaIntermediaria)
+		listaIntermediaria = []
 
+	# ordena pelas similaridades em ordem descrescente
+	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=False) 
+	
+	return ranking
+	
 #-----------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------#
 def removeTituloDescricaoRanking(ranking):
@@ -196,13 +217,13 @@ def removeMaisUm(ranking, comentarios):
 		for j in range(len(comentario)):
 			token = comentario[j]
 
-			if "+1" in token:
-				contemMaisUm = True				
+			if " 1" in token:					
+				contemMaisUm = True
 
 		if ( contemMaisUm == False ):
 			rankingSemUm.append(ranking[i])
 
-		if ( contemMaisUm == True and len(comentario) > 4):			
+		if ( contemMaisUm == True and len(comentario) > 4):
 			rankingSemUm.append(ranking[i])
 
 	return rankingSemUm

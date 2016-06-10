@@ -98,20 +98,40 @@ def verificaClusterPossuiDescricao (resultLouvain):
 #-----------------------------------------------------------------------------#
 def aumentaEsparcidadeMatriz (matrizSimilaridadeCosseno):
 	
-	soma = 0
+	values = []
 	for i in range(len(matrizSimilaridadeCosseno)):
-		soma = soma + sum(matrizSimilaridadeCosseno[i])
+		for j in range(len(matrizSimilaridadeCosseno[i])):
+			if ( j != i ):
+				values.append(matrizSimilaridadeCosseno[i][j])
 
-	threshold = round(soma/(len(matrizSimilaridadeCosseno)*len(matrizSimilaridadeCosseno)), 3)
-	
-	#threshold = 0.2
+	mean = np.mean(values)
 
 	for i in range(len(matrizSimilaridadeCosseno)):
 		for j in range(len(matrizSimilaridadeCosseno)):
-			if (matrizSimilaridadeCosseno[i][j] < threshold):
-				matrizSimilaridadeCosseno[i][j] = 0
-			if (matrizSimilaridadeCosseno[i][j] >= threshold):
+			if (matrizSimilaridadeCosseno[i][j] >= mean ):
 				matrizSimilaridadeCosseno[i][j] = 1
+			else:
+				matrizSimilaridadeCosseno[i][j] = 0
+
+#-----------------------------------------------------------------------------#
+# 																			  #
+#-----------------------------------------------------------------------------#
+def aumentaEsparcidadeMatrizNMF (matrizSimilaridadeCosseno):
+	
+	values = []
+	for i in range(len(matrizSimilaridadeCosseno)):
+		for j in range(len(matrizSimilaridadeCosseno[i])):
+			values.append(matrizSimilaridadeCosseno[i][j])
+
+	mean = np.mean(values)
+	
+	for i in range(len(matrizSimilaridadeCosseno)):
+		for j in range(len(matrizSimilaridadeCosseno)):
+			if (matrizSimilaridadeCosseno[i][j] >= mean):
+				matrizSimilaridadeCosseno[i][j] = 1
+			else:
+				matrizSimilaridadeCosseno[i][j] = 0
+
 				
 #-----------------------------------------------------------------------------#
 # 	    					 												  #
@@ -153,21 +173,62 @@ def ordenaRanking (resultadoParaOrdenar):
 	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=True) 
 	
 	return ranking
-
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-def normalizaRanking(ranking):
 	
-	# Remove o titulo+descricao do ranking
+#-----------------------------------------------------------------------------#
+# Retorna a ordenacao dos autovalores										  #
+# Estrutura: [indice_comentario, autovalor_daquele_comentario]				  #
+#-----------------------------------------------------------------------------#
+def ordenaRankingDistanciaEuclidiana (resultadoParaOrdenar):
+	
+	listaIntermediaria = []
+	matriz = []
+	
+	for i in range(len(resultadoParaOrdenar)):
+		listaIntermediaria.append(i)
+		listaIntermediaria.append(resultadoParaOrdenar[i])
+		matriz.append(listaIntermediaria)
+		listaIntermediaria = []
+
+	# ordena pelas similaridades em ordem descrescente
+	ranking = sorted(matriz, key=operator.itemgetter(1), reverse=False) 
+	
+	return ranking
+	
+#-----------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------#
+def removeTituloDescricaoRanking(ranking):
+
 	for i in range(len(ranking)):
 		if (ranking[i][0] == 0):
 			del (ranking[i])
 			break
-	
-	# Normaliza id ranking para bater com oraculo, pois no oraculo titulo=0, descricao=1 e no algoritmo titulo+descricao=0
+
+#-----------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------#
+def removeMaisUm(ranking, comentarios):
+
+	rankingSemUm = []
+
 	for i in range(len(ranking)):
-			ranking[i][0] = ranking[i][0] + 1
-				
+
+		comentario = comentarios[ranking[i][0]]
+
+		contemMaisUm = False
+		for j in range(len(comentario)):
+			token = comentario[j]
+
+			if " 1" in token:					
+				contemMaisUm = True
+
+		if ( contemMaisUm == False ):
+			rankingSemUm.append(ranking[i])
+
+		if ( contemMaisUm == True and len(comentario) > 4):
+			rankingSemUm.append(ranking[i])
+
+	return rankingSemUm
+			
+		
 #-----------------------------------------------------------------------------#
 # PageRank: retorna o autovalor de cada comentario 							  #
 #-----------------------------------------------------------------------------#
@@ -285,45 +346,55 @@ def colley (numeroComentarios, matrizSimilaridadeCosseno):
 #-----------------------------------------------------------------------------#
 # 												 							  #
 #-----------------------------------------------------------------------------#
-def calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno):
+def calculaPesoMatrizPageRank(matrizPageRank, matrizSimilaridadeCosseno, eventos):
+
+	valores = []
+
+	for i in range(len(matrizSimilaridadeCosseno)):
+		for j in range(len(matrizSimilaridadeCosseno[i])):
+			valores.append(matrizSimilaridadeCosseno[i][j])
+
+	meansimcos = np.mean(valores)
+
+	for i in range(len(matrizSimilaridadeCosseno[0])):		
+		matrizPageRank[0][i] = (0.9 * matrizSimilaridadeCosseno[0][i]) + (0.10 * (((float(eventos[i][1]) + float(eventos[i][2]))/2)))
 	
 	for i in range(len(matrizSimilaridadeCosseno[0])):
-		matrizPageRank[0][i] = matrizSimilaridadeCosseno[0][i]
-	
-	for i in range(len(matrizSimilaridadeCosseno[0])):
-		matrizPageRank[i][0] = matrizSimilaridadeCosseno[0][i]
+		matrizPageRank[i][0] = (0.9 * matrizSimilaridadeCosseno[0][i]) + (0.10 * (((float(eventos[i][1]) + float(eventos[i][2]))/2)))
 	
 	matrizPageRank[0][0] = 1
 	
 	for i in range(1, len(matrizSimilaridadeCosseno)):
 		for j in range(1, len(matrizSimilaridadeCosseno)):
 			if (i==j):
-				matrizPageRank[i][j] = 1
-			else: 
-				matrizPageRank[i][j] = ((matrizSimilaridadeCosseno[i][0] + matrizSimilaridadeCosseno[0][j])/2 + (matrizSimilaridadeCosseno[i][j]))/2
-				
-				
-#-----------------------------------------------------------------------------#
-# 												 							  #
-#-----------------------------------------------------------------------------#				
+				matrizPageRank[i][j] = 0
+			else:
+				simcos = 0.0				
+
+				if ( matrizSimilaridadeCosseno[i][j] >= meansimcos ):
+					simcos = matrizSimilaridadeCosseno[i][j]
+							
+				matrizPageRank[i][j] = (0.5 * ((matrizSimilaridadeCosseno[i][0] + matrizSimilaridadeCosseno[0][j])/2)) + (0.35 * simcos) + (0.15 * (((float(eventos[i][1]) + float(eventos[i][2]))/2)))
+
 def matrizEstocasticaPageRank(matrizPageRank):
 
-	# Para somar 1 nas linhas
+	for coluna in range(len(matrizPageRank)):
+		quantidade1s = 0
+
+		for linha in range(len(matrizPageRank)):
+			if ( matrizPageRank[linha][coluna] == 1 ):
+				quantidade1s = quantidade1s + 1
+		
+		if ( quantidade1s > 0 ):
+			for linha in range(len(matrizPageRank)):
+				matrizPageRank[linha][coluna] = float(matrizPageRank[linha][coluna])/quantidade1s
+		else:
+			for linha in range(len(matrizPageRank)):
+				matrizPageRank[linha][coluna] = 1.0/len(matrizPageRank)
+
+
 	#for i in range(len(matrizPageRank)):							# percorro as linhas da matrizPageRank
 	#	quantidade1s = float(matrizPageRank[i].count(1))			# conta o numero de 1s na linha
-	#	for j in range(len(matrizPageRank)):						# percorro as colunas da matrizPageRank
-	#		if (quantidade1s == 0.0):									# se nao tem nenhum 1 na linha:
-	#			matrizPageRank[i][j] = float(1/len(matrizPageRank[0]))		#faço 1/numeroColunas	
-	#		else:
-	#			matrizPageRank[i][j] = float(matrizPageRank[i][j]/quantidade1s)
-			
-	
-	# Para somar 1 nas colunas			
-	for i in range(len(np.transpose(matrizPageRank))):					# percorro as coluna da matrizPageRank
-		quantidade1s = float(matrizPageRank[i].count(1))				# conta o numero de 1s na coluna
-		for j in range(len(matrizPageRank)):							# percorro as linhas da matrizPageRank
-			if (quantidade1s == 0.0):									# se nao tem nenhum 1 na linha:
-				matrizPageRank[j][i] = float(1/len(matrizPageRank))		#faço 1/numeroLinhas	
-			else:
-				matrizPageRank[j][i] = float(matrizPageRank[i][j]/quantidade1s)  
-	
+	#	for j in range(len(matrizPageRank[i])):						# percorro as colunas da matrizPageRank
+	#		if (quantidade1s == 0):									# se nao tem nenhum 1 na linha:
+	#			matrizPageRank[i][j] = float(1/len(matrizPageRank[i]))		#faço 1/numeroColunas	
